@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = DXRuby::VERSION
   spec.authors       = ["speak-mentaiko"]
   spec.description   = %q{2D game library for Windows(DirectX9)}
-  spec.summary       = %q{:-)}
+  spec.summary       = %q{2D graphics and game liblary}
   spec.license       = "zlib/libpng"
 
   spec.files         = `git ls-files lib`.split($/)
