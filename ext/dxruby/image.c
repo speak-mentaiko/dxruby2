@@ -1,4 +1,4 @@
-#define WINVER 0x0500                                  /* ƒo[ƒWƒ‡ƒ“’è‹` Windows2000ˆÈã */
+#define WINVER 0x0500                                  /* ãƒãƒ¼ã‚¸ãƒ§ãƒ³å®šç¾© Windows2000ä»¥ä¸Š */
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -11,13 +11,13 @@
 #include "image.h"
 #include "font.h"
 
-VALUE cImage;        /* ƒCƒ[ƒWƒNƒ‰ƒX       */
+VALUE cImage;        /* ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚¯ãƒ©ã‚¹ */
 
 #ifdef DXRUBY_USE_TYPEDDATA
 extern rb_data_type_t Font_data_type;
 #endif
 
-/* F */
+/* è‰² */
 struct DXRubyColor {
     unsigned char blue;
     unsigned char green;
@@ -27,18 +27,19 @@ struct DXRubyColor {
 
 
 /*********************************************************************
- * ImageƒNƒ‰ƒX
+ * Imageã‚¯ãƒ©ã‚¹
  *
- * •`‰æ—p‚Ì‰æ‘œ‚ğ•Û‚·‚éƒNƒ‰ƒXB
- * ƒtƒ@ƒCƒ‹–¼‚ğ“n‚µ‚Äload‚·‚é‚Æ“Ç‚İ‚Ü‚êAWindow::draw‚É“n‚µ‚Ä•`‰æ‚·‚éB
+ * æç”»ç”¨ã®ç”»åƒã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+ * ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ¸¡ã—ã¦loadã™ã‚‹ã¨èª­ã¿è¾¼ã¾ã‚Œã€Window::drawã«æ¸¡ã—ã¦æç”»ã™ã‚‹
  *********************************************************************/
 
+
 /*--------------------------------------------------------------------
-   QÆ‚³‚ê‚È‚­‚È‚Á‚½‚Æ‚«‚ÉGC‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+   å‚ç…§ã•ã‚Œãªããªã£ãŸã¨ãã«GCã‹ã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
  ---------------------------------------------------------------------*/
 static void Image_free( struct DXRubyImage *image )
 {
-    /* ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ÌŠJ•ú */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é–‹æ”¾ */
     image->texture->refcount--;
     if( image->texture->refcount == 0 )
     {
@@ -77,7 +78,7 @@ const rb_data_type_t Image_data_type = {
 #endif
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚ÌdisposeB
+   Imageã‚¯ãƒ©ã‚¹ã®dispose
  ---------------------------------------------------------------------*/
 VALUE Image_dispose( VALUE self )
 {
@@ -89,7 +90,7 @@ VALUE Image_dispose( VALUE self )
 
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚Ìdisposed?B
+   Imageã‚¯ãƒ©ã‚¹ã®disposed?
  ---------------------------------------------------------------------*/
 static VALUE Image_check_disposed( VALUE self )
 {
@@ -102,7 +103,7 @@ static VALUE Image_check_disposed( VALUE self )
 }
 
 ///*--------------------------------------------------------------------
-//   ImageƒNƒ‰ƒX‚Ìlocked?
+//   Imageã‚¯ãƒ©ã‚¹ã®locked?
 // ---------------------------------------------------------------------*/
 //static VALUE Image_check_locked( VALUE self )
 //{
@@ -115,7 +116,7 @@ static VALUE Image_check_disposed( VALUE self )
 //}
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚Ìdelayed_disposeB
+   Imageã‚¯ãƒ©ã‚¹ã®delayed_dispose
  ---------------------------------------------------------------------*/
 static VALUE Image_delayed_dispose( VALUE self )
 {
@@ -130,14 +131,14 @@ static VALUE Image_delayed_dispose( VALUE self )
 
 
 /*--------------------------------------------------------------------
-   Textureƒ[ƒh
+   Textureãƒ­ãƒ¼ãƒ‰
  ---------------------------------------------------------------------*/
 static struct DXRubyTexture *Image_textureload( char *filename, D3DXIMAGE_INFO *psrcinfo)
 {
     HRESULT hr;
     struct DXRubyTexture *texture;
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
 
     if( texture == NULL )
@@ -145,7 +146,7 @@ static struct DXRubyTexture *Image_textureload( char *filename, D3DXIMAGE_INFO *
         rb_raise( eDXRubyError, "Out of memory - Image_textureload" );
     }
 
-    /* ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     DXRUBY_RETRY_START;
     hr = D3DXCreateTextureFromFileEx( g_pD3DDevice, filename,psrcinfo->Width, psrcinfo->Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                                       D3DX_DEFAULT,  D3DX_DEFAULT, 0,
@@ -161,7 +162,7 @@ static struct DXRubyTexture *Image_textureload( char *filename, D3DXIMAGE_INFO *
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒWƒIƒuƒWƒFƒNƒg‚Ìdup/clone
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®dup/clone
  ---------------------------------------------------------------------*/
 VALUE Image_initialize_copy( VALUE self, VALUE obj )
 {
@@ -187,7 +188,7 @@ VALUE Image_initialize_copy( VALUE self, VALUE obj )
 
     g_iRefAll++;
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
     if( texture == NULL )
     {
@@ -195,7 +196,7 @@ VALUE Image_initialize_copy( VALUE self, VALUE obj )
     }
 
     DXRUBY_RETRY_START;
-    /* ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     hr = D3DXCreateTexture( g_pD3DDevice, srcimage->width, srcimage->height,
                             1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                             &texture->pD3DTexture);
@@ -218,7 +219,7 @@ VALUE Image_initialize_copy( VALUE self, VALUE obj )
     dstimage->height =srcimage-> height;
 //    dstimage->lockcount = 0;
 
-    /* ƒCƒ[ƒWƒRƒs[ */
+    /* ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚³ãƒ”ãƒ¼ */
     dstrect.left = 0;
     dstrect.top = 0;
     dstrect.right = srcimage->width;
@@ -249,14 +250,15 @@ VALUE Image_initialize_copy( VALUE self, VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚ÌallocateBƒƒ‚ƒŠ‚ğŠm•Û‚·‚éˆ×‚Éinitialize‘O‚ÉŒÄ‚Î‚ê‚éB
+   Imageã‚¯ãƒ©ã‚¹ã®allocate
+   ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹ç‚ºã«initializeå‰ã«å‘¼ã°ã‚Œã‚‹
  ---------------------------------------------------------------------*/
 VALUE Image_allocate( VALUE klass )
 {
     VALUE obj;
     struct DXRubyImage *image;
 
-    /* DXRubyImage‚Ìƒƒ‚ƒŠæ“¾•ImageƒIƒuƒWƒFƒNƒg¶¬ */
+    /* DXRubyImageã®ãƒ¡ãƒ¢ãƒªå–å¾—ï¼†Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ */
     image = malloc(sizeof(struct DXRubyImage));
     if( image == NULL ) rb_raise( eDXRubyError, "malloc error - Image_allocate" );
 #ifdef DXRUBY_USE_TYPEDDATA
@@ -264,7 +266,7 @@ VALUE Image_allocate( VALUE klass )
 #else
     obj = Data_Wrap_Struct(klass, 0, Image_release, image);
 #endif
-    /* ‚Æ‚è‚ ‚¦‚¸ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ÍNULL‚É‚µ‚Ä‚¨‚­ */
+    /* ã¨ã‚Šã‚ãˆãšãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯NULLã«ã—ã¦ãŠã */
     image->texture = NULL;
 //    image->lockcount = 0;
 
@@ -273,7 +275,7 @@ VALUE Image_allocate( VALUE klass )
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(“à•”ˆ——pbox•`‰æ)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(å†…éƒ¨å‡¦ç†ç”¨boxæç”»)
  ---------------------------------------------------------------------*/
 static void fill( int x1, int y1, int x2, int y2, int col, struct DXRubyImage *image )
 {
@@ -301,7 +303,7 @@ static void fill( int x1, int y1, int x2, int y2, int col, struct DXRubyImage *i
 
 
 /*--------------------------------------------------------------------
-    ”z—ñ‚©‚çFæ“¾
+    é…åˆ—ã‹ã‚‰è‰²å–å¾—
  ---------------------------------------------------------------------*/
 int array2color( VALUE color )
 {
@@ -315,7 +317,7 @@ int array2color( VALUE color )
     }
     else
     {
-        col = D3DCOLOR_ARGB(NUM2INT(rb_ary_entry(color, 0)), NUM2INT(rb_ary_entry(color, 1)), 
+        col = D3DCOLOR_ARGB(NUM2INT(rb_ary_entry(color, 0)), NUM2INT(rb_ary_entry(color, 1)),
                             NUM2INT(rb_ary_entry(color, 2)), NUM2INT(rb_ary_entry(color, 3)));
     }
     return col;
@@ -323,7 +325,7 @@ int array2color( VALUE color )
 
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚ÌInitialize
+   Imageã‚¯ãƒ©ã‚¹ã®Initialize
  ---------------------------------------------------------------------*/
 VALUE Image_initialize( int argc, VALUE *argv, VALUE obj )
 {
@@ -352,7 +354,7 @@ VALUE Image_initialize( int argc, VALUE *argv, VALUE obj )
         col = array2color( vary );
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
 
     if( texture == NULL )
@@ -361,7 +363,7 @@ VALUE Image_initialize( int argc, VALUE *argv, VALUE obj )
     }
 
     DXRUBY_RETRY_START;
-    /* ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     hr = D3DXCreateTexture( g_pD3DDevice, width, height,
                                       1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                                       &texture->pD3DTexture);
@@ -377,7 +379,7 @@ VALUE Image_initialize( int argc, VALUE *argv, VALUE obj )
     texture->width = (float)desc.Width;
     texture->height = (float)desc.Height;
 
-    /* ImageƒIƒuƒWƒFƒNƒgİ’è */
+    /* Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¨­å®š */
     image = DXRUBY_GET_STRUCT( Image, obj );
     if( image->texture )
     {
@@ -398,7 +400,7 @@ VALUE Image_initialize( int argc, VALUE *argv, VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚Ìload
+   Imageã‚¯ãƒ©ã‚¹ã®load
  ---------------------------------------------------------------------*/
 static VALUE Image_load( int argc, VALUE *argv, VALUE klass )
 {
@@ -410,7 +412,7 @@ static VALUE Image_load( int argc, VALUE *argv, VALUE klass )
     VALUE vfilename, vx, vy, vwidth, vheight, obj, vsjisstr;
     int x, y, width, height;
 
-    /* ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»ƒ`ƒFƒbƒN */
+    /* ãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯ */
     if( g_pD3DDevice == NULL )
     {
         rb_raise( eDXRubyError, "DirectX Graphics not initialized" );
@@ -420,7 +422,7 @@ static VALUE Image_load( int argc, VALUE *argv, VALUE klass )
 
     Check_Type(vfilename, T_STRING);
 
-    /* ƒtƒ@ƒCƒ‹î•ñæ“¾ */
+    /* ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±å–å¾— */
     if( rb_enc_get_index( vfilename ) != 0 )
     {
         vsjisstr = rb_str_export_to_enc( vfilename, g_enc_sys );
@@ -461,7 +463,7 @@ static VALUE Image_load( int argc, VALUE *argv, VALUE klass )
         }
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒ[ƒh */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ­ãƒ¼ãƒ‰ */
     texture = Image_textureload( RSTRING_PTR( vsjisstr ), &srcinfo );
     texture->refcount = 1;
 
@@ -469,7 +471,7 @@ static VALUE Image_load( int argc, VALUE *argv, VALUE klass )
     texture->width = (float)desc.Width;
     texture->height = (float)desc.Height;
 
-    /* ImageƒIƒuƒWƒFƒNƒgİ’è */
+    /* Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¨­å®š */
     obj = Image_allocate( cImage );
     image = DXRUBY_GET_STRUCT( Image, obj );
 
@@ -487,7 +489,7 @@ static VALUE Image_load( int argc, VALUE *argv, VALUE klass )
 
 
 /*--------------------------------------------------------------------
-   ImageƒNƒ‰ƒX‚ÌloadFromFileInMemory
+   Imageã‚¯ãƒ©ã‚¹ã®loadFromFileInMemory
  ---------------------------------------------------------------------*/
 static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
 {
@@ -499,7 +501,7 @@ static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
     VALUE obj;
     int size, x, y, width, height;
 
-    /* ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»ƒ`ƒFƒbƒN */
+    /* ãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯ */
     if( g_pD3DDevice == NULL )
     {
         rb_raise( eDXRubyError, "DirectX Graphics not initialized" );
@@ -507,7 +509,7 @@ static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
 
     Check_Type(vstr, T_STRING);
 
-    /* ƒtƒ@ƒCƒ‹î•ñæ“¾ */
+    /* ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±å–å¾— */
     size = RSTRING_LEN( vstr );
 
     hr = D3DXGetImageInfoFromFileInMemory( RSTRING_PTR( vstr ), size, &srcinfo );
@@ -517,7 +519,7 @@ static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
         rb_raise( eDXRubyError, "Load error - Image_loadFromFileInMemory" );
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
 
     if( texture == NULL )
@@ -526,7 +528,7 @@ static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
     }
 
     DXRUBY_RETRY_START;
-    /* ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚ÅƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     hr = D3DXCreateTextureFromFileInMemoryEx( g_pD3DDevice, RSTRING_PTR( vstr ), size, srcinfo.Width, srcinfo.Height, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                                       D3DX_DEFAULT,  D3DX_DEFAULT, 0,
                                       0, 0, &texture->pD3DTexture);
@@ -542,7 +544,7 @@ static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
     texture->width = (float)desc.Width;
     texture->height = (float)desc.Height;
 
-    /* ImageƒIƒuƒWƒFƒNƒgİ’è */
+    /* Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¨­å®š */
     obj = Image_allocate( cImage );
     image = DXRUBY_GET_STRUCT( Image, obj );
 
@@ -560,7 +562,7 @@ static VALUE Image_loadFromFileInMemory( VALUE klass, VALUE vstr )
 
 
 /*--------------------------------------------------------------------
-   ImageƒIƒuƒWƒFƒNƒg‚Ì•ªŠ„ì¬
+   Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆ†å‰²ä½œæˆ
  ---------------------------------------------------------------------*/
 static VALUE Image_loadToArray( int argc, VALUE *argv, VALUE klass )
 {
@@ -579,7 +581,7 @@ static VALUE Image_loadToArray( int argc, VALUE *argv, VALUE klass )
 
 
 /*--------------------------------------------------------------------
-   ”z—ñ‚©‚çƒCƒ[ƒW‚ğì‚é
+   é…åˆ—ã‹ã‚‰ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ä½œã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VALUE array )
 {
@@ -592,7 +594,7 @@ static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VA
     int width, height;
     D3DSURFACE_DESC desc;
 
-    /* ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»ƒ`ƒFƒbƒN */
+    /* ãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯ */
     if( g_pD3DDevice == NULL )
     {
         rb_raise( eDXRubyError, "DirectX Graphics not initialized" );
@@ -604,19 +606,19 @@ static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VA
 
     if( width <= 0 || height <= 0 ) rb_raise( eDXRubyError, "Invalid size(width=%d,height=%d) - Image_loadToArray", width, height );
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
     if( texture == NULL )
     {
         rb_raise( eDXRubyError, "Out of memory - Image_textureload" );
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒTƒCƒYŠ„‚èo‚µ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚ºå‰²ã‚Šå‡ºã— */
     for( x = 1; x < width;  x = x * 2 );
     for( y = 1; y < height; y = y * 2 );
 
     DXRUBY_RETRY_START;
-    /* ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     hr = D3DXCreateTexture( g_pD3DDevice, x, y,
                             1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                             &texture->pD3DTexture);
@@ -626,14 +628,14 @@ static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VA
         rb_raise( eDXRubyError, "Create texture error - Image_initialize" );
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒbƒN */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ­ãƒƒã‚¯ */
     hr = texture->pD3DTexture->lpVtbl->LockRect( texture->pD3DTexture, 0, &LockedRect, NULL, 0 );
     if( FAILED( hr ) )
     {
         rb_raise( eDXRubyError, "Surface lock error - LockRect" );
     }
 
-    /* ‘‚«‚İ */
+    /* æ›¸ãè¾¼ã¿ */
     for( i = 0; i < height; i++ )
     {
         for( j = 0; j < width * 4; j += 4 )
@@ -646,7 +648,7 @@ static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VA
         }
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒAƒ“ƒƒbƒN */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¢ãƒ³ãƒ­ãƒƒã‚¯ */
     texture->pD3DTexture->lpVtbl->UnlockRect( texture->pD3DTexture, 0 );
 
     texture->refcount = 1;
@@ -654,7 +656,7 @@ static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VA
     texture->width = (float)desc.Width;
     texture->height = (float)desc.Height;
 
-    /* DXRubyImage‚Ìƒƒ‚ƒŠæ“¾•ImageƒIƒuƒWƒFƒNƒg¶¬ */
+    /* DXRubyImageã®ãƒ¡ãƒ¢ãƒªå–å¾—ï¼†Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ */
     obj = Image_allocate( cImage );
     image = DXRUBY_GET_STRUCT( Image, obj );
 
@@ -672,7 +674,7 @@ static VALUE Image_createFromArray( VALUE klass, VALUE vwidth, VALUE vheight, VA
 
 
 /*--------------------------------------------------------------------
-   ImageƒIƒuƒWƒFƒNƒg‚Ìslice
+   Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®slice
  ---------------------------------------------------------------------*/
 static VALUE Image_slice_instance( int argc, VALUE *argv, VALUE vsrcimage )
 {
@@ -713,11 +715,11 @@ static VALUE Image_slice_instance( int argc, VALUE *argv, VALUE vsrcimage )
         }
     }
 
-    /* ƒeƒNƒXƒ`ƒƒƒ[ƒh */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ­ãƒ¼ãƒ‰ */
     texture = srcimage->texture;
     texture->refcount += 1;
 
-    /* ImageƒIƒuƒWƒFƒNƒgİ’è */
+    /* Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¨­å®š */
     obj = Image_allocate( cImage );
     image = DXRUBY_GET_STRUCT( Image, obj );
 
@@ -730,13 +732,13 @@ static VALUE Image_slice_instance( int argc, VALUE *argv, VALUE vsrcimage )
 
     g_iRefAll++;
 
-    /* Image‚ÌƒRƒs[ */
+    /* Imageã®ã‚³ãƒ”ãƒ¼ */
     return Image_initialize_copy( Image_allocate( cImage ), obj );
 }
 
 
 /*--------------------------------------------------------------------
-   ImageƒIƒuƒWƒFƒNƒg‚Ìflush
+   Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®flush
  ---------------------------------------------------------------------*/
 static VALUE Image_flush( VALUE self, VALUE vcolor )
 {
@@ -751,13 +753,13 @@ static VALUE Image_flush( VALUE self, VALUE vcolor )
     DXRUBY_CHECK_DISPOSE( dstimage, texture );
     Check_Type(vcolor, T_ARRAY);
 
-    /* Œ³Image‚ÌƒRƒs[ */
+    /* å…ƒImageã®ã‚³ãƒ”ãƒ¼ */
     obj = Image_initialize_copy( Image_allocate( cImage ), self );
 
-    /* VImage‚Ìƒ|ƒCƒ“ƒ^æ“¾ */
+    /* æ–°Imageã®ãƒã‚¤ãƒ³ã‚¿å–å¾— */
     image = DXRUBY_GET_STRUCT( Image, obj );
 
-    /* ‰æ‘œ•ÒW */
+    /* ç”»åƒç·¨é›† */
     rect.left = 0;
     rect.top = 0;
     rect.right = image->width;
@@ -784,7 +786,7 @@ static VALUE Image_flush( VALUE self, VALUE vcolor )
     }
     else
     {
-        color = D3DCOLOR_ARGB(NUM2INT(rb_ary_entry(vcolor, 0)), NUM2INT(rb_ary_entry(vcolor, 1)), 
+        color = D3DCOLOR_ARGB(NUM2INT(rb_ary_entry(vcolor, 0)), NUM2INT(rb_ary_entry(vcolor, 1)),
                               NUM2INT(rb_ary_entry(vcolor, 2)), NUM2INT(rb_ary_entry(vcolor, 3)));
         for( y = 0; y < image->height; y++ )
         {
@@ -809,7 +811,7 @@ static VALUE Image_flush( VALUE self, VALUE vcolor )
 
 
 /*--------------------------------------------------------------------
-   ImgaeƒIƒuƒWƒFƒNƒg‚ÌsliceToArray
+   Imgaeã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®sliceToArray
  ---------------------------------------------------------------------*/
 VALUE Image_sliceToArray( int argc, VALUE *argv, VALUE self )
 {
@@ -828,21 +830,21 @@ VALUE Image_sliceToArray( int argc, VALUE *argv, VALUE self )
 
     if( x <= 0 || y <= 0 ) rb_raise( eDXRubyError, "Invalid count(x=%d,y=%d) - Image_sliceToArray", x, y );
 
-    /* Œ³Image‚Ìƒ`ƒFƒbƒN */
+    /* å…ƒImageã®ãƒã‚§ãƒƒã‚¯ */
     srcimage = DXRUBY_GET_STRUCT( Image, self );
     DXRUBY_CHECK_DISPOSE( srcimage, texture );
 
-    /* Œ³Image‚ÌƒRƒs[ */
+    /* å…ƒImageã®ã‚³ãƒ”ãƒ¼ */
     obj = Image_initialize_copy( Image_allocate( cImage ), self );
 
-    /* ƒRƒs[‚µ‚½Image‚©‚çslice */
+    /* ã‚³ãƒ”ãƒ¼ã—ãŸImageã‹ã‚‰slice */
     srcimage = DXRUBY_GET_STRUCT( Image, obj );
     DXRUBY_CHECK_DISPOSE( srcimage, texture );
 
     texture = srcimage->texture;
     texture->refcount += x * y;
 
-    /* Ruby”z—ñì¬ */
+    /* Rubyé…åˆ—ä½œæˆ */
     array = rb_ary_new();
 
     if( argc < 3 || RTEST(argv[2]) )
@@ -852,7 +854,7 @@ VALUE Image_sliceToArray( int argc, VALUE *argv, VALUE self )
             for( j = 0; j < x; j++ )
             {
                 struct DXRubyImage *image;
-                /* DXRubyImage‚Ìƒƒ‚ƒŠæ“¾•ImageƒIƒuƒWƒFƒNƒg¶¬ */
+                /* DXRubyImageã®ãƒ¡ãƒ¢ãƒªå–å¾—ï¼†Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ */
                 obj = Image_allocate( cImage );
                 image = DXRUBY_GET_STRUCT( Image, obj );
 
@@ -886,7 +888,7 @@ VALUE Image_sliceToArray( int argc, VALUE *argv, VALUE self )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚Ìƒf[ƒ^æ“¾
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿å–å¾—
  ---------------------------------------------------------------------*/
 static VALUE Image_getPixel( VALUE obj, VALUE vx, VALUE vy )
 {
@@ -929,7 +931,7 @@ static VALUE Image_getPixel( VALUE obj, VALUE vx, VALUE vy )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š
  ---------------------------------------------------------------------*/
 static VALUE Image_setPixel( VALUE obj, VALUE vx, VALUE vy, VALUE color )
 {
@@ -967,7 +969,7 @@ static VALUE Image_setPixel( VALUE obj, VALUE vx, VALUE vy, VALUE color )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌF”äŠr
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®è‰²æ¯”è¼ƒ
  ---------------------------------------------------------------------*/
 static VALUE Image_compare( VALUE obj, VALUE vx, VALUE vy, VALUE color )
 {
@@ -1004,7 +1006,6 @@ static VALUE Image_compare( VALUE obj, VALUE vx, VALUE vy, VALUE color )
 
     if( RARRAY_LEN( color ) == 3 )
     {
-        
         if( (a & 0x00ffffff) == ((DWORD)col & 0x00ffffff) )
         {
             return Qtrue;
@@ -1029,7 +1030,7 @@ static VALUE Image_compare( VALUE obj, VALUE vx, VALUE vy, VALUE color )
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(box•`‰æ“h‚è‚Â‚Ô‚³‚È‚¢)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(boxæç”»å¡—ã‚Šã¤ã¶ã•ãªã„)
  ---------------------------------------------------------------------*/
 static VALUE Image_box( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, VALUE color )
 {
@@ -1048,7 +1049,7 @@ static VALUE Image_box( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, V
     x2 = NUM2INT( vx2 );
     y2 = NUM2INT( vy2 );
 
-    /* ¶ã‚©‚ç‰E‰º‚Ìw’è‚ÉC³ */
+    /* å·¦ä¸Šã‹ã‚‰å³ä¸‹ã®æŒ‡å®šã«ä¿®æ­£ */
     if( x1 > x2 )
     {
         x = x2;
@@ -1062,13 +1063,13 @@ static VALUE Image_box( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, V
         y1 = y;
     }
 
-    /* ”ÍˆÍŠO‚Ìw’è‚Í–³‹ */
+    /* ç¯„å›²å¤–ã®æŒ‡å®šã¯ç„¡è¦– */
     if( x1 > image->width - 1 || x2 < 0 || y1 > image->height - 1 || y2 < 0)
     {
         return obj;
     }
 
-    /* ƒNƒŠƒbƒv */
+    /* ã‚¯ãƒªãƒƒãƒ— */
     if( x1 < 0 )
     {
         x1 = 0;
@@ -1111,7 +1112,7 @@ static VALUE Image_box( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, V
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(box•`‰æ“h‚è‚Â‚Ô‚·)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(boxæç”»å¡—ã‚Šã¤ã¶ã™)
  ---------------------------------------------------------------------*/
 static VALUE Image_boxFill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, VALUE color )
 {
@@ -1128,7 +1129,7 @@ static VALUE Image_boxFill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy
     x2 = NUM2INT( vx2 );
     y2 = NUM2INT( vy2 );
 
-    /* ¶ã‚©‚ç‰E‰º‚Ìw’è‚ÉC³ */
+    /* å·¦ä¸Šã‹ã‚‰å³ä¸‹ã®æŒ‡å®šã«ä¿®æ­£ */
     if( x1 > x2 )
     {
         x = x2;
@@ -1142,13 +1143,13 @@ static VALUE Image_boxFill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy
         y1 = y;
     }
 
-    /* ”ÍˆÍŠO‚Ìw’è‚Í–³‹ */
+    /* ç¯„å›²å¤–ã®æŒ‡å®šã¯ç„¡è¦– */
     if( x1 > image->width - 1 || x2 < 0 || y1 > image->height - 1 || y2 < 0)
     {
         return obj;
     }
 
-    /* ƒNƒŠƒbƒv */
+    /* ã‚¯ãƒªãƒƒãƒ— */
     if( x1 < 0 )
     {
         x1 = 0;
@@ -1176,7 +1177,7 @@ static VALUE Image_boxFill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(‘S•”“§–¾F‚Å“h‚è‚Â‚Ô‚·)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(å…¨éƒ¨é€æ˜è‰²ã§å¡—ã‚Šã¤ã¶ã™)
  ---------------------------------------------------------------------*/
 static VALUE Image_clear( VALUE obj )
 {
@@ -1193,7 +1194,7 @@ static VALUE Image_clear( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(‘S•”“h‚è‚Â‚Ô‚·)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(å…¨éƒ¨å¡—ã‚Šã¤ã¶ã™)
  ---------------------------------------------------------------------*/
 static VALUE Image_fill( VALUE obj, VALUE color )
 {
@@ -1214,7 +1215,7 @@ static VALUE Image_fill( VALUE obj, VALUE color )
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚ÌƒJƒ‰[ƒL[İ’èBÀ‘Ì‚Íw’èF‚ğ“§–¾‚ÉB
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ã‚«ãƒ©ãƒ¼ã‚­ãƒ¼è¨­å®š å®Ÿä½“ã¯æŒ‡å®šè‰²ã‚’é€æ˜ã«
  ---------------------------------------------------------------------*/
 static VALUE Image_setColorKey( VALUE obj, VALUE color )
 {
@@ -1256,7 +1257,7 @@ static VALUE Image_setColorKey( VALUE obj, VALUE color )
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(circle—p‚Ìline•`‰æ)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(circleç”¨ã®lineæç”»)
  ---------------------------------------------------------------------*/
 static void Image_circle_line( int x1, int x2, int y, RECT *rect, int col, D3DLOCKED_RECT *texrect )
 {
@@ -1268,7 +1269,7 @@ static void Image_circle_line( int x1, int x2, int y, RECT *rect, int col, D3DLO
         return;
     }
 
-    /* ƒNƒŠƒbƒv */
+    /* ã‚¯ãƒªãƒƒãƒ— */
     if( x1 < 0 )
     {
         x1 = 0;
@@ -1291,7 +1292,7 @@ static void Image_circle_line( int x1, int x2, int y, RECT *rect, int col, D3DLO
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(circle•`‰æ“h‚è‚Â‚Ô‚·)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(circleæç”»å¡—ã‚Šã¤ã¶ã™)
  ---------------------------------------------------------------------*/
 static VALUE Image_circleFill( VALUE obj, VALUE vx0, VALUE vy0, VALUE vr, VALUE color )
 {
@@ -1369,7 +1370,7 @@ static VALUE Image_circleFill( VALUE obj, VALUE vx0, VALUE vy0, VALUE vr, VALUE 
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(“à•”ˆ——ppixel•`‰æ)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(å†…éƒ¨å‡¦ç†ç”¨pixelæç”»)
  ---------------------------------------------------------------------*/
 static void Image_circle_pixel( int x, int y, RECT *rect, int col, D3DLOCKED_RECT *texrect )
 {
@@ -1385,7 +1386,7 @@ static void Image_circle_pixel( int x, int y, RECT *rect, int col, D3DLOCKED_REC
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(circle•`‰æ“h‚è‚Â‚Ô‚³‚È‚¢)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(circleæç”»å¡—ã‚Šã¤ã¶ã•ãªã„)
  ---------------------------------------------------------------------*/
 static VALUE Image_circle( VALUE obj, VALUE vx0, VALUE vy0, VALUE vr, VALUE color )
 {
@@ -1468,7 +1469,7 @@ static VALUE Image_circle( VALUE obj, VALUE vx0, VALUE vy0, VALUE vr, VALUE colo
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒW‚Ìƒf[ƒ^İ’è(line•`‰æ)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿è¨­å®š(lineæç”»)
  ---------------------------------------------------------------------*/
 static VALUE Image_line( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, VALUE color )
 {
@@ -1510,7 +1511,7 @@ static VALUE Image_line( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, 
     dx = x2 > x1 ? x2 - x1 : x1 - x2;
     dy = y2 > y1 ? y2 - y1 : y1 - y2;
 
-    /* ƒuƒŒƒ[ƒ“ƒnƒ€ƒAƒ‹ƒSƒŠƒYƒ€‚É‚æ‚éü•ª•`‰æ */
+    /* ãƒ–ãƒ¬ã‚¼ãƒ³ãƒãƒ ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã«ã‚ˆã‚‹ç·šåˆ†æç”» */
     if( dx < dy )
     {
         xp = x1 < x2 ? 1 : -1;
@@ -1559,7 +1560,7 @@ static VALUE Image_line( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, 
 
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒWOŠpŒ`•`‰æ
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ä¸‰è§’å½¢æç”»
  ---------------------------------------------------------------------*/
 static VALUE Image_triangle( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, VALUE vx3, VALUE vy3, VALUE color )
 {
@@ -1578,7 +1579,7 @@ static void Image_triangle_line( int x1, int y1, int x2, int y2, int *buf_x_min,
     dx = x2 > x1 ? x2 - x1 : x1 - x2;
     dy = y2 > y1 ? y2 - y1 : y1 - y2;
 
-    /* ƒuƒŒƒ[ƒ“ƒnƒ€ƒAƒ‹ƒSƒŠƒYƒ€‚É‚æ‚éü•ª•`‰æ */
+    /* ãƒ–ãƒ¬ã‚¼ãƒ³ãƒãƒ ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã«ã‚ˆã‚‹ç·šåˆ†æç”» */
     if( dx < dy )
     {
         xp = x1 < x2 ? 1 : -1;
@@ -1636,17 +1637,17 @@ static void Image_triangle_line( int x1, int y1, int x2, int y2, int *buf_x_min,
 }
 
 /*--------------------------------------------------------------------
-    ƒCƒ[ƒWOŠpŒ`•`‰æ(“h‚è‚Â‚Ô‚·)
+    ã‚¤ãƒ¡ãƒ¼ã‚¸ä¸‰è§’å½¢æç”»(å¡—ã‚Šã¤ã¶ã™)
  ---------------------------------------------------------------------*/
 static VALUE Image_triangle_fill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VALUE vy2, VALUE vx3, VALUE vy3, VALUE color )
 {
     struct DXRubyImage *image;
     D3DLOCKED_RECT texrect;
-    int x[3], y[3]; /* ’¸“_ */
+    int x[3], y[3]; /* é ‚ç‚¹ */
     int col;
     RECT rect;
     int i;
-    int xv1, yv1, xv2, yv2; /* ‹«ŠEƒ{ƒŠƒ…[ƒ€ */
+    int xv1, yv1, xv2, yv2; /* å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ  */
 
     image = DXRUBY_GET_STRUCT( Image, obj );
     DXRUBY_CHECK_DISPOSE( image, texture );
@@ -1662,7 +1663,7 @@ static VALUE Image_triangle_fill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VA
     Check_Type(color, T_ARRAY);
     col = array2color( color );
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒbƒN—p‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ­ãƒƒã‚¯ç”¨å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
     xv1 = xv2 = x[2];
     yv1 = yv2 = y[2];
     for( i = 0; i < 2; i++ )
@@ -1725,7 +1726,7 @@ static VALUE Image_triangle_fill( VALUE obj, VALUE vx1, VALUE vy1, VALUE vx2, VA
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒWƒIƒuƒWƒFƒNƒgŠÔƒf[ƒ^“]‘—
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–“ãƒ‡ãƒ¼ã‚¿è»¢é€
  ---------------------------------------------------------------------*/
 static VALUE Image_copyRect( int argc, VALUE *argv, VALUE obj )
 {
@@ -1759,7 +1760,7 @@ static VALUE Image_copyRect( int argc, VALUE *argv, VALUE obj )
     width = vwidth == Qnil ? srcimage->width - x1 : NUM2INT( vwidth );
     height = vheight == Qnil ? srcimage->height - y1 : NUM2INT( vheight );
 
-    /* ‰æ‘œ‚ÌƒNƒŠƒbƒsƒ“ƒO */
+    /* ç”»åƒã®ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚° */
     if( x < 0 )
     {
         x1 -= x;
@@ -1801,7 +1802,7 @@ static VALUE Image_copyRect( int argc, VALUE *argv, VALUE obj )
         height -= y1 + height - srcimage->height;
     }
 
-    /* ”ÍˆÍŠO */
+    /* ç¯„å›²å¤– */
     if( x >= dstimage->width || y >= dstimage->height || x1 >= srcimage->width || y1 >= srcimage->height ||
         width < 0 || height < 0 )
     {
@@ -1838,7 +1839,7 @@ static VALUE Image_copyRect( int argc, VALUE *argv, VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒWƒIƒuƒWƒFƒNƒgŠÔƒ¿‚Â‚«ƒf[ƒ^“]‘—
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–“Î±ã¤ããƒ‡ãƒ¼ã‚¿è»¢é€
  ---------------------------------------------------------------------*/
 static VALUE Image_draw( int argc, VALUE *argv, VALUE obj )
 {
@@ -1872,7 +1873,7 @@ static VALUE Image_draw( int argc, VALUE *argv, VALUE obj )
     width = vwidth == Qnil ? srcimage->width - x1 : NUM2INT( vwidth );
     height = vheight == Qnil ? srcimage->height - y1 : NUM2INT( vheight );
 
-    /* ‰æ‘œ‚ÌƒNƒŠƒbƒsƒ“ƒO */
+    /* ç”»åƒã®ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚° */
     if( x < 0 )
     {
         x1 -= x;
@@ -1914,7 +1915,7 @@ static VALUE Image_draw( int argc, VALUE *argv, VALUE obj )
         height -= y1 + height - srcimage->height;
     }
 
-    /* ”ÍˆÍŠO */
+    /* ç¯„å›²å¤– */
     if( x >= dstimage->width || y >= dstimage->height || x1 >= srcimage->width || y1 >= srcimage->height ||
         width < 0 || height < 0 )
     {
@@ -2037,7 +2038,7 @@ static void drawfont_sub( int blackboxX, int blackboxY, int baseX, int baseY, in
 }
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÉƒtƒHƒ“ƒg•`‰æ
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã«ãƒ•ã‚©ãƒ³ãƒˆæç”»
  ---------------------------------------------------------------------*/
 static VALUE Image_drawFont( int argc, VALUE *argv, VALUE obj )
 {
@@ -2062,12 +2063,12 @@ static VALUE Image_drawFont( int argc, VALUE *argv, VALUE obj )
     VALUE vwidestr;
     MAT2 mat2 = {{0,1},{0,0},{0,0},{0,1}};
 
-    /* ˆø”æ“¾ */
+    /* å¼•æ•°å–å¾— */
     rb_scan_args( argc, argv, "41", &vx, &vy, &vstr, &vfont, &vcolor);
 
     Check_Type(vstr, T_STRING);
 
-    /* ˆø”‚ÌƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚©‚ç’†g‚ğæ‚èo‚· */
+    /* å¼•æ•°ã®ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ä¸­èº«ã‚’å–ã‚Šå‡ºã™ */
     image = DXRUBY_GET_STRUCT( Image, obj );
     DXRUBY_CHECK_DISPOSE( image, texture );
 //    DXRUBY_CHECK_IMAGE_LOCK( image );
@@ -2087,7 +2088,7 @@ static VALUE Image_drawFont( int argc, VALUE *argv, VALUE obj )
         return obj;
     }
 
-    /* •`‰æ•¶š‚ÌUTF16LE‰» */
+    /* æç”»æ–‡å­—ã®UTF16LEåŒ– */
     if( rb_enc_get_index( vstr ) != 0 )
     {
         vwidestr = rb_str_export_to_enc( vstr, g_enc_utf16 );
@@ -2143,7 +2144,7 @@ int fast_int_hypot(int lx, int ly)
 		XOR EAX,EDX
 		SUB EAX,EDX
 	*/
-	
+
 	if (lx >= ly)
 	{
 		len1 = lx ; len2 = ly;
@@ -2158,7 +2159,7 @@ int fast_int_hypot(int lx, int ly)
 	return length;
 }
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÉƒtƒHƒ“ƒg•`‰æ‚‹@”\”Å
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã«ãƒ•ã‚©ãƒ³ãƒˆæç”»é«˜æ©Ÿèƒ½ç‰ˆ
  ---------------------------------------------------------------------*/
 VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
 {
@@ -2187,7 +2188,7 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
     VALUE vwidestr;
     MAT2 mat2 = {{0,1},{0,0},{0,0},{0,1}};
 
-    /* ˆø”æ“¾ */
+    /* å¼•æ•°å–å¾— */
     if( argc < 4 || argc > 5 ) rb_raise( rb_eArgError, "wrong number of arguments (%d for %d..%d)", argc, 4, 5 );
 
     vx = argv[0];
@@ -2200,7 +2201,7 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
 
     Check_Type(vstr, T_STRING);
 
-    /* ˆø”‚ÌƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚©‚ç’†g‚ğæ‚èo‚· */
+    /* å¼•æ•°ã®ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ä¸­èº«ã‚’å–ã‚Šå‡ºã™ */
     image = DXRUBY_GET_STRUCT( Image, obj );
     DXRUBY_CHECK_DISPOSE( image, texture );
 //    DXRUBY_CHECK_IMAGE_LOCK( image );
@@ -2218,14 +2219,14 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
         voption = argv[4];
     }
 
-    /* •¶š‚ÌF */
+    /* æ–‡å­—ã®è‰² */
     vcolor = hash_lookup( voption, symbol_color );
     if( vcolor != Qnil )
     {
         get_color( vcolor, &cr, &cg, &cb );
     }
 
-    /* ƒGƒbƒWƒIƒvƒVƒ‡ƒ“ */
+    /* ã‚¨ãƒƒã‚¸ã‚ªãƒ—ã‚·ãƒ§ãƒ³ */
     vedge = hash_lookup( voption, symbol_edge );
     if( vedge == Qnil || vedge == Qfalse )
     {
@@ -2242,13 +2243,13 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
         }
 
         vedge_width = hash_lookup( voption, symbol_edge_width );
-        edge_width = vedge_width == Qnil ? 2 : NUM2INT( vedge_width ); /* ƒGƒbƒW‚Ì• */
+        edge_width = vedge_width == Qnil ? 2 : NUM2INT( vedge_width ); /* ã‚¨ãƒƒã‚¸ã®å¹… */
 
         vedge_level = hash_lookup( voption, symbol_edge_level );
-        edge_level = vedge_level == Qnil ? 4 : NUM2INT( vedge_level ); /* ƒGƒbƒW‚Ì‹­‚³ */
+        edge_level = vedge_level == Qnil ? 4 : NUM2INT( vedge_level ); /* ã‚¨ãƒƒã‚¸ã®å¼·ã• */
     }
 
-    /* ‰eƒIƒvƒVƒ‡ƒ“ */
+    /* å½±ã‚ªãƒ—ã‚·ãƒ§ãƒ³ */
     vshadow = hash_lookup( voption, symbol_shadow );
     if( vshadow == Qnil || vshadow == Qfalse )
     {
@@ -2281,7 +2282,7 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
         }
     }
 
-    /* aaƒtƒ‰ƒO */
+    /* aaãƒ•ãƒ©ã‚° */
     vaa_flag = hash_lookup( voption, symbol_aa );
 
     if( x >= image->width || y >= image->height )
@@ -2289,7 +2290,7 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
         return obj;
     }
 
-    /* •`‰æ•¶š‚ÌUTF16LE‰» */
+    /* æç”»æ–‡å­—ã®UTF16LEåŒ– */
     if( rb_enc_get_index( vstr ) != 0 )
     {
         vwidestr = rb_str_export_to_enc( vstr, g_enc_utf16 );
@@ -2319,11 +2320,11 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
             int v, u;
 
             if( edge_width > 0 && edge_level > 0 )
-            { /* ƒGƒbƒW¶¬B‹g—¢‹g—¢2‚Ìƒ\[ƒX‚ğQl‚É‚µ‚Ä‚¢‚éB */
+            { /* ã‚¨ãƒƒã‚¸ç”Ÿæˆã€‚å‰é‡Œå‰é‡Œ2ã®ã‚½ãƒ¼ã‚¹ã‚’å‚è€ƒã«ã—ã¦ã„ã‚‹ã€‚ */
                 int edge_pitch  = ((gm.gmBlackBoxX + edge_width * 2 - 1) >> 2) + 1 << 2;
-                unsigned char *blurbuf = alloca( edge_pitch * (gm.gmBlackBoxY + edge_width * 2) ); /* ƒoƒbƒtƒ@ */
+                unsigned char *blurbuf = alloca( edge_pitch * (gm.gmBlackBoxY + edge_width * 2) ); /* ãƒãƒƒãƒ•ã‚¡ */
                 int lvsum = 0;
-                memset( blurbuf, 0, edge_pitch * (gm.gmBlackBoxY + edge_width * 2) ); /* ƒoƒbƒtƒ@‚ÌƒNƒŠƒA */
+                memset( blurbuf, 0, edge_pitch * (gm.gmBlackBoxY + edge_width * 2) ); /* ãƒãƒƒãƒ•ã‚¡ã®ã‚¯ãƒªã‚¢ */
 
                 for( v = -edge_width; v <= edge_width; v++ )
                 {
@@ -2368,28 +2369,28 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
 
                 if( shadow_x != 0 || shadow_y != 0 )
                 {
-                    /* ƒGƒbƒW‚ª‚ ‚éê‡‚Ì‰e‚Ì•`‰æ */
+                    /* ã‚¨ãƒƒã‚¸ãŒã‚ã‚‹å ´åˆã®å½±ã®æç”» */
                     if( shadow_edge == 1 )
                     {
                         drawfont_sub( gm.gmBlackBoxX + edge_width * 2, gm.gmBlackBoxY + edge_width * 2, x + gm.gmptGlyphOrigin.x - edge_width + shadow_x, y + tm.tmAscent - gm.gmptGlyphOrigin.y - edge_width + shadow_y, edge_pitch, blurbuf, &dsttrect, sr, sg, sb, image->width, image->height );
                     }
-                    /* ƒGƒbƒW‚ª‚ ‚é‚¯‚ÇƒGƒbƒW–³‚µ‰e‚Ì•`‰æ */
+                    /* ã‚¨ãƒƒã‚¸ãŒã‚ã‚‹ã‘ã©ã‚¨ãƒƒã‚¸ç„¡ã—å½±ã®æç”» */
                     else
                     {
                         drawfont_sub( gm.gmBlackBoxX, gm.gmBlackBoxY, x + gm.gmptGlyphOrigin.x + shadow_x, y + tm.tmAscent - gm.gmptGlyphOrigin.y + shadow_y, (gm.gmBlackBoxX + 3) & 0xfffc, buf, &dsttrect, sr, sg, sb, image->width, image->height );
                     }
                 }
 
-                /* ƒGƒbƒW‚Ì•`‰æ */
+                /* ã‚¨ãƒƒã‚¸ã®æç”» */
                 drawfont_sub( gm.gmBlackBoxX + edge_width * 2, gm.gmBlackBoxY + edge_width * 2, x + gm.gmptGlyphOrigin.x - edge_width, y + tm.tmAscent - gm.gmptGlyphOrigin.y - edge_width, edge_pitch, blurbuf, &dsttrect, br, bg, bb, image->width, image->height );
 
             }
-            else if( shadow_x != 0 || shadow_y != 0 ) /* ƒGƒbƒW‚ª‚È‚¢ê‡‚Ì‰e‚Ì•`‰æ */
+            else if( shadow_x != 0 || shadow_y != 0 ) /* ã‚¨ãƒƒã‚¸ãŒãªã„å ´åˆã®å½±ã®æç”» */
             {
                 drawfont_sub( gm.gmBlackBoxX, gm.gmBlackBoxY, x + gm.gmptGlyphOrigin.x + shadow_x, y + tm.tmAscent - gm.gmptGlyphOrigin.y + shadow_y, (gm.gmBlackBoxX + 3) & 0xfffc, buf, &dsttrect, sr, sg, sb, image->width, image->height );
             }
 
-            /* •¶š‚Ì•`‰æ */
+            /* æ–‡å­—ã®æç”» */
             drawfont_sub( gm.gmBlackBoxX, gm.gmBlackBoxY, x + gm.gmptGlyphOrigin.x, y + tm.tmAscent - gm.gmptGlyphOrigin.y, (gm.gmBlackBoxX + 3) & 0xfffc, buf, &dsttrect, cr, cg, cb, image->width, image->height );
 
         }
@@ -2408,7 +2409,7 @@ VALUE Image_drawFontEx( int argc, VALUE *argv, VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ‰æ‘œ‚ÉƒGƒtƒFƒNƒg‚ğ‚©‚¯‚é
+   ç”»åƒã«ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ã‚‹
  ---------------------------------------------------------------------*/
 VALUE Image_effect( int argc, VALUE *argv, VALUE self )
 {
@@ -2449,14 +2450,14 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
         voption = argv[0];
     }
 
-    /* •¶š‚ÌF */
+    /* æ–‡å­—ã®è‰² */
     vcolor = hash_lookup( voption, symbol_color );
     if( vcolor != Qnil )
     {
         get_color( vcolor, &cr, &cg, &cb );
     }
 
-    /* ƒGƒbƒWƒIƒvƒVƒ‡ƒ“ */
+    /* ã‚¨ãƒƒã‚¸ã‚ªãƒ—ã‚·ãƒ§ãƒ³ */
     vedge = hash_lookup( voption, symbol_edge );
     if( vedge == Qnil || vedge == Qfalse )
     {
@@ -2473,13 +2474,13 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
         }
 
         vedge_width = hash_lookup( voption, symbol_edge_width );
-        edge_width = vedge_width == Qnil ? 2 : NUM2INT( vedge_width ); /* ƒGƒbƒW‚Ì• */
+        edge_width = vedge_width == Qnil ? 2 : NUM2INT( vedge_width ); /* ã‚¨ãƒƒã‚¸ã®å¹… */
 
         vedge_level = hash_lookup( voption, symbol_edge_level );
-        edge_level = vedge_level == Qnil ? 4 : NUM2INT( vedge_level ); /* ƒGƒbƒW‚Ì‹­‚³ */
+        edge_level = vedge_level == Qnil ? 4 : NUM2INT( vedge_level ); /* ã‚¨ãƒƒã‚¸ã®å¼·ã• */
     }
 
-    /* ‰eƒIƒvƒVƒ‡ƒ“ */
+    /* å½±ã‚ªãƒ—ã‚·ãƒ§ãƒ³ */
     vshadow = hash_lookup( voption, symbol_shadow );
     if( vshadow == Qnil || vshadow == Qfalse )
     {
@@ -2530,13 +2531,13 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
 
     srcimage->texture->pD3DTexture->lpVtbl->UnlockRect( srcimage->texture->pD3DTexture, 0 );
 
-    /* VImage¶¬ */
+    /* æ–°Imageç”Ÿæˆ */
     obj = Image_allocate( cImage );
 
-    /* VImage‚Ìƒ|ƒCƒ“ƒ^æ“¾ */
+    /* æ–°Imageã®ãƒã‚¤ãƒ³ã‚¿å–å¾— */
     dstimage = DXRUBY_GET_STRUCT( Image, obj );
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
 
     if( texture == NULL )
@@ -2545,7 +2546,7 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
     }
 
     DXRUBY_RETRY_START;
-    /* ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     hr = D3DXCreateTexture( g_pD3DDevice, srcimage->width + edge_width * 2 + shadow_x, srcimage->height + edge_width * 2 + shadow_y,
                                       1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                                       &texture->pD3DTexture);
@@ -2583,11 +2584,11 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
         int v, u;
 
         if( edge_width > 0 && edge_level > 0 )
-        { /* ƒGƒbƒW¶¬B‹g—¢‹g—¢2‚Ìƒ\[ƒX‚ğQl‚É‚µ‚Ä‚¢‚éB */
+        { /* ã‚¨ãƒƒã‚¸ç”Ÿæˆ å‰é‡Œå‰é‡Œ2ã®ã‚½ãƒ¼ã‚¹ã‚’å‚è€ƒã«ã—ã¦ã„ã‚‹ */
             int edge_pitch  = (((int)srcimage->width + edge_width * 2 - 1) >> 2) + 1 << 2;
-            unsigned char *blurbuf = alloca( edge_pitch * (srcimage->height + edge_width * 2) ); /* ƒoƒbƒtƒ@ */
+            unsigned char *blurbuf = alloca( edge_pitch * (srcimage->height + edge_width * 2) ); /* ãƒãƒƒãƒ•ã‚¡ */
             int lvsum = 0;
-            memset( blurbuf, 0, edge_pitch * (srcimage->height + edge_width * 2) ); /* ƒoƒbƒtƒ@‚ÌƒNƒŠƒA */
+            memset( blurbuf, 0, edge_pitch * (srcimage->height + edge_width * 2) ); /* ãƒãƒƒãƒ•ã‚¡ã®ã‚¯ãƒªã‚¢ */
 
             for( v = -edge_width; v <= edge_width; v++ )
             {
@@ -2632,28 +2633,28 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
 
             if( shadow_x != 0 || shadow_y != 0 )
             {
-                /* ƒGƒbƒW‚ª‚ ‚éê‡‚Ì‰e‚Ì•`‰æ */
+                /* ã‚¨ãƒƒã‚¸ãŒã‚ã‚‹å ´åˆã®å½±ã®æç”» */
                 if( shadow_edge == 1 )
                 {
                     drawfont_sub( srcimage->width + edge_width * 2, srcimage->height + edge_width * 2, x - edge_width + shadow_x, y - edge_width + shadow_y, edge_pitch, blurbuf, &dsttrect, sr, sg, sb, dstimage->width, dstimage->height );
                 }
-                /* ƒGƒbƒW‚ª‚ ‚é‚¯‚ÇƒGƒbƒW–³‚µ‰e‚Ì•`‰æ */
+                /* ã‚¨ãƒƒã‚¸ãŒã‚ã‚‹ã‘ã©ã‚¨ãƒƒã‚¸ç„¡ã—å½±ã®æç”» */
                 else
                 {
                     drawfont_sub( srcimage->width, srcimage->height, x + shadow_x, y + shadow_y, srcimage->width, buf, &dsttrect, sr, sg, sb, dstimage->width, dstimage->height );
                 }
             }
 
-            /* ƒGƒbƒW‚Ì•`‰æ */
+            /* ã‚¨ãƒƒã‚¸ã®æç”» */
             drawfont_sub( srcimage->width + edge_width * 2, srcimage->height + edge_width * 2, x - edge_width, y - edge_width, edge_pitch, blurbuf, &dsttrect, br, bg, bb, dstimage->width, dstimage->height );
 
         }
-        else if( shadow_x != 0 || shadow_y != 0 ) /* ƒGƒbƒW‚ª‚È‚¢ê‡‚Ì‰e‚Ì•`‰æ */
+        else if( shadow_x != 0 || shadow_y != 0 ) /* ã‚¨ãƒƒã‚¸ãŒãªã„å ´åˆã®å½±ã®æç”» */
         {
             drawfont_sub( srcimage->width, srcimage->height,x + shadow_x,y + shadow_y, srcimage->width, buf, &dsttrect, sr, sg, sb, dstimage->width, dstimage->height );
         }
 
-        /* •¶š‚Ì•`‰æ */
+        /* æ–‡å­—ã®æç”» */
         drawfont_sub( srcimage->width, srcimage->height, x, y, srcimage->width, buf, &dsttrect, cr, cg, cb, dstimage->width, dstimage->height );
 
     }
@@ -2665,7 +2666,7 @@ VALUE Image_effect( int argc, VALUE *argv, VALUE self )
 
 
 /*--------------------------------------------------------------------
-   HLS‚ÅF‚ğ’²®‚·‚é
+   HLSã§è‰²ã‚’èª¿æ•´ã™ã‚‹
  ---------------------------------------------------------------------*/
 static void RGBToHSB( unsigned int rgb, int *hue, int *saturation, int *brightness )
 {
@@ -2830,7 +2831,7 @@ VALUE Image_change_hls( int argc, VALUE *argv, VALUE self )
     dstimage = DXRUBY_GET_STRUCT( Image, obj );
     g_iRefAll++;
 
-    /* ƒeƒNƒXƒ`ƒƒƒƒ‚ƒŠæ“¾ */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ãƒ¢ãƒªå–å¾— */
     texture = (struct  DXRubyTexture *)malloc( sizeof( struct DXRubyTexture ) );
     if( texture == NULL )
     {
@@ -2838,7 +2839,7 @@ VALUE Image_change_hls( int argc, VALUE *argv, VALUE self )
     }
 
     DXRUBY_RETRY_START;
-    /* ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é */
+    /* ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹ */
     hr = D3DXCreateTexture( g_pD3DDevice, srcimage->width, srcimage->height,
                             1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED,
                             &texture->pD3DTexture);
@@ -2861,7 +2862,7 @@ VALUE Image_change_hls( int argc, VALUE *argv, VALUE self )
     dstimage->height =srcimage-> height;
 //    dstimage->lockcount = 0;
 
-    /* ƒCƒ[ƒWƒRƒs[ */
+    /* ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚³ãƒ”ãƒ¼ */
     dstrect.left = 0;
     dstrect.top = 0;
     dstrect.right = srcimage->width;
@@ -2903,7 +2904,7 @@ VALUE Image_change_hls( int argc, VALUE *argv, VALUE self )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚éB
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹ã€‚
  ---------------------------------------------------------------------*/
 VALUE Image_save( int argc, VALUE *argv, VALUE self )
 {
@@ -2958,10 +2959,10 @@ VALUE Image_save( int argc, VALUE *argv, VALUE self )
     }
 
     hr = D3DXSaveTextureToFile(
-            RSTRING_PTR( vsjisstr ),                            /* •Û‘¶ƒtƒ@ƒCƒ‹–¼ */
-            f,                                                  /* ƒtƒ@ƒCƒ‹ƒtƒH[ƒ}ƒbƒg */
-            (IDirect3DBaseTexture9*)image->texture->pD3DTexture,/* •Û‘¶‚·‚éƒT[ƒtƒFƒX */
-            NULL);                                              /* ƒpƒŒƒbƒg */
+            RSTRING_PTR( vsjisstr ),                            /* ä¿å­˜ãƒ•ã‚¡ã‚¤ãƒ«å */
+            f,                                                  /* ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
+            (IDirect3DBaseTexture9*)image->texture->pD3DTexture,/* ä¿å­˜ã™ã‚‹ã‚µãƒ¼ãƒ•ã‚§ã‚¹ */
+            NULL);                                              /* ãƒ‘ãƒ¬ãƒƒãƒˆ */
     if( FAILED( hr ) )
     {
         rb_raise( eDXRubyError, "Save error - Image_save" );
@@ -2972,7 +2973,7 @@ VALUE Image_save( int argc, VALUE *argv, VALUE self )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌŠJnˆÊ’ux‚ğ•Ô‚·B
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®é–‹å§‹ä½ç½®xã‚’è¿”ã™
  ---------------------------------------------------------------------*/
 static VALUE Image_getX( VALUE obj )
 {
@@ -2985,7 +2986,7 @@ static VALUE Image_getX( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌŠJnˆÊ’uy‚ğ•Ô‚·B
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®é–‹å§‹ä½ç½®yã‚’è¿”ã™
  ---------------------------------------------------------------------*/
 static VALUE Image_getY( VALUE obj )
 {
@@ -2998,7 +2999,7 @@ static VALUE Image_getY( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌƒTƒCƒYi•j‚ğ•Ô‚·B
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ã‚µã‚¤ã‚ºï¼ˆå¹…ï¼‰ã‚’è¿”ã™
  ---------------------------------------------------------------------*/
 static VALUE Image_getWidth( VALUE obj )
 {
@@ -3011,7 +3012,7 @@ static VALUE Image_getWidth( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌƒTƒCƒYi‚‚³j‚ğ•Ô‚·B
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ã‚µã‚¤ã‚ºï¼ˆé«˜ã•ï¼‰ã‚’è¿”ã™
  ---------------------------------------------------------------------*/
 static VALUE Image_getHeight( VALUE obj )
 {
@@ -3024,7 +3025,7 @@ static VALUE Image_getHeight( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌŠJnˆÊ’ux‚ğİ’è‚·‚éB
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®é–‹å§‹ä½ç½®xã‚’è¨­å®šã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Image_setX( VALUE obj, VALUE vx )
 {
@@ -3045,7 +3046,7 @@ static VALUE Image_setX( VALUE obj, VALUE vx )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌŠJnˆÊ’uy‚ğİ’è‚·‚éB
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®é–‹å§‹ä½ç½®yã‚’è¨­å®šã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Image_setY( VALUE obj, VALUE vy )
 {
@@ -3066,7 +3067,7 @@ static VALUE Image_setY( VALUE obj, VALUE vy )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌƒTƒCƒYi•j‚ğİ’è‚·‚éB
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ã‚µã‚¤ã‚ºï¼ˆå¹…ï¼‰ã‚’è¨­å®šã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Image_setWidth( VALUE obj, VALUE vwidth )
 {
@@ -3087,7 +3088,7 @@ static VALUE Image_setWidth( VALUE obj, VALUE vwidth )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ[ƒW‚ÌƒTƒCƒYi‚‚³j‚ğİ’è‚·‚éB
+   ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ã‚µã‚¤ã‚ºï¼ˆé«˜ã•ï¼‰ã‚’è¨­å®šã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Image_setHeight( VALUE obj, VALUE vheight )
 {
@@ -3305,10 +3306,10 @@ void Init_dxruby_Image()
 {
     int i;
 
-    /* ImageƒNƒ‰ƒX’è‹` */
+    /* Imageã‚¯ãƒ©ã‚¹å®šç¾© */
     cImage = rb_define_class_under( mDXRuby, "Image", rb_cObject );
 
-    /* ImageƒNƒ‰ƒX‚ÉƒNƒ‰ƒXƒƒ\ƒbƒh“o˜^*/
+    /* Imageã‚¯ãƒ©ã‚¹ã«ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ² */
     rb_define_singleton_method( cImage, "load", Image_load, -1 );
     rb_define_singleton_method( cImage, "load_to_array", Image_loadToArray, -1 );
     rb_define_singleton_method( cImage, "loadToArray", Image_loadToArray, -1 );
@@ -3325,7 +3326,7 @@ void Init_dxruby_Image()
     rb_define_singleton_method( cImage, "custom_perlin_noise", Image_custom_perlin_noise, -1);
     rb_define_singleton_method( cImage, "perlin_seed", Image_perlin_seed, 1);
 
-    /* ImageƒNƒ‰ƒX‚Éƒƒ\ƒbƒh“o˜^*/
+    /* Imageã‚¯ãƒ©ã‚¹ã«ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ² */
     rb_define_private_method( cImage, "initialize", Image_initialize, -1 );
     rb_define_method( cImage, "dispose"   , Image_dispose   , 0 );
     rb_define_method( cImage, "disposed?" , Image_check_disposed, 0 );
@@ -3371,10 +3372,10 @@ void Init_dxruby_Image()
     rb_define_method( cImage, "change_hls", Image_change_hls, -1);
     rb_define_method( cImage, "changeHLS", Image_change_hls, -1);
 
-    /* ImageƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚½‚Éinitialize‚Ì‘O‚ÉŒÄ‚Î‚ê‚éƒƒ‚ƒŠŠ„‚è“–‚ÄŠÖ”“o˜^ */
+    /* Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ãŸæ™‚ã«initializeã®å‰ã«å‘¼ã°ã‚Œã‚‹ãƒ¡ãƒ¢ãƒªå‰²ã‚Šå½“ã¦é–¢æ•°ç™»éŒ² */
     rb_define_alloc_func( cImage, Image_allocate );
 
-    /* PerlinNoise‰Šú‰» */
+    /* PerlinNoiseåˆæœŸåŒ– */
     perlinp = malloc( 512 * sizeof(int) );
 
     for( i = 0; i < 256; i++ )
@@ -3387,5 +3388,3 @@ void finalize_dxruby_Image()
 {
     free( perlinp );
 }
-
-

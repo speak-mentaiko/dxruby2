@@ -1,4 +1,4 @@
-#define WINVER 0x0500                                  /* ƒo[ƒWƒ‡ƒ“’è‹` Windows2000ˆÈã */
+#define WINVER 0x0500                                  /* ãƒãƒ¼ã‚¸ãƒ§ãƒ³å®šç¾© Windows2000ä»¥ä¸Š */
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -15,7 +15,7 @@
 #include "matrix.h"
 #endif
 
-static VALUE cSprite;         /* ƒXƒvƒ‰ƒCƒgƒNƒ‰ƒX       */
+static VALUE cSprite;         /* ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚¯ãƒ©ã‚¹ */
 #ifdef DXRUBY15
 extern VALUE cVector;
 #endif
@@ -41,12 +41,12 @@ ID id_visible;
 static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass );
 
 /*********************************************************************
- * SpriteƒNƒ‰ƒX
+ * Spriteã‚¯ãƒ©ã‚¹
  *
- * •`‰æƒvƒŠƒ~ƒeƒBƒu‚Æ‚µ‚Ä’ñ‹Ÿ‚·‚éƒXƒvƒ‰ƒCƒg‹@”\
+ * æç”»ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã¨ã—ã¦æä¾›ã™ã‚‹ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæ©Ÿèƒ½
  *********************************************************************/
 /*--------------------------------------------------------------------
-   QÆ‚³‚ê‚È‚­‚È‚Á‚½‚Æ‚«‚ÉGC‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+   å‚ç…§ã•ã‚Œãªããªã£ãŸã¨ãã«GCã‹ã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
  ---------------------------------------------------------------------*/
 void Sprite_release( struct DXRubySprite *sprite )
 {
@@ -54,7 +54,7 @@ void Sprite_release( struct DXRubySprite *sprite )
 }
 
 /*--------------------------------------------------------------------
-   SpriteƒNƒ‰ƒX‚Ìmark
+   Spriteã‚¯ãƒ©ã‚¹ã®mark
  ---------------------------------------------------------------------*/
 static void Sprite_mark( struct DXRubySprite *sprite )
 {
@@ -95,14 +95,15 @@ const rb_data_type_t Sprite_data_type = {
 #endif
 
 /*--------------------------------------------------------------------
-   SpriteƒNƒ‰ƒX‚ÌallocateBƒƒ‚ƒŠ‚ğŠm•Û‚·‚éˆ×‚Éinitialize‘O‚ÉŒÄ‚Î‚ê‚éB
+   Spriteã‚¯ãƒ©ã‚¹ã®allocate
+   ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹ç‚ºã«initializeå‰ã«å‘¼ã°ã‚Œã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Sprite_allocate( VALUE klass )
 {
     VALUE obj;
     struct DXRubySprite *sprite;
 
-    /* DXRubySprite‚Ìƒƒ‚ƒŠæ“¾•SpriteƒIƒuƒWƒFƒNƒg¶¬ */
+    /* DXRubySpriteã®ãƒ¡ãƒ¢ãƒªå–å¾—ï¼†Spriteã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ */
     sprite = malloc( sizeof(struct DXRubySprite) );
     if( sprite == NULL ) rb_raise( eDXRubyError, "Out of memory - Sprite_allocate" );
 #ifdef DXRUBY_USE_TYPEDDATA
@@ -139,7 +140,7 @@ static VALUE Sprite_allocate( VALUE klass )
 
 
 /*--------------------------------------------------------------------
-   SpriteƒNƒ‰ƒX‚ÌInitialize
+   Spriteã‚¯ãƒ©ã‚¹ã®Initialize
  ---------------------------------------------------------------------*/
 static VALUE Sprite_initialize( int argc, VALUE *argv, VALUE self )
 {
@@ -154,7 +155,7 @@ static VALUE Sprite_initialize( int argc, VALUE *argv, VALUE self )
 
 
 /*--------------------------------------------------------------------
-   SpriteƒNƒ‰ƒX‚Ìdraw
+   Spriteã‚¯ãƒ©ã‚¹ã®draw
  ---------------------------------------------------------------------*/
 void Sprite_internal_draw( VALUE self, VALUE vrt )
 {
@@ -168,7 +169,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
         return;
     }
 
-    /* ƒCƒ[ƒWƒIƒuƒWƒFƒNƒg‚©‚ç’†g‚ğæ‚èo‚· */
+    /* ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ä¸­èº«ã‚’å–ã‚Šå‡ºã™ */
     if( sprite->vimage == Qnil )
     {
         return;
@@ -179,25 +180,25 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
     DXRUBY_CHECK_DISPOSE( image, texture );
 
     if( sprite->vangle == INT2FIX( 0 ) && sprite->vscale_x == INT2FIX( 1 ) && sprite->vscale_y == INT2FIX( 1 ) )
-    {/* ‰ñ“]Šg‘å–³‚µ */
+    {/* å›è»¢æ‹¡å¤§ç„¡ã— */
         volatile VALUE temp;
         struct DXRubyPicture_draw *picture;
 
         picture = (struct DXRubyPicture_draw *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_draw ) );
 
-        /* DXRubyPictureƒIƒuƒWƒFƒNƒgİ’è */
+        /* DXRubyPictureã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¨­å®š */
         picture->x = (int)(NUM2FLOAT( sprite->vx ) - (RTEST(sprite->voffset_sync) ? (sprite->vcenter_x == Qnil ? image->width / 2.0f : NUM2FLOAT( sprite->vcenter_x )) : 0));
         picture->y = (int)(NUM2FLOAT( sprite->vy ) - (RTEST(sprite->voffset_sync) ? (sprite->vcenter_y == Qnil ? image->height / 2.0f : NUM2FLOAT( sprite->vcenter_y )) : 0));
         picture->x -= rt->ox;
         picture->y -= rt->oy;
 
         if( sprite->vshader == Qnil )
-        {/* ƒVƒF[ƒ_‚È‚µ */
+        {/* ã‚·ã‚§ãƒ¼ãƒ€ãªã— */
             picture->func = RenderTarget_draw_func;
             picture->value = sprite->vimage;
         }
         else
-        {/* ƒVƒF[ƒ_‚ ‚è */
+        {/* ã‚·ã‚§ãƒ¼ãƒ€ã‚ã‚Š */
             struct DXRubyShader *shader;
             struct DXRubyShaderCore *core;
 
@@ -209,7 +210,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
             temp = rb_ary_new3( 3, sprite->vimage, shader->vcore, shader->vparam );
             picture->value = temp;
 
-            /* Shader“à‚ÌImageƒIƒuƒWƒFƒNƒg‚ğƒƒbƒN‚·‚é */
+            /* Shaderå†…ã®Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹ */
 //            rb_hash_foreach( RARRAY_PTR( picture->value )[2], Window_drawShader_func_foreach_lock, RARRAY_PTR( picture->value )[1]);
 
             picture->func = RenderTarget_drawShader_func;
@@ -223,7 +224,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
                              (sprite->vblend == symbol_sub ? 6 :
                              (sprite->vblend == symbol_sub2 ? 7 : 0))))));
 
-        /* ƒŠƒXƒgƒf[ƒ^‚É’Ç‰Á */
+        /* ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ  */
         rt->PictureList[rt->PictureCount].picture = (struct DXRubyPicture *)picture;
         z = NUM2FLOAT( sprite->vz );
         rt->PictureList[rt->PictureCount].z = z;
@@ -237,7 +238,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
 
         picture = (struct DXRubyPicture_drawEx *)RenderTarget_AllocPictureList( rt, sizeof( struct DXRubyPicture_drawEx ) );
 
-        /* DXRubyPictureƒIƒuƒWƒFƒNƒgİ’è */
+        /* DXRubyPictureã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè¨­å®š */
         picture->func = RenderTarget_drawEx_func;
         picture->x = (int)(NUM2FLOAT( sprite->vx ) - (RTEST(sprite->voffset_sync) ? (sprite->vcenter_x == Qnil ? image->width / 2.0f : NUM2FLOAT( sprite->vcenter_x )) : 0));
         picture->y = (int)(NUM2FLOAT( sprite->vy ) - (RTEST(sprite->voffset_sync) ? (sprite->vcenter_y == Qnil ? image->height / 2.0f : NUM2FLOAT( sprite->vcenter_y )) : 0));
@@ -245,7 +246,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
         picture->y -= rt->oy;
 
         if( sprite->vshader != Qnil )
-        {/* ƒVƒF[ƒ_‚ ‚è */
+        {/* ã‚·ã‚§ãƒ¼ãƒ€ã‚ã‚Š */
             struct DXRubyShader *shader;
             struct DXRubyShaderCore *core;
             DXRUBY_CHECK_TYPE( Shader, sprite->vshader );
@@ -256,7 +257,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
             temp = rb_ary_new3( 3, sprite->vimage, shader->vcore, shader->vparam );
             picture->value = temp;
 
-            /* Shader“à‚ÌImageƒIƒuƒWƒFƒNƒg‚ğƒƒbƒN‚·‚é */
+            /* Shaderå†…ã®Imageã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹ */
 //            rb_hash_foreach( RARRAY_PTR( picture->value )[2], Window_drawShader_func_foreach_lock, RARRAY_PTR( picture->value )[1]);
         }
         else
@@ -278,7 +279,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
                              (sprite->vblend == symbol_sub ? 6 :
                              (sprite->vblend == symbol_sub2 ? 7 : 0))))));
 
-        /* ƒŠƒXƒgƒf[ƒ^‚É’Ç‰Á */
+        /* ãƒªã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ  */
         rt->PictureList[rt->PictureCount].picture = (struct DXRubyPicture *)picture;
         z = NUM2FLOAT( sprite->vz );
         rt->PictureList[rt->PictureCount].z = z;
@@ -286,7 +287,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
         rt->PictureCount++;
     }
 
-    /* RenderTarget‚¾‚Á‚½ê‡‚É•`‰æ—\–ñ‚ª‚ ‚ê‚Îupdate‚·‚é */
+    /* RenderTargetã ã£ãŸå ´åˆã«æç”»äºˆç´„ãŒã‚ã‚Œã°updateã™ã‚‹ */
     if( DXRUBY_CHECK( RenderTarget, sprite->vimage ) )
     {
         struct DXRubyRenderTarget *src_rt = DXRUBY_GET_STRUCT( RenderTarget, sprite->vimage );
@@ -304,7 +305,7 @@ void Sprite_internal_draw( VALUE self, VALUE vrt )
         }
     }
 
-    /* g‚í‚ê‚½image‚ÌƒƒbƒN */
+    /* ä½¿ã‚ã‚ŒãŸimageã®ãƒ­ãƒƒã‚¯ */
 //    image->lockcount += 1;
 }
 
@@ -330,7 +331,7 @@ VALUE Sprite_draw( VALUE self )
 }
 
 /*--------------------------------------------------------------------
-   ƒvƒƒpƒeƒB‚ÌSetter/Getter
+   ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®Setter/Getter
  ---------------------------------------------------------------------*/
 /* x */
 static VALUE Sprite_get_x( VALUE self )
@@ -758,17 +759,17 @@ static VALUE Sprite_set_xyz( VALUE self, VALUE vxyz )
 #endif
 
 /*--------------------------------------------------------------------
-   ’P‘Ì‚Æ”z—ñ‚Ì”»’è
+   å˜ä½“ã¨é…åˆ—ã®åˆ¤å®š
  ---------------------------------------------------------------------*/
 static VALUE Sprite_hitcheck( VALUE self, VALUE vsprite )
 {
     struct DXRubyCollisionGroup collision1;
     VALUE vary;
 
-    /* Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ“ü‚ê‚é”z—ñ */
+    /* è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…¥ã‚Œã‚‹é…åˆ— */
     vary = rb_ary_new();
 
-    /* self‚ÌAABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+    /* selfã®AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
     if( make_volume( self, &collision1 ) == 0 )
     {
         collision_clear();
@@ -780,14 +781,14 @@ static VALUE Sprite_hitcheck( VALUE self, VALUE vsprite )
         struct DXRubyCollisionGroup *collision2;
         int i, d_total;
 
-        /* ‘ÎÛ‚ÌAABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+        /* å¯¾è±¡ã®AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
         collision2 = (struct DXRubyCollisionGroup *)malloc( get_volume_count( vsprite ) * sizeof(struct DXRubyCollisionGroup) );
         d_total = make_volume_ary( vsprite, collision2 );
 
-        /* ‘ÎÛƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒv */
+        /* å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒ— */
         for( i = 0; i < d_total; i++ )
         {
-            /* ”»’è */
+            /* åˆ¤å®š */
             if( check_box_box( &collision1, collision2 + i ) && check( &collision1, collision2 + i ) )
             {
                 rb_ary_push( vary, (collision2 + i)->vsprite );
@@ -800,10 +801,10 @@ static VALUE Sprite_hitcheck( VALUE self, VALUE vsprite )
     {
         struct DXRubyCollisionGroup collision2;
 
-        /* ‘ÎÛ‚ÌAABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+        /* å¯¾è±¡ã®AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
         if( make_volume( vsprite, &collision2 ) > 0 )
         {
-            /* ”»’è */
+            /* åˆ¤å®š */
             if( check_box_box( &collision1, &collision2 ) && check( &collision1, &collision2 ) )
             {
                 rb_ary_push( vary, collision2.vsprite );
@@ -817,17 +818,17 @@ static VALUE Sprite_hitcheck( VALUE self, VALUE vsprite )
 
 
 /*--------------------------------------------------------------------
-   ’P‘Ì‚Ì”»’è
+   å˜ä½“ã®åˆ¤å®š
  ---------------------------------------------------------------------*/
 static VALUE Sprite_compare( VALUE self, VALUE vsprite )
 {
     struct DXRubyCollisionGroup collision1;
     VALUE vary;
 
-    /* Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ“ü‚ê‚é”z—ñ */
+    /* è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…¥ã‚Œã‚‹é…åˆ— */
     vary = rb_ary_new();
 
-    /* self‚ÌAABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+    /* selfã®AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
     if( make_volume( self, &collision1 ) == 0 )
     {
         collision_clear();
@@ -839,14 +840,14 @@ static VALUE Sprite_compare( VALUE self, VALUE vsprite )
         struct DXRubyCollisionGroup *collision2;
         int i, d_total;
 
-        /* ‘ÎÛ‚ÌAABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+        /* å¯¾è±¡ã®AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
         collision2 = (struct DXRubyCollisionGroup *)malloc( get_volume_count( vsprite ) * sizeof(struct DXRubyCollisionGroup) );
         d_total = make_volume_ary( vsprite, collision2 );
 
-        /* ‘ÎÛƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒv */
+        /* å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒ— */
         for( i = 0; i < d_total; i++ )
         {
-            /* ”»’è */
+            /* åˆ¤å®š */
             if( check_box_box( &collision1, collision2 + i ) && check( &collision1, collision2 + i ) )
             {
                 free( collision2 );
@@ -861,10 +862,10 @@ static VALUE Sprite_compare( VALUE self, VALUE vsprite )
     {
         struct DXRubyCollisionGroup collision2;
 
-        /* ‘ÎÛ‚ÌAABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+        /* å¯¾è±¡ã®AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
         if( make_volume( vsprite, &collision2 ) > 0 )
         {
-            /* ”»’è */
+            /* åˆ¤å®š */
             if( check_box_box( &collision1, &collision2 ) && check( &collision1, &collision2 ) )
             {
                 collision_clear();
@@ -879,13 +880,13 @@ static VALUE Sprite_compare( VALUE self, VALUE vsprite )
 
 
 /*--------------------------------------------------------------------
-   ”z—ñ“¯m‚Ì”»’è
+   é…åˆ—åŒå£«ã®åˆ¤å®š
  ---------------------------------------------------------------------*/
 static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
 {
     int i, j;
-    int flag = 0;           /* •ÊƒOƒ‹[ƒv‚È‚ç0A“¯‚¶ƒOƒ‹[ƒv‚È‚ç1 */
-    VALUE hitflag = Qfalse; /* ˆê‚Â‚Å‚à“–‚½‚Á‚½‚çQtrue */
+    int flag = 0;           /* åˆ¥ã‚°ãƒ«ãƒ¼ãƒ—ãªã‚‰0ã€åŒã˜ã‚°ãƒ«ãƒ¼ãƒ—ãªã‚‰1 */
+    VALUE hitflag = Qfalse; /* ä¸€ã¤ã§ã‚‚å½“ãŸã£ãŸã‚‰Qtrue */
     VALUE o, d;
     ID id_shot_temp, id_hit_temp;
     int shot_flg = 0, hit_flg = 0;
@@ -908,7 +909,7 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         d = argv[1];
     }
 
-    /* ’P‘Ìw’è‚Ìê‡‚Í‚Æ‚è‚ ‚¦‚¸”z—ñ‚É“Ë‚Á‚Ş */
+    /* å˜ä½“æŒ‡å®šã®å ´åˆã¯ã¨ã‚Šã‚ãˆãšé…åˆ—ã«çªã£è¾¼ã‚€ */
     if( TYPE(o) != T_ARRAY )
     {
         o = rb_ary_new3( 1, o );
@@ -918,7 +919,7 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         d = rb_ary_new3( 1, d );
     }
 
-    /* “¯‚¶”z—ñ‚¾‚Á‚½‚çflag‚ğ—§‚Ä‚é */
+    /* åŒã˜é…åˆ—ã ã£ãŸã‚‰flagã‚’ç«‹ã¦ã‚‹ */
     if( o == d )
     {
         flag = 1;
@@ -931,7 +932,7 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         id_hit_temp = id_hit;
     }
 
-    /* ŒÄ‚Ñæƒƒ\ƒbƒh */
+    /* å‘¼ã³å…ˆãƒ¡ã‚½ãƒƒãƒ‰ */
     if( argc > 2 )
     {
         if( TYPE(argv[2]) == T_STRING )
@@ -972,7 +973,7 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         }
     }
 
-    /* AABBƒ{ƒŠƒ…[ƒ€ŒvZ */
+    /* AABBãƒœãƒªãƒ¥ãƒ¼ãƒ è¨ˆç®— */
     collision1 = (struct DXRubyCollisionGroup *)malloc( get_volume_count( o ) * sizeof(struct DXRubyCollisionGroup) );
     o_total = make_volume_ary( o, collision1 );
 
@@ -987,17 +988,17 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         collision2 = collision1;
     }
 
-    /* Õ“Ë‚¨’m‚ç‚¹‘ÎÛ */
+    /* è¡çªãŠçŸ¥ã‚‰ã›å¯¾è±¡ */
 //    ary = (VALUE *)alloca( o_total * d_total * 2 * sizeof(VALUE *) );
     ary = rb_ary_new();
 
-    /* UŒ‚‘¤ƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒv */
+    /* æ”»æ’ƒå´ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒ— */
     for( i = 0; i < o_total - flag; i++ )
     {
-        /* –hŒä‘¤ƒIƒuƒWƒFƒNƒg‚Ìƒ‹[ƒv */
+        /* é˜²å¾¡å´ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒ— */
         for( j = (flag == 0 ? 0 : i + 1); j < d_total; j++ )
         {
-            /* ”»’è */
+            /* åˆ¤å®š */
             if( check_box_box( collision1 + i, collision2 + j ) && check( collision1 + i, collision2 + j ) )
             {
                 hitflag = Qtrue;
@@ -1010,7 +1011,7 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         }
     }
 
-    /* Õ“Ë‚¨’m‚ç‚¹ƒR[ƒ‹ƒoƒbƒN */
+    /* è¡çªãŠçŸ¥ã‚‰ã›ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ */
     for( i = 0; i < ary_count; i += 2 )
     {
         VALUE result;
@@ -1022,23 +1023,23 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         {
             if( rb_respond_to( RARRAY_AREF(ary, i), id_shot_temp ) && !shot_flg )
             {
-                if( rb_obj_method_arity( RARRAY_AREF(ary, i), id_shot_temp) == 0 ) /* ˆø”‚ª–³‚¢ */
+                if( rb_obj_method_arity( RARRAY_AREF(ary, i), id_shot_temp) == 0 ) /* å¼•æ•°ãŒç„¡ã„ */
                 {
                     result = rb_funcall( RARRAY_AREF(ary, i), id_shot_temp, 0 );
                 }
-                else /* ˆø”‚ª‚ ‚é */
+                else /* å¼•æ•°ãŒã‚ã‚‹ */
                 {
                     result = rb_funcall( RARRAY_AREF(ary, i), id_shot_temp, 1, RARRAY_AREF(ary, i + 1) );
                 }
 
                 if( result == symbol_discard )
-                { /* ‚à‚¤‚¢‚ç‚È‚¢ */
+                { /* ã‚‚ã†ã„ã‚‰ãªã„ */
                     int j;
-                    for( j = i + 2; j < ary_count; j += 2) /* Ÿ‚ÌSprite‚©‚çæ‚ğ×H‚·‚é */
+                    for( j = i + 2; j < ary_count; j += 2) /* æ¬¡ã®Spriteã‹ã‚‰å…ˆã‚’ç´°å·¥ã™ã‚‹ */
                     {
-                        if( RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j) || RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j + 1) ) /* “¯‚¶ƒIƒuƒWƒFƒNƒg‚¾‚Á‚½‚ç */
+                        if( RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j) || RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j + 1) ) /* åŒã˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã£ãŸã‚‰ */
                         {
-                            RARRAY_ASET(ary, j, Qnil); /* Á‚· */
+                            RARRAY_ASET(ary, j, Qnil); /* æ¶ˆã™ */
                             RARRAY_ASET(ary, j + 1, Qnil);
                         }
                     }
@@ -1049,23 +1050,23 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
         {
             if( rb_respond_to( RARRAY_AREF(ary, i), id_hit_temp ) && !hit_flg )
             {
-                if( rb_obj_method_arity( RARRAY_AREF(ary, i), id_hit_temp) == 0 ) /* ˆø”‚ª–³‚¢ */
+                if( rb_obj_method_arity( RARRAY_AREF(ary, i), id_hit_temp) == 0 ) /* å¼•æ•°ãŒç„¡ã„ */
                 {
                     result = rb_funcall( RARRAY_AREF(ary, i), id_hit_temp, 0 );
                 }
-                else /* ˆø”‚ª‚ ‚é */
+                else /* å¼•æ•°ãŒã‚ã‚‹ */
                 {
                     result = rb_funcall( RARRAY_AREF(ary, i), id_hit_temp, 1, RARRAY_AREF(ary, i + 1) );
                 }
 
                 if( result == symbol_discard )
-                { /* ‚à‚¤‚¢‚ç‚È‚¢ */
+                { /* ã‚‚ã†ã„ã‚‰ãªã„ */
                     int j;
-                    for( j = i + 2; j < ary_count; j += 2) /* Ÿ‚ÌSprite‚©‚çæ‚ğ×H‚·‚é */
+                    for( j = i + 2; j < ary_count; j += 2) /* æ¬¡ã®Spriteã‹ã‚‰å…ˆã‚’ç´°å·¥ã™ã‚‹ */
                     {
-                        if( RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j) || RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j + 1) ) /* “¯‚¶ƒIƒuƒWƒFƒNƒg‚¾‚Á‚½‚ç */
+                        if( RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j) || RARRAY_AREF(ary, i) == RARRAY_AREF(ary, j + 1) ) /* åŒã˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã£ãŸã‚‰ */
                         {
-                            RARRAY_ASET(ary, j, Qnil); /* Á‚· */
+                            RARRAY_ASET(ary, j, Qnil); /* æ¶ˆã™ */
                             RARRAY_ASET(ary, j + 1, Qnil);
                         }
                     }
@@ -1075,23 +1076,23 @@ static VALUE Sprite_check( int argc, VALUE *argv, VALUE klass )
 
         if( rb_respond_to( RARRAY_AREF(ary, i + 1), id_hit_temp ) && !hit_flg )
         {
-            if( rb_obj_method_arity( RARRAY_AREF(ary, i + 1), id_hit_temp) == 0 ) /* ˆø”‚ª–³‚¢ */
+            if( rb_obj_method_arity( RARRAY_AREF(ary, i + 1), id_hit_temp) == 0 ) /* å¼•æ•°ãŒç„¡ã„ */
             {
                 result = rb_funcall( RARRAY_AREF(ary, i + 1), id_hit_temp, 0 );
             }
-            else /* ˆø”‚ª‚ ‚é */
+            else /* å¼•æ•°ãŒã‚ã‚‹ */
             {
                 result = rb_funcall( RARRAY_AREF(ary, i + 1), id_hit_temp, 1, RARRAY_AREF(ary, i) );
             }
 
             if( result == symbol_discard )
-            { /* ‚à‚¤‚¢‚ç‚È‚¢ */
+            { /* ã‚‚ã†ã„ã‚‰ãªã„ */
                 int j;
-                for( j = i + 2; j < ary_count; j += 2) /* Ÿ‚ÌSprite‚©‚çæ‚ğ×H‚·‚é */
+                for( j = i + 2; j < ary_count; j += 2) /* æ¬¡ã®Spriteã‹ã‚‰å…ˆã‚’ç´°å·¥ã™ã‚‹ */
                 {
-                    if( RARRAY_AREF(ary, i + 1) == RARRAY_AREF(ary, j) || RARRAY_AREF(ary, i + 1) == RARRAY_AREF(ary, j + 1) ) /* “¯‚¶ƒIƒuƒWƒFƒNƒg‚¾‚Á‚½‚ç */
+                    if( RARRAY_AREF(ary, i + 1) == RARRAY_AREF(ary, j) || RARRAY_AREF(ary, i + 1) == RARRAY_AREF(ary, j + 1) ) /* åŒã˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã£ãŸã‚‰ */
                     {
-                        RARRAY_ASET(ary, j, Qnil); /* Á‚· */
+                        RARRAY_ASET(ary, j, Qnil); /* æ¶ˆã™ */
                         RARRAY_ASET(ary, j + 1, Qnil);
                     }
                 }
@@ -1227,8 +1228,7 @@ static VALUE Sprite_class_clean( VALUE klass, VALUE ary )
 }
 
 
-/*
-***************************************************************
+/***************************************************************
 *
 *         Global functions
 *
@@ -1236,7 +1236,7 @@ static VALUE Sprite_class_clean( VALUE klass, VALUE ary )
 
 void Init_dxruby_Sprite()
 {
-    /* SpriteƒNƒ‰ƒX’è‹` */
+    /* Spriteã‚¯ãƒ©ã‚¹å®šç¾© */
     cSprite = rb_define_class_under( mDXRuby, "Sprite", rb_cObject );
 
     rb_define_private_method( cSprite, "initialize", Sprite_initialize, -1 );
@@ -1291,7 +1291,7 @@ void Init_dxruby_Sprite()
     rb_define_method( cSprite, "xyz=", Sprite_set_xyz, 1 );
 #endif
 
-    /* SpriteƒNƒ‰ƒX‚Éƒƒ\ƒbƒh“o˜^ */
+    /* Spriteã‚¯ãƒ©ã‚¹ã«ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ² */
     rb_define_singleton_method( cSprite, "check", Sprite_check, -1 );
     rb_define_singleton_method( cSprite, "update", Sprite_class_update, 1 );
     rb_define_singleton_method( cSprite, "draw", Sprite_class_draw, 1 );
@@ -1310,4 +1310,3 @@ void Init_dxruby_Sprite()
 
     collision_init();
 }
-

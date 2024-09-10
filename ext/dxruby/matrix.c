@@ -1,4 +1,4 @@
-#define WINVER 0x0500                                  /* ƒo[ƒWƒ‡ƒ“’è‹` Windows2000ˆÈã */
+#define WINVER 0x0500                                  /* ãƒãƒ¼ã‚¸ãƒ§ãƒ³å®šç¾© Windows2000ä»¥ä¸Š */
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -10,8 +10,8 @@
 #include "dxruby.h"
 #include "matrix.h"
 
-VALUE cMatrix;         /* s—ñƒNƒ‰ƒX       */
-VALUE cVector;         /* ƒxƒNƒgƒ‹ƒNƒ‰ƒX   */
+VALUE cMatrix;         /* è¡Œåˆ—ã‚¯ãƒ©ã‚¹ */
+VALUE cVector;         /* ãƒ™ã‚¯ãƒˆãƒ«ã‚¯ãƒ©ã‚¹ */
 
 #ifdef DXRUBY_USE_TYPEDDATA
 const rb_data_type_t Matrix_data_type;
@@ -21,13 +21,13 @@ const rb_data_type_t Vector_data_type;
 static float pi = 3.141592653589793115997963468544185161590576171875f;
 
 /*********************************************************************
- * MatrixƒNƒ‰ƒX
+ * Matrixã‚¯ãƒ©ã‚¹
  *
- * s—ñ‚ğ•\Œ»‚·‚éB
+ * è¡Œåˆ—ã‚’è¡¨ç¾ã™ã‚‹
  *********************************************************************/
 
 /*--------------------------------------------------------------------
-   QÆ‚³‚ê‚È‚­‚È‚Á‚½‚Æ‚«‚ÉGC‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+   å‚ç…§ã•ã‚Œãªããªã£ãŸã¨ãã«GCã‹ã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
  ---------------------------------------------------------------------*/
 void Matrix_release( struct DXRubyMatrix* mat )
 {
@@ -47,16 +47,17 @@ const rb_data_type_t Matrix_data_type = {
 #endif
 
 /*--------------------------------------------------------------------
-   MatrixƒNƒ‰ƒX‚ÌallocateBƒƒ‚ƒŠ‚ğŠm•Û‚·‚éˆ×‚Éinitialize‘O‚ÉŒÄ‚Î‚ê‚éB
+   Matrixã‚¯ãƒ©ã‚¹ã®allocate
+   ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹ç‚ºã«initializeå‰ã«å‘¼ã°ã‚Œã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Matrix_allocate( VALUE klass )
 {
     VALUE obj;
     struct DXRubyMatrix *mat;
 
-    /* DXRubyMatrix‚Ìƒƒ‚ƒŠæ“¾•MatrixƒIƒuƒWƒFƒNƒg¶¬ */
+    /* DXRubyMatrixã®ãƒ¡ãƒ¢ãƒªå–å¾—ï¼†Matrixã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ */
     mat = malloc( sizeof( struct DXRubyMatrix ) );
-    if( mat == NULL ) rb_raise( eDXRubyError, "ƒƒ‚ƒŠ‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½ - Matrix_allocate" );
+    if( mat == NULL ) rb_raise( eDXRubyError, "ãƒ¡ãƒ¢ãƒªã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸ - Matrix_allocate" );
 #ifdef DXRUBY_USE_TYPEDDATA
     obj = TypedData_Wrap_Struct( klass, &Matrix_data_type, mat );
 #else
@@ -70,7 +71,7 @@ static VALUE Matrix_allocate( VALUE klass )
 }
 
 /*--------------------------------------------------------------------
-   MatrixƒNƒ‰ƒX‚ÌInitialize
+   Matrixã‚¯ãƒ©ã‚¹ã®Initialize
  ---------------------------------------------------------------------*/
 static VALUE Matrix_initialize( int argc, VALUE *argv, VALUE self )
 {
@@ -89,13 +90,13 @@ static VALUE Matrix_initialize( int argc, VALUE *argv, VALUE self )
     {
         ary = argv[0];
         Check_Type( ary, T_ARRAY );
-        if( RARRAY_LEN( ary ) > 4 || RARRAY_LEN( ary ) < 1 ) rb_raise( eDXRubyError, "”z—ñ‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Matrix_initialize");
+        if( RARRAY_LEN( ary ) > 4 || RARRAY_LEN( ary ) < 1 ) rb_raise( eDXRubyError, "é…åˆ—ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Matrix_initialize");
         ary_p = RARRAY_PTR( ary );
         count = RARRAY_LEN( ary );
     }
     else
     {
-        if( argc > 4 ) rb_raise( eDXRubyError, "ˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Matrix_initialize");
+        if( argc > 4 ) rb_raise( eDXRubyError, "å¼•æ•°ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Matrix_initialize");
         ary_p = argv;
         count = argc;
     }
@@ -105,7 +106,7 @@ static VALUE Matrix_initialize( int argc, VALUE *argv, VALUE self )
     {
         VALUE ary2 = ary_p[i];
         Check_Type( ary2, T_ARRAY );
-        if( RARRAY_LEN( ary2 ) > 4 || RARRAY_LEN( ary2 ) < 1 || RARRAY_LEN( ary2 ) != mat->y ) rb_raise( eDXRubyError, "”z—ñ‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Matrix_initialize");
+        if( RARRAY_LEN( ary2 ) > 4 || RARRAY_LEN( ary2 ) < 1 || RARRAY_LEN( ary2 ) != mat->y ) rb_raise( eDXRubyError, "é…åˆ—ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Matrix_initialize");
 
         for( j = 0; j < RARRAY_LEN( ary2 ); j++ )
         {
@@ -147,7 +148,7 @@ static VALUE Matrix_mul( VALUE self, VALUE varg )
         DXRUBY_CHECK_TYPE( Matrix, varg );
         mat_s = DXRUBY_GET_STRUCT( Matrix, varg );
 
-        if( mat_d->x != mat_s->y || mat_d->y != mat_s->x ) rb_raise( eDXRubyError, "—v‘f”‚ªˆê’v‚µ‚Ä‚¢‚Ü‚¹‚ñB - Matrix_*");
+        if( mat_d->x != mat_s->y || mat_d->y != mat_s->x ) rb_raise( eDXRubyError, "è¦ç´ æ•°ãŒä¸€è‡´ã—ã¦ã„ã¾ã›ã‚“ã€‚ - Matrix_*");
         vresult = Matrix_allocate( cMatrix );
         result = DXRUBY_GET_STRUCT( Matrix, vresult );
         result->x = mat_s->x;
@@ -202,7 +203,7 @@ static VALUE Matrix_to_s( VALUE self )
     return rb_str_new2( buf );
 }
 
-/* ƒrƒ…[s—ñì¬ */
+/* ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_look_at( VALUE klass, VALUE veye, VALUE vat, VALUE vup )
 {
     struct DXRubyMatrix *result;
@@ -233,14 +234,14 @@ static VALUE Matrix_look_at( VALUE klass, VALUE veye, VALUE vat, VALUE vup )
     up.y = vec_up->v2;
     up.z = vec_up->v3;
     D3DXMatrixLookAtLH( (D3DMATRIX *)result->m, &eye, &at, &up );
-    
+
     result->x = 4;
     result->y = 4;
     return vresult;
 }
 
 
-/* Ë‰e•ÏŠ·s—ñì¬ */
+/* å°„å½±å¤‰æ›è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_projection( VALUE klass, VALUE vwidth, VALUE vheight, VALUE vzn, VALUE vzf )
 {
     struct DXRubyMatrix *result;
@@ -255,7 +256,7 @@ static VALUE Matrix_create_projection( VALUE klass, VALUE vwidth, VALUE vheight,
 }
 
 
-/* Ë‰e•ÏŠ·s—ñì¬(‰æŠpw’è) */
+/* å°„å½±å¤‰æ›è¡Œåˆ—ä½œæˆ(ç”»è§’æŒ‡å®š) */
 static VALUE Matrix_create_projection_fov( VALUE klass, VALUE vfov, VALUE vaspect, VALUE vzn, VALUE vzf )
 {
     struct DXRubyMatrix *result;
@@ -273,7 +274,7 @@ static VALUE Matrix_create_projection_fov( VALUE klass, VALUE vfov, VALUE vaspec
 }
 
 
-/* ³Ë‰e•ÏŠ·s—ñì¬ */
+/* æ­£å°„å½±å¤‰æ›è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_projection_ortho( VALUE klass, VALUE vwidth, VALUE vheight, VALUE vzn, VALUE vzf )
 {
     struct DXRubyMatrix *result;
@@ -289,7 +290,7 @@ static VALUE Matrix_create_projection_ortho( VALUE klass, VALUE vwidth, VALUE vh
 }
 
 
-/* 2D‰ñ“]s—ñì¬ */
+/* 2Då›è»¢è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_rot( VALUE klass, VALUE vangle )
 {
     struct DXRubyMatrix *result;
@@ -310,7 +311,8 @@ static VALUE Matrix_create_rot( VALUE klass, VALUE vangle )
 
     return vresult;
 }
-/* x²‰ñ“]s—ñì¬ */
+
+/* xè»¸å›è»¢è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_rot_x( VALUE klass, VALUE vangle )
 {
     struct DXRubyMatrix *result;
@@ -332,7 +334,8 @@ static VALUE Matrix_create_rot_x( VALUE klass, VALUE vangle )
 
     return vresult;
 }
-/* y²‰ñ“]s—ñì¬ */
+
+/* yè»¸å›è»¢è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_rot_y( VALUE klass, VALUE vangle )
 {
     struct DXRubyMatrix *result;
@@ -354,7 +357,8 @@ static VALUE Matrix_create_rot_y( VALUE klass, VALUE vangle )
 
     return vresult;
 }
-/* z²‰ñ“]s—ñì¬ */
+
+/* zè»¸å›è»¢è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_rot_z( VALUE klass, VALUE vangle )
 {
     struct DXRubyMatrix *result;
@@ -376,13 +380,14 @@ static VALUE Matrix_create_rot_z( VALUE klass, VALUE vangle )
 
     return vresult;
 }
-/* •½sˆÚ“®s—ñì¬ */
+
+/* å¹³è¡Œç§»å‹•è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_trans( int argc, VALUE *argv, VALUE self )
 {
     struct DXRubyMatrix *result;
     VALUE vresult;
 
-    if( argc < 1 || argc > 3 ) rb_raise( eDXRubyError, "ˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Matrix_create_trans");
+    if( argc < 1 || argc > 3 ) rb_raise( eDXRubyError, "å¼•æ•°ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Matrix_create_trans");
 
     vresult = Matrix_allocate( cMatrix );
     result = DXRUBY_GET_STRUCT( Matrix, vresult );
@@ -420,13 +425,14 @@ static VALUE Matrix_create_trans( int argc, VALUE *argv, VALUE self )
 
     return vresult;
 }
-/* ƒXƒP[ƒŠƒ“ƒOs—ñì¬ */
+
+/* ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_create_scale( int argc, VALUE *argv, VALUE self )
 {
     struct DXRubyMatrix *result;
     VALUE vresult;
 
-    if( argc < 1 || argc > 3 ) rb_raise( eDXRubyError, "ˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Matrix_create_scale");
+    if( argc < 1 || argc > 3 ) rb_raise( eDXRubyError, "å¼•æ•°ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Matrix_create_scale");
 
     vresult = Matrix_allocate( cMatrix );
     result = DXRUBY_GET_STRUCT( Matrix, vresult );
@@ -459,7 +465,7 @@ static VALUE Matrix_create_scale( int argc, VALUE *argv, VALUE self )
     return vresult;
 }
 
-/* ”z—ñ‰» */
+/* é…åˆ—åŒ– */
 static VALUE Matrix_to_a( VALUE self )
 {
     struct DXRubyMatrix *mat = DXRUBY_GET_STRUCT( Matrix, self );
@@ -477,7 +483,7 @@ static VALUE Matrix_to_a( VALUE self )
     return vresult;
 }
 
-/* ‹ts—ñì¬ */
+/* é€†è¡Œåˆ—ä½œæˆ */
 static VALUE Matrix_inverse( VALUE self )
 {
     struct DXRubyMatrix *mat = DXRUBY_GET_STRUCT( Matrix, self );
@@ -494,13 +500,13 @@ static VALUE Matrix_inverse( VALUE self )
 
 
 /*********************************************************************
- * VectorƒNƒ‰ƒX
+ * Vectorã‚¯ãƒ©ã‚¹
  *
- * ƒxƒNƒgƒ‹‚ğ•\Œ»‚·‚éB
+ * ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¡¨ç¾ã™ã‚‹
  *********************************************************************/
 
 /*--------------------------------------------------------------------
-   QÆ‚³‚ê‚È‚­‚È‚Á‚½‚Æ‚«‚ÉGC‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+   å‚ç…§ã•ã‚Œãªããªã£ãŸã¨ãã«GCã‹ã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
  ---------------------------------------------------------------------*/
 void Vector_release( struct DXRubyVector* vec )
 {
@@ -521,16 +527,17 @@ const rb_data_type_t Vector_data_type = {
 #endif
 
 /*--------------------------------------------------------------------
-   VectorƒNƒ‰ƒX‚ÌallocateBƒƒ‚ƒŠ‚ğŠm•Û‚·‚éˆ×‚Éinitialize‘O‚ÉŒÄ‚Î‚ê‚éB
+   Vectorã‚¯ãƒ©ã‚¹ã®allocate
+   ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹ç‚ºã«initializeå‰ã«å‘¼ã°ã‚Œã‚‹
  ---------------------------------------------------------------------*/
 VALUE Vector_allocate( VALUE klass )
 {
     VALUE obj;
     struct DXRubyVector *vec;
 
-    /* DXRubyVector‚Ìƒƒ‚ƒŠæ“¾•VectorƒIƒuƒWƒFƒNƒg¶¬ */
+    /* DXRubyVectorã®ãƒ¡ãƒ¢ãƒªå–å¾—ï¼†Vectorã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ */
     vec = malloc( sizeof( struct DXRubyVector ) );
-    if( vec == NULL ) rb_raise( eDXRubyError, "ƒƒ‚ƒŠ‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½ - Vector_allocate" );
+    if( vec == NULL ) rb_raise( eDXRubyError, "ãƒ¡ãƒ¢ãƒªã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸ - Vector_allocate" );
 #ifdef DXRUBY_USE_TYPEDDATA
     obj = TypedData_Wrap_Struct( klass, &Vector_data_type, vec );
 #else
@@ -546,7 +553,7 @@ VALUE Vector_allocate( VALUE klass )
 }
 
 /*--------------------------------------------------------------------
-   VectorƒNƒ‰ƒX‚ÌInitialize
+   Vectorã‚¯ãƒ©ã‚¹ã®Initialize
  ---------------------------------------------------------------------*/
 static VALUE Vector_initialize( int argc, VALUE *argv, VALUE self )
 {
@@ -561,13 +568,13 @@ static VALUE Vector_initialize( int argc, VALUE *argv, VALUE self )
 
     if( argc == 1 && TYPE( argv[0] ) == T_ARRAY )
     {
-        if( RARRAY_LEN( argv[0] ) > 4 || RARRAY_LEN( argv[0] ) < 1 ) rb_raise( eDXRubyError, "”z—ñ‚Ì—v‘f”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Vector_initialize");
+        if( RARRAY_LEN( argv[0] ) > 4 || RARRAY_LEN( argv[0] ) < 1 ) rb_raise( eDXRubyError, "é…åˆ—ã®è¦ç´ æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Vector_initialize");
         ary_p = RARRAY_PTR( argv[0] );
         count = RARRAY_LEN( argv[0] );
     }
     else
     {
-        if( argc > 4 ) rb_raise( eDXRubyError, "ˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Vector_initialize");
+        if( argc > 4 ) rb_raise( eDXRubyError, "å¼•æ•°ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Vector_initialize");
         ary_p = argv;
         count = argc;
     }
@@ -622,7 +629,7 @@ static VALUE Vector_mul( VALUE self, VALUE varg )
         DXRUBY_CHECK_TYPE( Matrix, varg );
         mat = DXRUBY_GET_STRUCT( Matrix, varg );
 
-        if( vec->x != mat->y && vec->x != mat->y - 1 ) rb_raise( eDXRubyError, "—v‘f”‚ªˆê’v‚µ‚Ä‚¢‚Ü‚¹‚ñB - Vector_mul");
+        if( vec->x != mat->y && vec->x != mat->y - 1 ) rb_raise( eDXRubyError, "è¦ç´ æ•°ãŒä¸€è‡´ã—ã¦ã„ã¾ã›ã‚“ã€‚ - Vector_mul");
         for( i = 0; i < vec->x; i++ )
         {
             temp[i] = vec->v[i];
@@ -643,7 +650,7 @@ static VALUE Vector_mul( VALUE self, VALUE varg )
     }
     else
     {
-        rb_raise( eDXRubyError, "ˆø”‚ªˆÙí‚Å‚· - Vector_mul");
+        rb_raise( eDXRubyError, "å¼•æ•°ãŒç•°å¸¸ã§ã™ - Vector_mul");
     }
 
     return vresult;
@@ -974,7 +981,7 @@ static VALUE Vector_translate( int argc, VALUE *argv, VALUE self )
     VALUE vresult;
     int i;
 
-    if( argc < 1 || argc > 4 ) rb_raise( eDXRubyError, "ˆø”‚Ì”‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñB - Vector_translate");
+    if( argc < 1 || argc > 4 ) rb_raise( eDXRubyError, "å¼•æ•°ã®æ•°ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚ - Vector_translate");
     vresult = Vector_allocate( cVector );
     result = DXRUBY_GET_STRUCT( Vector, vresult );
     result->x = vec->x;
@@ -1000,14 +1007,14 @@ static VALUE Vector_rotate( int argc, VALUE *argv, VALUE obj  )
     VALUE vresult, vangle, vcenter;
     float angle, x, y;
 
-    if( vec->x != 2 && vec->x != 3 ) rb_raise( eDXRubyError, "2D‰ñ“]‚Å‚«‚éVector‚Å‚Í‚ ‚è‚Ü‚¹‚ñ - Vector_rotate");
+    if( vec->x != 2 && vec->x != 3 ) rb_raise( eDXRubyError, "2Då›è»¢ã§ãã‚‹Vectorã§ã¯ã‚ã‚Šã¾ã›ã‚“ - Vector_rotate");
 
     rb_scan_args( argc, argv, "11", &vangle, &vcenter );
 
     if( vcenter != Qnil )
     {
         center = DXRUBY_GET_STRUCT( Vector, vcenter );
-        if( center->x != 2 && center->x != 3 ) rb_raise( eDXRubyError, "‰ñ“]’†S‚Éİ’è‚Å‚«‚éVector‚Å‚Í‚ ‚è‚Ü‚¹‚ñ - Vector_rotate");
+        if( center->x != 2 && center->x != 3 ) rb_raise( eDXRubyError, "å›è»¢ä¸­å¿ƒã«è¨­å®šã§ãã‚‹Vectorã§ã¯ã‚ã‚Šã¾ã›ã‚“ - Vector_rotate");
     }
 
     vresult = Vector_allocate( cVector );
@@ -1046,7 +1053,7 @@ static VALUE Vector_rotate_x( VALUE self, VALUE vangle )
     VALUE vresult;
     float angle;
 
-    if( vec->x != 3 && vec->x != 4 ) rb_raise( eDXRubyError, "3D‰ñ“]‚Å‚«‚éVector‚Å‚Í‚ ‚è‚Ü‚¹‚ñ - Vector_rotate_x");
+    if( vec->x != 3 && vec->x != 4 ) rb_raise( eDXRubyError, "3Då›è»¢ã§ãã‚‹Vectorã§ã¯ã‚ã‚Šã¾ã›ã‚“ - Vector_rotate_x");
     vresult = Vector_allocate( cVector );
     result = DXRUBY_GET_STRUCT( Vector, vresult );
     result->x = vec->x;
@@ -1067,7 +1074,7 @@ static VALUE Vector_rotate_y( VALUE self, VALUE vangle )
     VALUE vresult;
     float angle;
 
-    if( vec->x != 3 && vec->x != 4 ) rb_raise( eDXRubyError, "3D‰ñ“]‚Å‚«‚éVector‚Å‚Í‚ ‚è‚Ü‚¹‚ñ - Vector_rotate_x");
+    if( vec->x != 3 && vec->x != 4 ) rb_raise( eDXRubyError, "3Då›è»¢ã§ãã‚‹Vectorã§ã¯ã‚ã‚Šã¾ã›ã‚“ - Vector_rotate_x");
     vresult = Vector_allocate( cVector );
     result = DXRUBY_GET_STRUCT( Vector, vresult );
     result->x = vec->x;
@@ -1088,7 +1095,7 @@ static VALUE Vector_rotate_z( VALUE self, VALUE vangle )
     VALUE vresult;
     float angle;
 
-    if( vec->x != 3 && vec->x != 4 ) rb_raise( eDXRubyError, "3D‰ñ“]‚Å‚«‚éVector‚Å‚Í‚ ‚è‚Ü‚¹‚ñ - Vector_rotate_x");
+    if( vec->x != 3 && vec->x != 4 ) rb_raise( eDXRubyError, "3Då›è»¢ã§ãã‚‹Vectorã§ã¯ã‚ã‚Šã¾ã›ã‚“ - Vector_rotate_x");
     vresult = Vector_allocate( cVector );
     result = DXRUBY_GET_STRUCT( Vector, vresult );
     result->x = vec->x;
@@ -1102,7 +1109,7 @@ static VALUE Vector_rotate_z( VALUE self, VALUE vangle )
     return vresult;
 }
 
-/* ”z—ñ‰» */
+/* é…åˆ—åŒ– */
 static VALUE Vector_to_a( VALUE self )
 {
     struct DXRubyVector *vec = DXRUBY_GET_STRUCT( Vector, self );
@@ -1133,8 +1140,7 @@ static VALUE Vector_angle_to( VALUE self, VALUE vvector )
 }
 
 
-/*
-***************************************************************
+/***************************************************************
 *
 *         Global functions
 *
@@ -1143,10 +1149,10 @@ static VALUE Vector_angle_to( VALUE self, VALUE vvector )
 void Init_dxruby_Matrix()
 {
 
-    /* MatrixƒNƒ‰ƒX’è‹` */
+    /* Matrixã‚¯ãƒ©ã‚¹å®šç¾© */
     cMatrix = rb_define_class_under( mDXRuby, "Matrix", rb_cObject );
 
-    /* MatrixƒNƒ‰ƒX‚ÉƒNƒ‰ƒXƒƒ\ƒbƒh“o˜^*/
+    /* Matrixã‚¯ãƒ©ã‚¹ã«ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ²*/
     rb_define_singleton_method( cMatrix, "look_at", Matrix_look_at, 3 );
     rb_define_singleton_method( cMatrix, "lookAt", Matrix_look_at, 3 );
     rb_define_singleton_method( cMatrix, "projection", Matrix_create_projection, 4 );
@@ -1164,28 +1170,28 @@ void Init_dxruby_Matrix()
     rb_define_singleton_method( cMatrix, "scaling", Matrix_create_scale, -1 );
     rb_define_singleton_method( cMatrix, "translation", Matrix_create_trans, -1 );
 
-    /* MatrixƒNƒ‰ƒX‚ÉƒCƒ“ƒXƒ^ƒ“ƒXƒƒ\ƒbƒh“o˜^*/
+    /* Matrixã‚¯ãƒ©ã‚¹ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ²*/
     rb_define_private_method( cMatrix, "initialize", Matrix_initialize, -1 );
     rb_define_method( cMatrix, "*", Matrix_mul, 1 );
     rb_define_method( cMatrix, "to_s", Matrix_to_s, 0 );
     rb_define_method( cMatrix, "to_a", Matrix_to_a, 0 );
     rb_define_method( cMatrix, "inverse", Matrix_inverse, 0 );
 
-    /* MatrixƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚½‚Éinitialize‚Ì‘O‚ÉŒÄ‚Î‚ê‚éƒƒ‚ƒŠŠ„‚è“–‚ÄŠÖ”“o˜^ */
+    /* Matrixã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ãŸæ™‚ã«initializeã®å‰ã«å‘¼ã°ã‚Œã‚‹ãƒ¡ãƒ¢ãƒªå‰²ã‚Šå½“ã¦é–¢æ•°ç™»éŒ² */
     rb_define_alloc_func( cMatrix, Matrix_allocate );
 
 
-    /* VectorƒNƒ‰ƒX’è‹` */
+    /* Vectorã‚¯ãƒ©ã‚¹å®šç¾© */
     cVector = rb_define_class_under( mDXRuby, "Vector", rb_cObject );
 
-    /* VectorƒNƒ‰ƒX‚ÉƒNƒ‰ƒXƒƒ\ƒbƒh“o˜^*/
+    /* Vectorã‚¯ãƒ©ã‚¹ã«ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ²*/
     rb_define_singleton_method( cVector, "distance", Vector_distance, 2 );
     rb_define_singleton_method( cVector, "cross_product", Vector_cross_product, 2 );
     rb_define_singleton_method( cVector, "crossProduct", Vector_cross_product, 2 );
     rb_define_singleton_method( cVector, "dot_product", Vector_dot_product, 2 );
     rb_define_singleton_method( cVector, "dotProduct", Vector_dot_product, 2 );
 
-    /* VectorƒNƒ‰ƒX‚ÉƒCƒ“ƒXƒ^ƒ“ƒXƒƒ\ƒbƒh“o˜^*/
+    /* Vectorã‚¯ãƒ©ã‚¹ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ²*/
     rb_define_private_method( cVector, "initialize", Vector_initialize, -1 );
     rb_define_method( cVector, "*", Vector_mul, 1 );
     rb_define_method( cVector, "+", Vector_add, 1 );
@@ -1214,8 +1220,6 @@ void Init_dxruby_Matrix()
     rb_define_method( cVector, "angle_to", Vector_angle_to, 1 );
     rb_define_method( cVector, "angleTo", Vector_angle_to, 1 );
 
-    /* VectorƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚½‚Éinitialize‚Ì‘O‚ÉŒÄ‚Î‚ê‚éƒƒ‚ƒŠŠ„‚è“–‚ÄŠÖ”“o˜^ */
+    /* Vectorã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ãŸæ™‚ã«initializeã®å‰ã«å‘¼ã°ã‚Œã‚‹ãƒ¡ãƒ¢ãƒªå‰²ã‚Šå½“ã¦é–¢æ•°ç™»éŒ² */
     rb_define_alloc_func( cVector, Vector_allocate );
-
 }
-

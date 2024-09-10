@@ -1,9 +1,9 @@
 struct DXRubyCollision
 {
-    /* Õ“Ë”»’è—p */
-    int x1, y1, x2, y2; /* AABBƒ{ƒŠƒ…[ƒ€ */
+    /* è¡çªåˆ¤å®šç”¨ */
+    int x1, y1, x2, y2; /* AABBãƒœãƒªãƒ¥ãƒ¼ãƒ  */
     VALUE vsprite;
-    float bx1, by1, bx2, by2; /* ‰ñ“]‘OE‘Š‘ÎÀ•W‚Å‚Ì‹éŒ`”»’è”ÍˆÍiÈ—ª‚à‚±‚±‚Éİ’è‚·‚éj */
+    float bx1, by1, bx2, by2; /* å›è»¢å‰ãƒ»ç›¸å¯¾åº§æ¨™ã§ã®çŸ©å½¢åˆ¤å®šç¯„å›²ï¼ˆçœç•¥æ™‚ã‚‚ã“ã“ã«è¨­å®šã™ã‚‹ï¼‰ */
     float angle, base_x, base_y, scale_x, scale_y, center_x, center_y;
     int rotation_flg, scaling_flg;
     VALUE vcollision;
@@ -14,7 +14,7 @@ struct DXRubyCollisionGroup
     int index;
     VALUE vsprite;
     int count;
-    int x1, y1, x2, y2; /* AABBƒ{ƒŠƒ…[ƒ€ */
+    int x1, y1, x2, y2; /* AABBãƒœãƒªãƒ¥ãƒ¼ãƒ  */
 };
 
 int check( struct DXRubyCollisionGroup *o, struct DXRubyCollisionGroup *d );

@@ -19,4 +19,3 @@ enum DXRubyErrorMessage
     ERR_DINPUTERROR,
     ERR_MAX
 };
-

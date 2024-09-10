@@ -1,4 +1,5 @@
-/* �s�� */
+/* �ｿｽs�ｿｽ�ｿｽ */
+//不明
 struct DXRubyMatrix {
     int x;
     int y;
@@ -13,7 +14,8 @@ struct DXRubyMatrix {
     };
 };
 
-/* �x�N�g�� */
+/* �ｿｽx�ｿｽN�ｿｽg�ｿｽ�ｿｽ */
+//不明
 struct DXRubyVector {
     int x;
     union {

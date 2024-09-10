@@ -13,7 +13,7 @@
 
 #include "version.h"
 
-/* Ruby1.8‚ÌŒÃ‚¢‚Ù‚¤‘Î‰ */
+/* Ruby1.8ã®å¤ã„ã»ã†å¯¾å¿œ */
 #ifndef RSTRING_PTR
 #  define RSTRING_PTR(s) (RSTRING(s)->ptr)
 #endif
@@ -96,90 +96,90 @@
 #define IME_VK_BUF_SIZE 1024
 
 struct DXRubyWindowInfo {
-    int x;              /* ‚˜À•W */
-    int y;              /* ‚™À•W */
-    int width;          /* •     */
-    int height;         /* ‚‚³   */
-    int windowed;       /* ƒEƒBƒ“ƒhƒEƒ‚[ƒh‚Étrue */
-    int created;        /* ƒEƒBƒ“ƒhƒE‚ğì¬‚µ‚½‚çtrue */
-    float scale;        /* ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY”{—¦ */
-//    int RefreshRate;    /* ƒŠƒtƒŒƒbƒVƒ…ƒŒ[ƒg */
-    int enablemouse;    /* ƒ}ƒEƒX‚ğ•\¦‚·‚é‚©‚Ç‚¤‚© */
-    int mousewheelpos;  /* ƒ}ƒEƒXƒzƒC[ƒ‹‚ÌˆÊ’u */
+    int x;              /* xåº§æ¨™ */
+    int y;              /* yåº§æ¨™ */
+    int width;          /* å¹… */
+    int height;         /* é«˜ã• */
+    int windowed;       /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ãƒ¼ãƒ‰æ™‚ã«true */
+    int created;        /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ãŸã‚‰true */
+    float scale;        /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºå€ç‡ */
+//    int RefreshRate;    /* ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ãƒ¬ãƒ¼ãƒˆ */
+    int enablemouse;    /* ãƒã‚¦ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹ã‹ã©ã†ã‹ */
+    int mousewheelpos;  /* ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã®ä½ç½® */
     int fps;            /* fps */
-    int fpscheck;       /* Œ»İ‚Ìfps */
-    int frameskip;      /* ƒRƒ}—‚¿§Œäƒtƒ‰ƒO */
-    HANDLE hIcon;       /* ƒEƒBƒ“ƒhƒEƒAƒCƒRƒ“ƒnƒ“ƒhƒ‹ */
-    int input_updated;  /* “ü—ÍXV‚µ‚½‚ç1 */
-    int requestclose;   /* ƒEƒBƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚½‚ç1 */
-    VALUE render_target; /* ƒXƒNƒŠ[ƒ“ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg */
-    VALUE before_call;   /* –ˆƒtƒŒ[ƒ€©“®‚ÅÅ‰‚ÉŒÄ‚Î‚ê‚é */
-    VALUE after_call;    /* –ˆƒtƒŒ[ƒ€©“®‚ÅÅŒã‚ÉŒÄ‚Î‚ê‚é */
-    VALUE image_array;   /* DrawFontEx‚É‚æ‚é©“®¶¬Image’u‚«ê */
-    int active;         /* ƒQ[ƒ€’²®—p */
-    LPD3DXEFFECT pD3DXEffectCircleShader; /* ‰~•`‰æ—pShader */
-    LPD3DXEFFECT pD3DXEffectCircleFillShader; /* “h‚è‚Â‚Ô‚µ‰~•`‰æ—pShader */
+    int fpscheck;       /* ç¾åœ¨ã®fps */
+    int frameskip;      /* ã‚³ãƒè½ã¡åˆ¶å¾¡ãƒ•ãƒ©ã‚° */
+    HANDLE hIcon;       /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¢ã‚¤ã‚³ãƒ³ãƒãƒ³ãƒ‰ãƒ« */
+    int input_updated;  /* å…¥åŠ›æ›´æ–°ã—ãŸã‚‰1 */
+    int requestclose;   /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚ŒãŸã‚‰1 */
+    VALUE render_target; /* ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ */
+    VALUE before_call;   /* æ¯ãƒ•ãƒ¬ãƒ¼ãƒ è‡ªå‹•ã§æœ€åˆã«å‘¼ã°ã‚Œã‚‹ */
+    VALUE after_call;    /* æ¯ãƒ•ãƒ¬ãƒ¼ãƒ è‡ªå‹•ã§æœ€å¾Œã«å‘¼ã°ã‚Œã‚‹ */
+    VALUE image_array;   /* DrawFontExã«ã‚ˆã‚‹è‡ªå‹•ç”ŸæˆImageç½®ãå ´ */
+    int active;         /* ã‚²ãƒ¼ãƒ èª¿æ•´ç”¨ */
+    LPD3DXEFFECT pD3DXEffectCircleShader; /* å††æç”»ç”¨Shader */
+    LPD3DXEFFECT pD3DXEffectCircleFillShader; /* å¡—ã‚Šã¤ã¶ã—å††æç”»ç”¨Shader */
 };
 
-/* ƒsƒNƒ`ƒƒ”z—ñ */
+/* ãƒ”ã‚¯ãƒãƒ£é…åˆ— */
 static struct DXRubyPictureList {
-    float z;                        /* ƒsƒNƒ`ƒƒ‚ÌZÀ•W */
-    struct DXRubyPicture *picture;    /* ƒsƒNƒ`ƒƒ\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^ */
+    float z;                        /* ãƒ”ã‚¯ãƒãƒ£ã®Zåº§æ¨™ */
+    struct DXRubyPicture *picture;    /* ãƒ”ã‚¯ãƒãƒ£æ§‹é€ ä½“ã¸ã®ãƒã‚¤ãƒ³ã‚¿ */
 };
 
-/* ƒeƒNƒXƒ`ƒƒƒf[ƒ^ */
+/* ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿ */
 struct DXRubyTexture {
-    LPDIRECT3DTEXTURE9 pD3DTexture;     /* ƒsƒNƒ`ƒƒ‚Ég‚¤ƒeƒNƒXƒ`ƒƒ   */
+    LPDIRECT3DTEXTURE9 pD3DTexture;     /* ãƒ”ã‚¯ãƒãƒ£ã«ä½¿ã†ãƒ†ã‚¯ã‚¹ãƒãƒ£ */
     float width;
     float height;
     int refcount;
 };
 
-/* RenderTargetƒIƒuƒWƒFƒNƒg‚Ì’†g */
+/* RenderTargetã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸­èº« */
 struct DXRubyRenderTarget {
     struct DXRubyTexture *texture;
-    int x;     /* xn“_ˆÊ’u      */
-    int y;     /* yn“_ˆÊ’u      */
-    int width; /* ƒCƒ[ƒW‚Ì•   */
-    int height;/* ƒCƒ[ƒW‚Ì‚‚³ */
-//    int   lockcount;  /* ƒƒbƒNƒJƒEƒ“ƒg ‚±‚±‚Ü‚ÅImage‚Æ‹¤’Ê */
+    int x;     /* xå§‹ç‚¹ä½ç½® */
+    int y;     /* yå§‹ç‚¹ä½ç½® */
+    int width; /* ã‚¤ãƒ¡ãƒ¼ã‚¸ã®å¹… */
+    int height;/* ã‚¤ãƒ¡ãƒ¼ã‚¸ã®é«˜ã• */
+//    int   lockcount;  /* ãƒ­ãƒƒã‚¯ã‚«ã‚¦ãƒ³ãƒˆ ã“ã“ã¾ã§Imageã¨å…±é€š */
     IDirect3DSurface9 *surface;
 
-    int PictureCount;                  /* ƒsƒNƒ`ƒƒ‚Ì“o˜^” */
-    int PictureAllocateCount;          /* ƒsƒNƒ`ƒƒ“o˜^‚Ìƒƒ‚ƒŠŠm•Û” */
-    int PictureSize;                   /* ƒsƒNƒ`ƒƒƒf[ƒ^‚Ìg—pÏ‚İƒTƒCƒY */
-    int PictureAllocateSize;           /* ƒsƒNƒ`ƒƒƒf[ƒ^‚Ìƒƒ‚ƒŠŠm•ÛƒTƒCƒY */
+    int PictureCount;                  /* ãƒ”ã‚¯ãƒãƒ£ã®ç™»éŒ²æ•° */
+    int PictureAllocateCount;          /* ãƒ”ã‚¯ãƒãƒ£ç™»éŒ²ã®ãƒ¡ãƒ¢ãƒªç¢ºä¿æ•° */
+    int PictureSize;                   /* ãƒ”ã‚¯ãƒãƒ£ãƒ‡ãƒ¼ã‚¿ã®ä½¿ç”¨æ¸ˆã¿ã‚µã‚¤ã‚º */
+    int PictureAllocateSize;           /* ãƒ”ã‚¯ãƒãƒ£ãƒ‡ãƒ¼ã‚¿ã®ãƒ¡ãƒ¢ãƒªç¢ºä¿ã‚µã‚¤ã‚º */
     char *PictureStruct;
 
     struct DXRubyPictureList *PictureList;
 
-    int minfilter;      /* k¬ƒtƒBƒ‹ƒ^ */
-    int magfilter;      /* Šg‘åƒtƒBƒ‹ƒ^ */
+    int minfilter;      /* ç¸®å°ãƒ•ã‚£ãƒ«ã‚¿ */
+    int magfilter;      /* æ‹¡å¤§ãƒ•ã‚£ãƒ«ã‚¿ */
 
-    int a;              /* ”wŒiƒNƒŠƒAF ƒ¿¬•ª */
-    int r;              /* ”wŒiƒNƒŠƒAF Ô¬•ª */
-    int g;              /* ”wŒiƒNƒŠƒAF —Î¬•ª */
-    int b;              /* ”wŒiƒNƒŠƒAF Â¬•ª */
+    int a;              /* èƒŒæ™¯ã‚¯ãƒªã‚¢è‰² Î±æˆåˆ† */
+    int r;              /* èƒŒæ™¯ã‚¯ãƒªã‚¢è‰² èµ¤æˆåˆ† */
+    int g;              /* èƒŒæ™¯ã‚¯ãƒªã‚¢è‰² ç·‘æˆåˆ† */
+    int b;              /* èƒŒæ™¯ã‚¯ãƒªã‚¢è‰² é’æˆåˆ† */
 
 #ifdef DXRUBY15
     VALUE vregenerate_proc;
 #endif
 
-    int PictureDecideCount;            /* ƒsƒNƒ`ƒƒ‚Ì“o˜^Šm’è” */
-    int PictureDecideSize;             /* ƒsƒNƒ`ƒƒƒf[ƒ^‚Ì“o˜^Šm’èƒTƒCƒY */
-    int clearflag;                     /* 1ƒtƒŒ[ƒ€1‰ñ‚ÌƒNƒŠƒAˆ—‚ğ‚â‚Á‚½‚©‚Ç‚¤‚© */
+    int PictureDecideCount;            /* ãƒ”ã‚¯ãƒãƒ£ã®ç™»éŒ²ç¢ºå®šæ•° */
+    int PictureDecideSize;             /* ãƒ”ã‚¯ãƒãƒ£ãƒ‡ãƒ¼ã‚¿ã®ç™»éŒ²ç¢ºå®šã‚µã‚¤ã‚º */
+    int clearflag;                     /* 1ãƒ•ãƒ¬ãƒ¼ãƒ 1å›ã®ã‚¯ãƒªã‚¢å‡¦ç†ã‚’ã‚„ã£ãŸã‹ã©ã†ã‹ */
 
-    int ox;                            /* ƒrƒ…[•ÏŠ·•â³x */
-    int oy;                            /* ƒrƒ…[•ÏŠ·•â³y */
+    int ox;                            /* ãƒ“ãƒ¥ãƒ¼å¤‰æ›è£œæ­£x */
+    int oy;                            /* ãƒ“ãƒ¥ãƒ¼å¤‰æ›è£œæ­£y */
 };
 
 struct DXRubyPicture_drawLine {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     int x1;
     int y1;
     int x2;
@@ -191,10 +191,10 @@ struct DXRubyPicture_drawLine {
 struct DXRubyPicture_drawCircle {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     int x;
     int y;
     int r;
@@ -205,10 +205,10 @@ struct DXRubyPicture_drawCircle {
 struct DXRubyPicture_draw {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     int x;
     int y;
     float z;
@@ -217,10 +217,10 @@ struct DXRubyPicture_draw {
 struct DXRubyPicture_drawEx {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     int x;
     int y;
     float z;
@@ -234,10 +234,10 @@ struct DXRubyPicture_drawEx {
 struct DXRubyPicture_drawFont {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     int x;
     int y;
     int z;
@@ -246,16 +246,16 @@ struct DXRubyPicture_drawFont {
     float centerx;
     float centery;
     float angle;
-    int color;                  /* ƒtƒHƒ“ƒg‚ÌF */
+    int color;                  /* ãƒ•ã‚©ãƒ³ãƒˆã®è‰² */
 };
 
 struct DXRubyPicture_drawMorph {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     float x1;
     float y1;
     float x2;
@@ -273,10 +273,10 @@ struct DXRubyPicture_drawMorph {
 struct DXRubyPicture_drawTile {
     void (*func)(void*);
     VALUE value;
-    unsigned char blendflag; /* ”¼“§–¾(000)A‰ÁZ‡¬1(100)A‰ÁZ‡¬2(101)AŒ¸Z‡¬1(110)AŒ¸Z‡¬2(111)‚Ìƒtƒ‰ƒO */
-    unsigned char alpha;     /* ƒAƒ‹ƒtƒ@i“§–¾j’l */
-    char reserve1;           /* —\–ñ3 */
-    char reserve2;           /* —\–ñ4 */
+    unsigned char blendflag; /* åŠé€æ˜(000)ã€åŠ ç®—åˆæˆ1(100)ã€åŠ ç®—åˆæˆ2(101)ã€æ¸›ç®—åˆæˆ1(110)ã€æ¸›ç®—åˆæˆ2(111)ã®ãƒ•ãƒ©ã‚° */
+    unsigned char alpha;     /* ã‚¢ãƒ«ãƒ•ã‚¡ï¼ˆé€æ˜ï¼‰å€¤ */
+    char reserve1;           /* äºˆç´„3 */
+    char reserve2;           /* äºˆç´„4 */
     int basex;
     int basey;
     int sizex;
@@ -289,38 +289,38 @@ struct DXRubyPicture_drawTile {
 /* ShaderCore */
 struct DXRubyShaderCore {
     LPD3DXEFFECT pD3DXEffect;
-    VALUE vtype; /* ˆø”–¼‚ÆŒ^‚ÌƒZƒbƒg */
+    VALUE vtype; /* å¼•æ•°åã¨å‹ã®ã‚»ãƒƒãƒˆ */
 };
 
 /* Shader */
 struct DXRubyShader {
     VALUE vcore;
-    VALUE vparam; /* ˆø”–¼‚Æ’†g‚ÌƒZƒbƒg*/
+    VALUE vparam; /* å¼•æ•°åã¨ä¸­èº«ã®ã‚»ãƒƒãƒˆ */
     VALUE vname;
 };
 
 
 #ifdef DXRUBY_EXTERN
-extern HINSTANCE g_hInstance; /* ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒCƒ“ƒXƒ^ƒ“ƒX   */
-extern HANDLE    g_hWnd;      /* ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹             */
-extern int g_iRefAll;        /* ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌQÆƒJƒEƒ“ƒg */
+extern HINSTANCE g_hInstance; /* ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ */
+extern HANDLE    g_hWnd;      /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ« */
+extern int g_iRefAll;        /* ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®å‚ç…§ã‚«ã‚¦ãƒ³ãƒˆ */
 
-extern LPDIRECT3D9           g_pD3D;       /* Direct3DƒCƒ“ƒ^[ƒtƒFƒCƒX       */
-extern LPDIRECT3DDEVICE9     g_pD3DDevice; /* Direct3DDeviceƒCƒ“ƒ^[ƒtƒFƒCƒX */
-extern D3DPRESENT_PARAMETERS g_D3DPP;      /* D3DDevice‚Ìİ’è                */
-extern LPD3DXSPRITE   g_pD3DXSprite; /* D3DXSprite                     */
+extern LPDIRECT3D9           g_pD3D;       /* Direct3Dã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ */
+extern LPDIRECT3DDEVICE9     g_pD3DDevice; /* Direct3DDeviceã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ */
+extern D3DPRESENT_PARAMETERS g_D3DPP;      /* D3DDeviceã®è¨­å®š */
+extern LPD3DXSPRITE   g_pD3DXSprite; /* D3DXSprite */
 extern struct DXRubyLostList {
     void **pointer;
     int allocate_size;
     int count;
 } g_RenderTargetList, g_ShaderCoreList;
-extern int g_sync;         /* ‚’¼“¯Šúƒ‚[ƒh = 1                 */
+extern int g_sync;         /* å‚ç›´åŒæœŸãƒ¢ãƒ¼ãƒ‰ = 1 */
 extern int retry_flag;
 extern BYTE g_byMouseState_L_buf;
 extern BYTE g_byMouseState_M_buf;
 extern BYTE g_byMouseState_R_buf;
 
-/* ƒGƒ“ƒR[ƒfƒBƒ“ƒOî•ñ */
+/* ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°æƒ…å ± */
 extern rb_encoding *g_enc_sys;
 extern rb_encoding *g_enc_utf16;
 extern rb_encoding *g_enc_utf8;
@@ -328,14 +328,14 @@ extern rb_encoding *g_enc_utf8;
 extern struct DXRubyWindowInfo g_WindowInfo;
 extern char sys_encode[256];
 
-extern VALUE mDXRuby;        /* DXRubyƒ‚ƒWƒ…[ƒ‹     */
-extern VALUE eDXRubyError;   /* —áŠO                 */
-extern VALUE mWindow;       /* ƒEƒBƒ“ƒhƒEƒ‚ƒWƒ…[ƒ‹ */
-extern VALUE cRenderTarget; /* ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒNƒ‰ƒX */
-extern VALUE cShaderCore;   /* ƒVƒF[ƒ_ƒRƒAƒNƒ‰ƒX   */
-extern VALUE cShader;   /* ƒVƒF[ƒ_ƒNƒ‰ƒX       */
+extern VALUE mDXRuby;        /* DXRubyãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ« */
+extern VALUE eDXRubyError;   /* ä¾‹å¤– */
+extern VALUE mWindow;       /* ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ« */
+extern VALUE cRenderTarget; /* ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚¯ãƒ©ã‚¹ */
+extern VALUE cShaderCore;   /* ã‚·ã‚§ãƒ¼ãƒ€ã‚³ã‚¢ã‚¯ãƒ©ã‚¹ */
+extern VALUE cShader;   /* ã‚·ã‚§ãƒ¼ãƒ€ã‚¯ãƒ©ã‚¹ */
 
-/* ƒVƒ“ƒ{ƒ‹ */
+/* ã‚·ãƒ³ãƒœãƒ« */
 extern VALUE symbol_blend;
 extern VALUE symbol_angle;
 extern VALUE symbol_alpha;

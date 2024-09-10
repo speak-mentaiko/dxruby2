@@ -1,4 +1,4 @@
-#define WINVER 0x0500                                  /* ƒo[ƒWƒ‡ƒ“’è‹` Windows2000ˆÈã */
+#define WINVER 0x0500                                  /* ãƒãƒ¼ã‚¸ãƒ§ãƒ³å®šç¾© Windows2000ä»¥ä¸Š */
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -23,11 +23,11 @@ extern rb_data_type_t Sprite_data_type;
 #endif
 
 /*********************************************************************
- * Õ“Ë”»’èˆ—
+ * è¡çªåˆ¤å®šå‡¦ç†
  *
  *********************************************************************/
 
-/* ‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+/* å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
 #define volume_box( count, tx, ty, collision ) \
 {\
     int i;\
@@ -55,7 +55,7 @@ extern rb_data_type_t Sprite_data_type;
     }\
 }
 
-/* ’†S“_Zo */
+/* ä¸­å¿ƒç‚¹ç®—å‡º */
 #define set_center( sprite, collision )\
 {\
     struct DXRubyImage *image;\
@@ -73,7 +73,7 @@ extern rb_data_type_t Sprite_data_type;
     }\
 }
 
-/* “_‚Ì‰ñ“] */
+/* ç‚¹ã®å›è»¢ */
 #define rotation_point( collision, tx, ty, bx, by ) \
 {\
     float angle = 3.141592653589793115997963468544185161590576171875f / 180.0f * collision->angle;\
@@ -89,7 +89,7 @@ extern rb_data_type_t Sprite_data_type;
     ty = (tmpx - collision->center_x) * data2x + (tmpy - collision->center_y) * data2y + collision->center_y + collision->base_y;\
 }
 
-/* “_‚Ì‰ñ“](’†Sw’èEƒXƒP[ƒŠƒ“ƒO‚È‚µ) */
+/* ç‚¹ã®å›è»¢(ä¸­å¿ƒæŒ‡å®šãƒ»ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ãªã—) */
 #define rotation_point_out( centerx, centery, angle, x, y ) \
 {\
     float rbangle = 3.141592653589793115997963468544185161590576171875f / 180.0f * (angle);\
@@ -101,7 +101,7 @@ extern rb_data_type_t Sprite_data_type;
     y = (rbx - (centerx)) * sina + (rby - (centery)) * cosa + (centery);\
 }
 
-/* ‹éŒ`‚»‚ê©g‚Ì‰ñ“](ƒXƒP[ƒŠƒ“ƒO‚ ‚è) */
+/* çŸ©å½¢ãã‚Œè‡ªèº«ã®å›è»¢(ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã‚ã‚Š) */
 #define rotation_box( collision, tx, ty ) \
 {\
     float angle = 3.141592653589793115997963468544185161590576171875f / 180.0f * collision->angle;\
@@ -122,7 +122,7 @@ extern rb_data_type_t Sprite_data_type;
     ty[3] = (collision->bx1 - collision->center_x) * data2x + (collision->by2 - collision->center_y) * data2y + collision->center_y + collision->base_y;\
 }
 
-/* ‹éŒ`‚Ì‰ñ“]i’†Sw’èEƒXƒP[ƒŠƒ“ƒO‚È‚µj */
+/* çŸ©å½¢ã®å›è»¢ï¼ˆä¸­å¿ƒæŒ‡å®šãƒ»ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ãªã—ï¼‰ */
 #define rotation_box_out( centerx, centery, angle, x, y ) \
 {\
     float rbangle = 3.141592653589793115997963468544185161590576171875f / 180.0f * angle;\
@@ -140,7 +140,7 @@ extern rb_data_type_t Sprite_data_type;
     y[3] = (rbx4 - centerx) * sina + (rby4 - centery) * cosa + centery;\
 }
 
-/* ‹éŒ`‚ÌŠg‘åEk¬i‰ñ“]‚È‚µj */
+/* çŸ©å½¢ã®æ‹¡å¤§ãƒ»ç¸®å°ï¼ˆå›è»¢ãªã—ï¼‰ */
 #define scaling_box( collision, x, y ) \
 {\
     x[0] = x[3] = (collision->bx1 - collision->center_x) * collision->scale_x + collision->center_x + collision->base_x;\
@@ -149,7 +149,7 @@ extern rb_data_type_t Sprite_data_type;
     y[2] = y[3] = (collision->by2 - collision->center_y) * collision->scale_y + collision->center_y + collision->base_y;\
 }
 
-/* OŠpŒ`‚»‚ê©g‚Ì‰ñ“](ƒXƒP[ƒŠƒ“ƒO‚ ‚è) */
+/* ä¸‰è§’å½¢ãã‚Œè‡ªèº«ã®å›è»¢(ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã‚ã‚Š) */
 #define rotation_triangle( collision, x, y, tx, ty ) \
 {\
     float angle = 3.141592653589793115997963468544185161590576171875f / 180.0f * collision->angle;\
@@ -168,7 +168,7 @@ extern rb_data_type_t Sprite_data_type;
     ty[2] = (x[2] - collision->center_x) * data2x + (y[2] - collision->center_y) * data2y + collision->center_y + collision->base_y;\
 }
 
-/* OŠpŒ`‚Ì‰ñ“]i’†Sw’èEƒXƒP[ƒŠƒ“ƒO‚È‚µj */
+/* ä¸‰è§’å½¢ã®å›è»¢ï¼ˆä¸­å¿ƒæŒ‡å®šãƒ»ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ãªã—ï¼‰ */
 #define rotation_triangle_out( centerx, centery, angle, x, y ) \
 {\
     float rbangle = 3.141592653589793115997963468544185161590576171875f / 180.0f * angle;\
@@ -195,9 +195,9 @@ struct Vector {
 
 
 /*--------------------------------------------------------------------
-    (“à•”ˆ——p)OŠp‚Æ“_‚Ì”»’è
+  (å†…éƒ¨å‡¦ç†ç”¨)ä¸‰è§’ã¨ç‚¹ã®åˆ¤å®š
  ---------------------------------------------------------------------*/
-/* ‰E‰ñ‚è‚ÌOŠp‚Æ“_ */
+/* å³å›ã‚Šã®ä¸‰è§’ã¨ç‚¹ */
 static int checktriangle( float x, float y, float x1, float y1, float x2, float y2, float x3, float y3 )
 {
     float cx, cy;
@@ -207,8 +207,8 @@ static int checktriangle( float x, float y, float x1, float y1, float x2, float 
         return 0;
     }
 
-    cx = (x1 + x2 + x3) / 3; /* ’†S“_x */
-    cy = (y1 + y2 + y3) / 3; /* ’†S“_y */
+    cx = (x1 + x2 + x3) / 3; /* ä¸­å¿ƒç‚¹x */
+    cy = (y1 + y2 + y3) / 3; /* ä¸­å¿ƒç‚¹y */
 
     if( intersect( x1, y1, x2, y2, x, y, cx, cy ) < 0.0f ||
         intersect( x2, y2, x3, y3, x, y, cx, cy ) < 0.0f ||
@@ -221,14 +221,14 @@ static int checktriangle( float x, float y, float x1, float y1, float x2, float 
 
 
 /*--------------------------------------------------------------------
-    (“à•”ˆ——p)‰~‚Æü•ª‚Ì”»’è
+  (å†…éƒ¨å‡¦ç†ç”¨)å††ã¨ç·šåˆ†ã®åˆ¤å®š
  ---------------------------------------------------------------------*/
-/* ‰~‚Æü•ª‚Ì”»’è */
+/* å††ã¨ç·šåˆ†ã®åˆ¤å®š */
 static int checkCircleLine( float x, float y, float r, float x1, float y1, float x2, float y2 )
 {
     float n1, n2, n3;
-    /* v‚Íü•ªn“_‚©‚çI“_ */
-    /* c‚Íü•ªn“_‚©‚ç‰~’†S */
+    /* vã¯ç·šåˆ†å§‹ç‚¹ã‹ã‚‰çµ‚ç‚¹ */
+    /* cã¯ç·šåˆ†å§‹ç‚¹ã‹ã‚‰å††ä¸­å¿ƒ */
     struct Vector v = {x2 - x1, y2 - y1};
     struct Vector c = {x - x1, y - y1};
 
@@ -237,12 +237,12 @@ static int checkCircleLine( float x, float y, float r, float x1, float y1, float
         return check_circle_point(x, y, r, x1, y1);
     }
 
-    /* “ñ‚Â‚ÌƒxƒNƒgƒ‹‚Ì“àÏ‚ğ‹‚ß‚é */
+    /* äºŒã¤ã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©ã‚’æ±‚ã‚ã‚‹ */
     n1 = v.x * c.x + v.y * c.y;
 
     if( n1 < 0 )
     {
-        /* c‚Ì’·‚³‚ª‰~‚Ì”¼Œa‚æ‚è¬‚³‚¢ê‡‚ÍŒğ·‚µ‚Ä‚¢‚é */
+        /* cã®é•·ã•ãŒå††ã®åŠå¾„ã‚ˆã‚Šå°ã•ã„å ´åˆã¯äº¤å·®ã—ã¦ã„ã‚‹ */
         return c.x*c.x + c.y*c.y < r * r ? -1 : 0;
     }
 
@@ -251,9 +251,9 @@ static int checkCircleLine( float x, float y, float r, float x1, float y1, float
     if( n1 > n2 )
     {
         float len;
-        /* ü•ª‚ÌI“_‚Æ‰~‚Ì’†S‚Ì‹——£‚Ì“ñæ‚ğ‹‚ß‚é */
+        /* ç·šåˆ†ã®çµ‚ç‚¹ã¨å††ã®ä¸­å¿ƒã®è·é›¢ã®äºŒä¹—ã‚’æ±‚ã‚ã‚‹ */
         len = (x2 - x)*(x2 - x) + (y2 - y)*(y2 - y);
-        /* ‰~‚Ì”¼Œa‚Ì“ñæ‚æ‚è‚à¬‚³‚¢ê‡‚ÍŒğ·‚µ‚Ä‚¢‚é */
+        /* å††ã®åŠå¾„ã®äºŒä¹—ã‚ˆã‚Šã‚‚å°ã•ã„å ´åˆã¯äº¤å·®ã—ã¦ã„ã‚‹ */
         return  len < r * r ? -1 : 0;
     }
     else
@@ -265,21 +265,21 @@ static int checkCircleLine( float x, float y, float r, float x1, float y1, float
 }
 
 
-/* ‘È‰~\‘¢‘Ì */
+/* æ¥•å††æ§‹é€ ä½“ */
 struct ELLIPSE
 {
-   float fRad_X; /* X²Œa */
-   float fRad_Y; /* Y²Œa */
-   float fAngle; /* ‰ñ“]Šp“x */
-   float fCx; /* §Œä“_XÀ•W */
-   float fCy; /* §Œä“_YÀ•W */
+   float fRad_X; /* Xè»¸å¾„ */
+   float fRad_Y; /* Yè»¸å¾„ */
+   float fAngle; /* å›è»¢è§’åº¦ */
+   float fCx; /* åˆ¶å¾¡ç‚¹xåº§æ¨™ */
+   float fCy; /* åˆ¶å¾¡ç‚¹Yåº§æ¨™ */
 };
 
-/* ‘È‰~Õ“Ë”»’èŠÖ” */
+/* æ¥•å††è¡çªåˆ¤å®šé–¢æ•° */
 /* http://marupeke296.com/COL_2D_No7_EllipseVsEllipse.html */
 int CollisionEllipse( struct ELLIPSE E1, struct ELLIPSE E2 )
 {
-   /* STEP1 : E2‚ğ’PˆÊ‰~‚É‚·‚é•ÏŠ·‚ğE1‚É{‚· */
+   /* STEP1 : E2ã‚’å˜ä½å††ã«ã™ã‚‹å¤‰æ›ã‚’E1ã«æ–½ã™ */
    float DefAng = E1.fAngle-E2.fAngle;
    float Cos = cos( DefAng );
    float Sin = sin( DefAng );
@@ -290,7 +290,7 @@ int CollisionEllipse( struct ELLIPSE E1, struct ELLIPSE E2 )
    float ox = cos( E1.fAngle )*(E2.fCx-E1.fCx) + sin(E1.fAngle)*(E2.fCy-E1.fCy);
    float oy = -sin( E1.fAngle )*(E2.fCx-E1.fCx) + cos(E1.fAngle)*(E2.fCy-E1.fCy);
 
-   /* STEP2 : ˆê”Ê®A`G‚ÌZo */
+   /* STEP2 : ä¸€èˆ¬å¼Aï½Gã®ç®—å‡º */
    float rx_pow2 = 1/(E1.fRad_X*E1.fRad_X);
    float ry_pow2 = 1/(E1.fRad_Y*E1.fRad_Y);
    float A = rx_pow2*nx*nx + ry_pow2*ny*ny;
@@ -300,13 +300,13 @@ int CollisionEllipse( struct ELLIPSE E1, struct ELLIPSE E2 )
    float F = 2*rx_pow2*px*ox + 2*ry_pow2*py*oy;
    float G = (ox/E1.fRad_X)*(ox/E1.fRad_X) + (oy/E1.fRad_Y)*(oy/E1.fRad_Y) - 1;
 
-   /* STEP3 : •½sˆÚ“®—Ê(h,k)‹y‚Ñ‰ñ“]Šp“xƒÆ‚ÌZo */
+   /* STEP3 : å¹³è¡Œç§»å‹•é‡(h,k)åŠã³å›è»¢è§’åº¦Î¸ã®ç®—å‡º */
    float tmp1 = 1/(D*D-4*A*B);
    float h = (F*D-2*E*B)*tmp1;
    float k = (E*D-2*A*F)*tmp1;
    float Th = (B-A)==0?0:atan( D/(B-A) ) * 0.5f;
 
-   /* STEP4 : +1‘È‰~‚ğŒ³‚É–ß‚µ‚½®‚Å“–‚½‚è”»’è */
+   /* STEP4 : +1æ¥•å††ã‚’å…ƒã«æˆ»ã—ãŸå¼ã§å½“ãŸã‚Šåˆ¤å®š */
    float CosTh = cos(Th);
    float SinTh = sin(Th);
    float A_tt = A*CosTh*CosTh + B*SinTh*SinTh - D*CosTh*SinTh;
@@ -319,7 +319,7 @@ int CollisionEllipse( struct ELLIPSE E1, struct ELLIPSE E2 )
    float JudgeValue = x_tt*x_tt/(Rx_tt*Rx_tt) + y_tt*y_tt/(Ry_tt*Ry_tt);
 
    if( JudgeValue <= 1 )
-      return TRUE; /* Õ“Ë */
+      return TRUE; /* è¡çª */
 
    return FALSE;
 }
@@ -334,7 +334,7 @@ int check( struct DXRubyCollisionGroup *o, struct DXRubyCollisionGroup *d )
         struct DXRubyCollision *co = g_volume_pointer + o->index;
         struct DXRubyCollision *cd = g_volume_pointer + d->index;
 
-        /* Ú×ƒ`ƒFƒbƒN */
+        /* è©³ç´°ãƒã‚§ãƒƒã‚¯ */
         if( check_sub( co, cd ) )
         {
             return TRUE;
@@ -349,7 +349,7 @@ int check( struct DXRubyCollisionGroup *o, struct DXRubyCollisionGroup *d )
                 struct DXRubyCollision *co = g_volume_pointer + o->index + i;
                 struct DXRubyCollision *cd = g_volume_pointer + d->index + j;
 
-                /* ‹«ŠEƒ{ƒŠƒ…[ƒ€ƒ`ƒFƒbƒN•Ú×ƒ`ƒFƒbƒN */
+                /* å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ãƒã‚§ãƒƒã‚¯ï¼†è©³ç´°ãƒã‚§ãƒƒã‚¯ */
                 if( check_box_box( co, cd ) && check_sub( co, cd ) )
                 {
                     return TRUE;
@@ -368,7 +368,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
     int o_type;
     int d_type;
 
-    /* collisionÈ—ª */
+    /* collisionçœç•¥æ™‚ */
     if( o->vcollision != Qnil )
     {
         o_type = RARRAY_LEN( o->vcollision );
@@ -388,25 +388,25 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
     }
 
     if( o_type == d_type )
-    {/* “¯‚¶Œ`‚Ì”äŠr */
+    {/* åŒã˜å½¢ã®æ¯”è¼ƒ */
         switch ( o_type )
         {
-        case 4: /* ‹éŒ` */
-                /* •ª—£²”»’è‚Å‰ñ“]‚ğˆ—‚·‚é */
+        case 4: /* çŸ­å½¢ */
+                /* åˆ†é›¢è»¸åˆ¤å®šã§å›è»¢ã‚’å‡¦ç†ã™ã‚‹ */
 
-            if( o->rotation_flg || o->scaling_flg ) /* o‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
-            { /* d‚ğo’†S‚É‰ñ“]‚µ‚Ä‹«ŠEƒ{ƒŠƒ…[ƒ€‚ğì‚è”äŠr‚·‚éB“–‚½‚Á‚Ä‚¢‚È‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢B */
+            if( o->rotation_flg || o->scaling_flg ) /* oå´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
+            { /* dã‚’oä¸­å¿ƒã«å›è»¢ã—ã¦å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’ä½œã‚Šæ¯”è¼ƒã™ã‚‹ã€‚å½“ãŸã£ã¦ã„ãªã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„ */
                 float ox[4], oy[4];
                 float dx[4], dy[4];
                 struct DXRubyCollision o_collision, d_collision;
                 float centerx, centery;
 
-                if( d->rotation_flg || d->scaling_flg ) /* d‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                if( d->rotation_flg || d->scaling_flg ) /* då´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                 {
-                    /* d‘¤‚ğ©•ª‚Ìp¨‚É‰ñ“] */
+                    /* då´ã‚’è‡ªåˆ†ã®å§¿å‹¢ã«å›è»¢ */
                     rotation_box( d, dx, dy );
                 }
-                else /* d‘¤‚Í‰ñ“]‚µ‚Ä‚¢‚È‚©‚Á‚½ */
+                else /* då´ã¯å›è»¢ã—ã¦ã„ãªã‹ã£ãŸ */
                 {
                     dx[0] = dx[3] = (float)d->x1;
                     dy[0] = dy[1] = (float)d->y1;
@@ -414,41 +414,41 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                     dy[2] = dy[3] = (float)d->y2;
                 }
 
-                /* o‘¤’†S“_ */
+                /* oå´ä¸­å¿ƒç‚¹ */
                 centerx = o->center_x + o->base_x;
                 centery = o->center_y + o->base_y;
 
-                /* o‘¤’†S“_‚ğ’†S‚Éd‘¤‰ñ“] */
+                /* oå´ä¸­å¿ƒç‚¹ã‚’ä¸­å¿ƒã«då´å›è»¢ */
                 rotation_box_out( centerx, centery, -o->angle, dx, dy )
 
-                /* d‘¤‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+                /* då´å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
                 volume_box( 4, dx, dy, &d_collision );
 
-                /* o‘¤‚ÌƒXƒP[ƒŠƒ“ƒO */
+                /* oå´ã®ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚° */
                 scaling_box( o, ox, oy );
 
-                /* o‘¤‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+                /* oå´å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
                 volume_box( 4, ox, oy, &o_collision );
 
                 if( !check_box_box( &o_collision, &d_collision ) )
                 {
-                    return FALSE; /* “–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½ */
+                    return FALSE; /* å½“ãŸã£ã¦ã„ãªã‹ã£ãŸ */
                 }
             }
 
-            if( d->rotation_flg || d->scaling_flg ) /* d‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
-            { /* o‚ğd’†S‚É‰ñ“]‚µ‚Ä‹«ŠEƒ{ƒŠƒ…[ƒ€‚ğì‚è”äŠr‚·‚éB“–‚½‚Á‚Ä‚¢‚È‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢B */
+            if( d->rotation_flg || d->scaling_flg ) /* då´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
+            { /*  oã‚’dä¸­å¿ƒã«å›è»¢ã—ã¦å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’ä½œã‚Šæ¯”è¼ƒã™ã‚‹ã€‚å½“ãŸã£ã¦ã„ãªã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„ */
                 float ox[4], oy[4];
                 float dx[4], dy[4];
                 struct DXRubyCollision o_collision, d_collision;
                 float centerx, centery;
 
-                if( o->rotation_flg || o->scaling_flg ) /* o‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                if( o->rotation_flg || o->scaling_flg ) /* oå´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                 {
-                    /* o‘¤‚ğ©•ª‚Ìp¨‚É‰ñ“] */
+                    /* oå´ã‚’è‡ªåˆ†ã®å§¿å‹¢ã«å›è»¢ */
                     rotation_box( o, ox, oy );
                 }
-                else /* o‘¤‚Í‰ñ“]‚µ‚Ä‚¢‚È‚©‚Á‚½ */
+                else /* oå´ã¯å›è»¢ã—ã¦ã„ãªã‹ã£ãŸ */
                 {
                     ox[0] = ox[3] = (float)o->x1;
                     oy[0] = oy[1] = (float)o->y1;
@@ -456,35 +456,35 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                     oy[2] = oy[3] = (float)o->y2;
                 }
 
-                /* d‘¤’†S“_ */
+                /* då´ä¸­å¿ƒç‚¹ */
                 centerx = d->center_x + d->base_x;
                 centery = d->center_y + d->base_y;
 
-                /* d‘¤’†S“_‚ğ’†S‚Éo‘¤‰ñ“] */
+                /* då´ä¸­å¿ƒç‚¹ã‚’ä¸­å¿ƒã«oå´å›è»¢ */
                 rotation_box_out( centerx, centery, -d->angle, ox, oy )
 
-                /* o‘¤‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+                /* oå´å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
                 volume_box( 4, ox, oy, &o_collision );
 
-                /* d‘¤‚ÌƒXƒP[ƒŠƒ“ƒO */
+                /* då´ã®ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚° */
                 scaling_box( d, dx, dy );
 
-                /* d‘¤‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+                /* då´å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
                 volume_box( 4, dx, dy, &d_collision );
 
                 if( !check_box_box( &o_collision, &d_collision ) )
                 {
-                    return FALSE; /* “–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½ */
+                    return FALSE; /* å½“ãŸã£ã¦ã„ãªã‹ã£ãŸ */
                 }
             }
-            return TRUE; /* ‚±‚±‚É—ˆ‚½“_‚Å“–‚½‚Á‚Ä‚¢‚é */
+            return TRUE; /* ã“ã“ã«æ¥ãŸæ™‚ç‚¹ã§å½“ãŸã£ã¦ã„ã‚‹ */
             break;
-        case 3: /* ‰~“¯m */
+        case 3: /* å††åŒå£« */
         {
 
-            if( (o->scale_x != o->scale_y && RTEST(o_sprite->vcollision_sync)) || /* o‘¤‚ª‘È‰~ */
-                (d->scale_x != d->scale_y && RTEST(d_sprite->vcollision_sync)) )  /* d‘¤‚ª‘È‰~ */
-            { /* ‚Ç‚Á‚¿‚©‚ª‘È‰~‚È‚ç‘È‰~•û’ö®‚Å‚ÌÕ“Ë”»’è‚ğ‚·‚é */
+            if( (o->scale_x != o->scale_y && RTEST(o_sprite->vcollision_sync)) || /* oå´ãŒæ¥•å†† */
+                (d->scale_x != d->scale_y && RTEST(d_sprite->vcollision_sync)) )  /* då´ãŒæ¥•å†† */
+            { /* ã©ã£ã¡ã‹ãŒæ¥•å††ãªã‚‰æ¥•å††æ–¹ç¨‹å¼ã§ã®è¡çªåˆ¤å®šã‚’ã™ã‚‹ */
                 struct ELLIPSE e1, e2;
                 float ox, oy, or, dx, dy, dr;
                 if( RTEST(o_sprite->vcollision_sync) )
@@ -542,10 +542,10 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                 return CollisionEllipse( e1, e2 );
             }
             else
-            { /* ^‰~“¯m */
+            { /* çœŸå††åŒå£« */
                 float ox, oy, or, dx, dy, dr;
 
-                if( o->rotation_flg ) /* o‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                if( o->rotation_flg ) /* oå´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                 {
                     rotation_point( o, ox, oy, NUM2FLOAT(RARRAY_AREF(o->vcollision, 0)), NUM2FLOAT(RARRAY_AREF(o->vcollision, 1)) );
                 }
@@ -556,7 +556,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                 }
                 or = NUM2FLOAT(RARRAY_AREF(o->vcollision, 2)) * o->scale_x;
 
-                if( d->rotation_flg ) /* d‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                if( d->rotation_flg ) /* då´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                 {
                     rotation_point( d, dx, dy, NUM2FLOAT(RARRAY_AREF(d->vcollision, 0)), NUM2FLOAT(RARRAY_AREF(d->vcollision, 1)) );
                 }
@@ -571,13 +571,13 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
             }
         }
             break;
-        case 6: /* OŠp */
+        case 6: /* ä¸‰è§’ */
             {
                 float ox[3], oy[3];
                 float dx[3], dy[3];
                 float x[3], y[3];
 
-                if( o->rotation_flg || o->scaling_flg ) /* o‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                if( o->rotation_flg || o->scaling_flg ) /* oå´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                 {
                     x[0] = NUM2INT(RARRAY_AREF(o->vcollision, 0)) + 0.5f;
                     y[0] = NUM2INT(RARRAY_AREF(o->vcollision, 1)) + 0.5f;
@@ -599,7 +599,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                     oy[2] = NUM2INT(RARRAY_AREF(o->vcollision, 5)) + 0.5f + o->base_y;
                 }
 
-                if( d->rotation_flg || d->scaling_flg ) /* d‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                if( d->rotation_flg || d->scaling_flg ) /* då´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                 {
                     x[0] = NUM2INT(RARRAY_AREF(d->vcollision, 0)) + 0.5f;
                     y[0] = NUM2INT(RARRAY_AREF(d->vcollision, 1)) + 0.5f;
@@ -631,17 +631,17 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                        checktriangle(dx[0], dy[0], ox[0], oy[0], ox[1], oy[1], ox[2], oy[2]);
             }
             break;
-        case 2: /* “_ */
-            return TRUE; /* ‚±‚±‚É—ˆ‚½“_‚Å“–‚½‚Á‚Ä‚¢‚é */
+        case 2: /* ç‚¹ */
+            return TRUE; /* ã“ã“ã«æ¥ãŸæ™‚ç‚¹ã§å½“ãŸã£ã¦ã„ã‚‹ */
             break;
         default:
             rb_raise( eDXRubyError, "Internal error" );
         }
     }
     else
-    {/* ˆá‚¤Œ`‚Ì”äŠr */
+    {/* é•ã†å½¢ã®æ¯”è¼ƒ */
         if( o_type > d_type )
-        {/* o‚Ì‚Ù‚¤‚ğ¬‚³‚­“ü‚ê‘Ö‚¦ */
+        {/* oã®ã»ã†ã‚’å°ã•ãå…¥ã‚Œæ›¿ãˆ */
             struct DXRubyCollision *ctemp;
             int itemp;
             ctemp = o;
@@ -654,13 +654,13 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
 
         switch( o_type )
         {
-        case 2: /* “_ */
+        case 2: /* ç‚¹ */
             {
                 struct DXRubyCollision *point_collision = o;
 
                 switch( d_type)
                 {
-                case 3: /* “_‚Æ‰~ */
+                case 3: /* ç‚¹ã¨å†† */
                     {
                         struct DXRubyCollision *circle_collision = d;
                         float cx, cy, cr;
@@ -671,8 +671,8 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
 
                         rotation_point( point_collision, px, py, point_collision->bx1 + 0.5f, point_collision->by1 + 0.5f );
 
-                        if( circle_collision->rotation_flg ) /* ‰~‚ª‰ñ“]‚µ‚Ä‚¢‚é */
-                        {   /* “_‚ğ‰~‰ñ“]’†Sƒx[ƒX‚Å‰ñ“]‚³‚¹‚é */
+                        if( circle_collision->rotation_flg ) /* å††ãŒå›è»¢ã—ã¦ã„ã‚‹ */
+                        {   /* ç‚¹ã‚’å††å›è»¢ä¸­å¿ƒãƒ™ãƒ¼ã‚¹ã§å›è»¢ã•ã›ã‚‹ */
                             rotation_point_out( center_x, center_y, -circle_collision->angle, px, py );
                         }
 
@@ -680,8 +680,8 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                         cy = NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 1)) + circle_collision->base_y;
                         cr = NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 2));
 
-                        if( circle_collision->scaling_flg ) /* ‰~‘¤‚ª•ÏŒ`‚µ‚Ä‚¢‚é */
-                        {   /* ‰~‚ª^‰~‚É‚È‚é‚æ‚¤‚É“_‚ÌÀ•W‚ğ•ÏŒ`‚³‚¹‚é */
+                        if( circle_collision->scaling_flg ) /* å††å´ãŒå¤‰å½¢ã—ã¦ã„ã‚‹ */
+                        {   /* å††ãŒçœŸå††ã«ãªã‚‹ã‚ˆã†ã«ç‚¹ã®åº§æ¨™ã‚’å¤‰å½¢ã•ã›ã‚‹ */
                             px = (px - center_x) / circle_collision->scale_x + center_x;
                             py = (py - center_y) / circle_collision->scale_y + center_y;
                         }
@@ -689,12 +689,12 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                         return check_circle_point( cx, cy, cr, px, py );
                     }
                     break;
-                case 4: /* “_‚Æ‹éŒ` */
+                case 4: /* ç‚¹ã¨çŸ©å½¢ */
                     {
                         struct DXRubyCollision *box_collision = d;
 
-                        if( box_collision->rotation_flg || box_collision->scaling_flg ) /* ‹éŒ`‚ª‰ñ“]‚µ‚Ä‚¢‚é */
-                        {/* “_‚ğ‹éŒ`’†S‚É‰ñ“]‚µ‚Ä”äŠr‚·‚é */
+                        if( box_collision->rotation_flg || box_collision->scaling_flg ) /* çŸ©å½¢ãŒå›è»¢ã—ã¦ã„ã‚‹ */
+                        {/* ç‚¹ã‚’çŸ©å½¢ä¸­å¿ƒã«å›è»¢ã—ã¦æ¯”è¼ƒã™ã‚‹ */
                             float px[4], py[4];
                             float bx[4], by[4];
                             struct DXRubyCollision p_collision, b_collision;
@@ -705,38 +705,38 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                             px[1] = px[2] = (float)point_collision->x2;
                             py[2] = py[3] = (float)point_collision->y2;
 
-                            /* ‹éŒ`‘¤•ÏŒ`’†S“_ */
+                            /* çŸ©å½¢å´å¤‰å½¢ä¸­å¿ƒç‚¹ */
                             centerx = box_collision->center_x + box_collision->base_x;
                             centery = box_collision->center_y + box_collision->base_y;
 
-                            /* ‹éŒ`‘¤•ÏŒ`’†S“_‚ğ’†S‚É“_‘¤‰ñ“] */
+                            /* çŸ©å½¢å´å¤‰å½¢ä¸­å¿ƒç‚¹ã‚’ä¸­å¿ƒã«ç‚¹å´å›è»¢ */
                             rotation_box_out( centerx, centery, -box_collision->angle, px, py )
 
-                            /* “_‘¤‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+                            /* ç‚¹å´å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
                             volume_box( 4, px, py, &p_collision );
 
-                            /* ‹éŒ`‘¤‚ÌŠg‘åEk¬ */
+                            /* çŸ©å½¢å´ã®æ‹¡å¤§ãƒ»ç¸®å° */
                             scaling_box( box_collision, bx, by );
 
-                            /* ‹éŒ`‘¤‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+                            /* çŸ©å½¢å´å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
                             volume_box( 4, bx, by, &b_collision );
 
                             if( !check_box_box( &p_collision, &b_collision ) )
                             {
-                                return FALSE; /* “–‚½‚Á‚Ä‚¢‚È‚©‚Á‚½ */
+                                return FALSE; /* å½“ãŸã£ã¦ã„ãªã‹ã£ãŸ */
                             }
                         }
-                        return TRUE; /* ‚±‚±‚É—ˆ‚½“_‚Å“–‚½‚Á‚Ä‚¢‚é */
+                        return TRUE; /* ã“ã“ã«æ¥ãŸæ™‚ç‚¹ã§å½“ãŸã£ã¦ã„ã‚‹ */
                     }
                     break;
-                case 6: /* “_‚ÆOŠp */
+                case 6: /* ç‚¹ã¨ä¸‰è§’ */
                     {
                         struct DXRubyCollision *tri_collision = d;
-                        float x[3], y[3], tri_x[3], tri_y[3]; /* OŠpÀ•W */
+                        float x[3], y[3], tri_x[3], tri_y[3]; /* ä¸‰è§’åº§æ¨™ */
 
-                        if( tri_collision->rotation_flg || tri_collision->scaling_flg ) /* OŠp‘¤‚ª‰ñ“]E•ÏŒ`‚µ‚Ä‚¢‚é */
+                        if( tri_collision->rotation_flg || tri_collision->scaling_flg ) /* ä¸‰è§’å´ãŒå›è»¢ãƒ»å¤‰å½¢ã—ã¦ã„ã‚‹ */
                         {
-                            /* OŠp‘¤‚ğ©•ª‚Ìp¨‚É‰ñ“]E•ÏŒ` */
+                            /* ä¸‰è§’å´ã‚’è‡ªåˆ†ã®å§¿å‹¢ã«å›è»¢ãƒ»å¤‰å½¢ */
                             x[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 0)) + 0.5f;
                             y[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 1)) + 0.5f;
                             x[1] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 2)) + 0.5f;
@@ -746,7 +746,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
 
                             rotation_triangle( tri_collision, x, y, tri_x, tri_y );
                         }
-                        else /* OŠp‘¤‚Í‰ñ“]E•ÏŒ`‚µ‚Ä‚¢‚È‚©‚Á‚½ */
+                        else /* ä¸‰è§’å´ã¯å›è»¢ãƒ»å¤‰å½¢ã—ã¦ã„ãªã‹ã£ãŸ */
                         {
                             tri_x[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 0)) + 0.5f + tri_collision->base_x;
                             tri_y[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 1)) + 0.5f + tri_collision->base_y;
@@ -766,23 +766,23 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
             }
             break;
 
-        case 3: /* ‰~ */
+        case 3: /* å†† */
             {
                 struct DXRubyCollision *circle_collision = o;
 
                 switch( d_type )
                 {
-                case 4: /* ‰~‚Æ‹éŒ` */
+                case 4: /* å††ã¨çŸ©å½¢ */
                     {
                         struct DXRubyCollision *box_collision = d;
-                        float box_x[4], box_y[4]; /* ‹éŒ`À•W */
+                        float box_x[4], box_y[4]; /* çŸ©å½¢åº§æ¨™ */
                         float circle_x, circle_y, circle_r;
                         float center_x, center_y;
 
-                        if( !circle_collision->scaling_flg || circle_collision->scale_x == circle_collision->scale_y ) /* ‰~‚ª•ÏŒ`‚µ‚Ä‚¢‚È‚¢A‚à‚µ‚­‚Íc‰¡“¯—¦ */
+                        if( !circle_collision->scaling_flg || circle_collision->scale_x == circle_collision->scale_y ) /* å††ãŒå¤‰å½¢ã—ã¦ã„ãªã„ã€ã‚‚ã—ãã¯ç¸¦æ¨ªåŒç‡ */
                         {
-                            if( box_collision->scaling_flg ) /* ‹éŒ`‘¤‚ª•ÏŒ`‚µ‚Ä‚¢‚é */
-                            {   /* •ÏŒ`‚³‚¹‚é */
+                            if( box_collision->scaling_flg ) /* çŸ©å½¢å´ãŒå¤‰å½¢ã—ã¦ã„ã‚‹ */
+                            {   /* å¤‰å½¢ã•ã›ã‚‹ */
                                 scaling_box( box_collision, box_x, box_y );
                                 if( box_collision->scale_x < 0 )
                                 {
@@ -825,9 +825,9 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                                 box_y[2] = box_y[3] = box_collision->by2 + box_collision->base_y;
                             }
 
-                            if( circle_collision->rotation_flg || circle_collision->scaling_flg ) /* ‰~‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                            if( circle_collision->rotation_flg || circle_collision->scaling_flg ) /* å††ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                             {
-                                /* ‰~‚ğ©•ª‚Ì’†Sƒx[ƒX‚Å‰ñ“]‚³‚¹‚é */
+                                /* å††ã‚’è‡ªåˆ†ã®ä¸­å¿ƒãƒ™ãƒ¼ã‚¹ã§å›è»¢ã•ã›ã‚‹ */
                                 rotation_point( circle_collision, circle_x, circle_y, NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 0)), NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 1)) );
                             }
                             else
@@ -836,14 +836,14 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                                 circle_y = NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 1)) + circle_collision->base_y;
                             }
 
-                            if( box_collision->rotation_flg ) /* ‹éŒ`‘¤‚ª‰ñ“]‚µ‚Ä‚¢‚é */
-                            {   /* ‰~‚Ì’†S“_‚ğ‹éŒ`’†Sƒx[ƒX‚Å‰ñ“]‚³‚¹‚é */
+                            if( box_collision->rotation_flg ) /* çŸ©å½¢å´ãŒå›è»¢ã—ã¦ã„ã‚‹ */
+                            {   /* å††ã®ä¸­å¿ƒç‚¹ã‚’çŸ©å½¢ä¸­å¿ƒãƒ™ãƒ¼ã‚¹ã§å›è»¢ã•ã›ã‚‹ */
                                 rotation_point_out( box_collision->center_x + box_collision->base_x, box_collision->center_y + box_collision->base_y, -box_collision->angle, circle_x, circle_y );
                             }
 
                             circle_r = NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 2)) * circle_collision->scale_x;
 
-                            /* ‚ ‚Æ‚Í‰~‚Æ‰ñ“]‚µ‚Ä‚¢‚È‚¢‹éŒ`‚Ì”»’è‚Å‚¢‚¯‚éB */
+                            /* ã‚ã¨ã¯å††ã¨å›è»¢ã—ã¦ã„ãªã„çŸ©å½¢ã®åˆ¤å®šã§ã„ã‘ã‚‹ */
                             return check_point_box(circle_x, circle_y, box_x[0] - circle_r, box_y[0], box_x[2] + circle_r, box_y[2]) ||
                                    check_point_box(circle_x, circle_y, box_x[0], box_y[0] - circle_r, box_x[2], box_y[2] + circle_r) ||
                                    check_circle_point(box_x[0], box_y[0], circle_r, circle_x, circle_y) ||
@@ -852,12 +852,12 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                                    check_circle_point(box_x[3], box_y[3], circle_r, circle_x, circle_y);
                         }
 
-                        if( box_collision->rotation_flg || box_collision->scaling_flg ) /* ‹éŒ`‘¤‚ª‰ñ“]E•ÏŒ`‚µ‚Ä‚¢‚é */
+                        if( box_collision->rotation_flg || box_collision->scaling_flg ) /* çŸ©å½¢å´ãŒå›è»¢ãƒ»å¤‰å½¢ã—ã¦ã„ã‚‹ */
                         {
-                            /* ‹éŒ`‘¤‚ğ©•ª‚Ìp¨‚É‰ñ“]E•ÏŒ` */
+                            /* çŸ©å½¢å´ã‚’è‡ªåˆ†ã®å§¿å‹¢ã«å›è»¢ãƒ»å¤‰å½¢ */
                             rotation_box( box_collision, box_x, box_y );
                         }
-                        else /* ‹éŒ`‘¤‚Í‰ñ“]E•ÏŒ`‚µ‚Ä‚¢‚È‚©‚Á‚½ */
+                        else /* çŸ©å½¢å´ã¯å›è»¢ãƒ»å¤‰å½¢ã—ã¦ã„ãªã‹ã£ãŸ */
                         {
                             box_x[0] = box_x[3] = (float)box_collision->x1;
                             box_y[0] = box_y[1] = (float)box_collision->y1;
@@ -868,17 +868,17 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                         center_x = circle_collision->center_x + circle_collision->base_x;
                         center_y = circle_collision->center_y + circle_collision->base_y;
 
-                        if( circle_collision->rotation_flg ) /* ‰~‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                        if( circle_collision->rotation_flg ) /* å††ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                         {
-                            /* ‰~’†S“_‚ğ’†S‚É‹éŒ`‰ñ“] */
+                            /* å††ä¸­å¿ƒç‚¹ã‚’ä¸­å¿ƒã«çŸ©å½¢å›è»¢ */
                             rotation_box_out( center_x, center_y, -circle_collision->angle, box_x, box_y )
                         }
                         circle_r = NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 2));
 
                         circle_x = circle_collision->base_x + NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 0));
                         circle_y = circle_collision->base_y + NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 1));
-                        if( circle_collision->scaling_flg ) /* ‰~‘¤‚ª•ÏŒ`‚µ‚Ä‚¢‚é */
-                        {   /* ‰~‚ª^‰~‚É‚È‚é‚æ‚¤‚É‹éŒ`‚ğ•ÏŒ`‚³‚¹‚é */
+                        if( circle_collision->scaling_flg ) /* å††å´ãŒå¤‰å½¢ã—ã¦ã„ã‚‹ */
+                        {   /* å††ãŒçœŸå††ã«ãªã‚‹ã‚ˆã†ã«çŸ©å½¢ã‚’å¤‰å½¢ã•ã›ã‚‹ */
                             box_x[0] = (box_x[0] - center_x) / circle_collision->scale_x + center_x;
                             box_y[0] = (box_y[0] - center_y) / circle_collision->scale_y + center_y;
                             box_x[1] = (box_x[1] - center_x) / circle_collision->scale_x + center_x;
@@ -889,7 +889,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                             box_y[3] = (box_y[3] - center_y) / circle_collision->scale_y + center_y;
                         }
 
-                        /* ”»’è */
+                        /* åˆ¤å®š */
                         return checktriangle(circle_x, circle_y, box_x[0], box_y[0], box_x[1], box_y[1], box_x[2], box_y[2]) || 
                                checktriangle(circle_x, circle_y, box_x[0], box_y[0], box_x[2], box_y[2], box_x[3], box_y[3]) || 
                                checkCircleLine(circle_x, circle_y, circle_r, box_x[0], box_y[0], box_x[1], box_y[1]) ||
@@ -898,16 +898,16 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                                checkCircleLine(circle_x, circle_y, circle_r, box_x[3], box_y[3], box_x[0], box_y[0]);
                     }
                     break;
-                case 6: /* ‰~‚ÆOŠp */
+                case 6: /* å††ã¨ä¸‰è§’ */
                     {
                         struct DXRubyCollision *tri_collision = d;
-                        float x[3], y[3], tri_x[3], tri_y[3]; /* OŠpÀ•W */
+                        float x[3], y[3], tri_x[3], tri_y[3]; /* ä¸‰è§’åº§æ¨™ */
                         float circle_x, circle_y, circle_r;
                         float center_x, center_y;
 
-                        if( tri_collision->rotation_flg || tri_collision->scaling_flg ) /* OŠp‘¤‚ª‰ñ“]E•ÏŒ`‚µ‚Ä‚¢‚é */
+                        if( tri_collision->rotation_flg || tri_collision->scaling_flg ) /* ä¸‰è§’å´ãŒå›è»¢ãƒ»å¤‰å½¢ã—ã¦ã„ã‚‹ */
                         {
-                            /* OŠp‘¤‚ğ©•ª‚Ìp¨‚É‰ñ“]E•ÏŒ` */
+                            /* ä¸‰è§’å´ã‚’è‡ªåˆ†ã®å§¿å‹¢ã«å›è»¢ãƒ»å¤‰å½¢ */
                             x[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 0)) + 0.5f;
                             y[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 1)) + 0.5f;
                             x[1] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 2)) + 0.5f;
@@ -917,7 +917,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
 
                             rotation_triangle( tri_collision, x, y, tri_x, tri_y );
                         }
-                        else /* OŠp‘¤‚Í‰ñ“]E•ÏŒ`‚µ‚Ä‚¢‚È‚©‚Á‚½ */
+                        else /* ä¸‰è§’å´ã¯å›è»¢ãƒ»å¤‰å½¢ã—ã¦ã„ãªã‹ã£ãŸ */
                         {
                             tri_x[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 0)) + 0.5f + tri_collision->base_x;
                             tri_y[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 1)) + 0.5f + tri_collision->base_y;
@@ -927,21 +927,21 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                             tri_y[2] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 5)) + 0.5f + tri_collision->base_y;
                         }
 
-                        /* ‰~‚Ì‰ñ“]’†S */
+                        /* å††ã®å›è»¢ä¸­å¿ƒ */
                         center_x = circle_collision->center_x + circle_collision->base_x;
                         center_y = circle_collision->center_y + circle_collision->base_y;
 
-                        if( circle_collision->rotation_flg ) /* ‰~‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                        if( circle_collision->rotation_flg ) /* å††ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                         {
-                            /* ‰~’†S“_‚ğ’†S‚ÉOŠp‰ñ“] */
+                            /* å††ä¸­å¿ƒç‚¹ã‚’ä¸­å¿ƒã«ä¸‰è§’å›è»¢ */
                             rotation_triangle_out( center_x, center_y, -circle_collision->angle, tri_x, tri_y )
                         }
                         circle_r = NUM2FLOAT(RARRAY_AREF(circle_collision->vcollision, 2));
 
                         circle_x = circle_collision->base_x + NUM2INT(RARRAY_AREF(circle_collision->vcollision, 0));
                         circle_y = circle_collision->base_y + NUM2INT(RARRAY_AREF(circle_collision->vcollision, 1));
-                        if( circle_collision->scaling_flg ) /* ‰~‘¤‚ª•ÏŒ`‚µ‚Ä‚¢‚é */
-                        {   /* ‰~‚ª^‰~‚É‚È‚é‚æ‚¤‚ÉOŠp‚ğ•ÏŒ`‚³‚¹‚é */
+                        if( circle_collision->scaling_flg ) /* å††å´ãŒå¤‰å½¢ã—ã¦ã„ã‚‹ */
+                        {   /* å††ãŒçœŸå††ã«ãªã‚‹ã‚ˆã†ã«ä¸‰è§’ã‚’å¤‰å½¢ã•ã›ã‚‹ */
                             tri_x[0] = (tri_x[0] - center_x) / circle_collision->scale_x + center_x;
                             tri_y[0] = (tri_y[0] - center_y) / circle_collision->scale_y + center_y;
                             tri_x[1] = (tri_x[1] - center_x) / circle_collision->scale_x + center_x;
@@ -950,7 +950,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                             tri_y[2] = (tri_y[2] - center_y) / circle_collision->scale_y + center_y;
                         }
 
-                        /* ”»’è */
+                        /* åˆ¤å®š */
                         return checktriangle(circle_x, circle_y, tri_x[0], tri_y[0], tri_x[1], tri_y[1], tri_x[2], tri_y[2]) || 
                                checkCircleLine(circle_x, circle_y, circle_r, tri_x[0], tri_y[0], tri_x[1], tri_y[1]) ||
                                checkCircleLine(circle_x, circle_y, circle_r, tri_x[1], tri_y[1], tri_x[2], tri_y[2]) ||
@@ -962,20 +962,20 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                     break;
                 }
             }
-        case 4: /* ‹éŒ` */
+        case 4: /* çŸ­å½¢ */
             {
                 struct DXRubyCollision *box_collision = o;
 
                 switch( d_type )
                 {
-                case 6: /* ‹éŒ`‚ÆOŠp */
+                case 6: /* çŸ©å½¢ã¨ä¸‰è§’ */
                     {
                         struct DXRubyCollision *tri_collision = d;
-                        float box_x[4], box_y[4]; /* ‹éŒ`À•W */
-                        float tri_x[3], tri_y[3]; /* OŠpÀ•W */
+                        float box_x[4], box_y[4]; /* çŸ©å½¢åº§æ¨™ */
+                        float tri_x[3], tri_y[3]; /* ä¸‰è§’åº§æ¨™ */
                         float x[3], y[3];
 
-                        if( box_collision->rotation_flg || box_collision->scaling_flg ) /* ‹éŒ`‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                        if( box_collision->rotation_flg || box_collision->scaling_flg ) /* çŸ©å½¢ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                         {
                             rotation_box( box_collision, box_x, box_y );
                         }
@@ -987,7 +987,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                             box_y[2] = box_y[3] = (float)box_collision->y2;
                         }
 
-                        if( tri_collision->rotation_flg || tri_collision->scaling_flg ) /* OŠp‚ª‰ñ“]‚µ‚Ä‚¢‚é */
+                        if( tri_collision->rotation_flg || tri_collision->scaling_flg ) /* ä¸‰è§’ãŒå›è»¢ã—ã¦ã„ã‚‹ */
                         {
                             x[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 0)) + 0.5f;
                             y[0] = NUM2INT(RARRAY_AREF(tri_collision->vcollision, 1)) + 0.5f;
@@ -1020,8 +1020,8 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
                                check_line_line(box_x[3], box_y[3], box_x[0], box_y[0], tri_x[0], tri_y[0], tri_x[1], tri_y[1]) ||
                                check_line_line(box_x[3], box_y[3], box_x[0], box_y[0], tri_x[1], tri_y[1], tri_x[2], tri_y[2]) ||
                                check_line_line(box_x[3], box_y[3], box_x[0], box_y[0], tri_x[2], tri_y[2], tri_x[0], tri_y[0]) ||
-                               checktriangle(tri_x[0], tri_y[0], box_x[0], box_y[0], box_x[1], box_y[1], box_x[2], box_y[2]) || 
-                               checktriangle(tri_x[0], tri_y[0], box_x[0], box_y[0], box_x[2], box_y[2], box_x[3], box_y[3]) || 
+                               checktriangle(tri_x[0], tri_y[0], box_x[0], box_y[0], box_x[1], box_y[1], box_x[2], box_y[2]) ||
+                               checktriangle(tri_x[0], tri_y[0], box_x[0], box_y[0], box_x[2], box_y[2], box_x[3], box_y[3]) ||
                                checktriangle(box_x[0], box_y[0], tri_x[0], tri_y[0], tri_x[1], tri_y[1], tri_x[2], tri_y[2]);
                     }
                     break;
@@ -1039,7 +1039,7 @@ int check_sub( struct DXRubyCollision *o, struct DXRubyCollision *d )
     rb_raise( eDXRubyError, "Internal error" );
 }
 
-/* Õ“Ë”»’è”z—ñ‚ÌƒJƒEƒ“ƒgæ“¾ */
+/* è¡çªåˆ¤å®šé…åˆ—ã®ã‚«ã‚¦ãƒ³ãƒˆå–å¾— */
 int get_volume_count( VALUE vary )
 {
     int p, count = 0;
@@ -1062,12 +1062,12 @@ int get_volume_count( VALUE vary )
 }
 
 
-/* AABB‹«ŠEƒ{ƒŠƒ…[ƒ€î•ñ‚Ì–¾×—Ìˆæ */
+/* AABBå¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ æƒ…å ±ã®æ˜ç´°é ˜åŸŸ */
 static int alloc_volume( int count )
 {
     while( g_volume_allocate_count < g_volume_count + count )
     {
-        g_volume_allocate_count = g_volume_allocate_count * 3 / 2; /* 1.5”{‚É‚·‚é */
+        g_volume_allocate_count = g_volume_allocate_count * 3 / 2; /* 1.5å€ã«ã™ã‚‹ */
         g_volume_pointer = realloc( g_volume_pointer, sizeof( struct DXRubyCollision ) * g_volume_allocate_count );
     }
 
@@ -1076,12 +1076,12 @@ static int alloc_volume( int count )
     return g_volume_count - count;
 }
 
-/* ”z—ñ‚ÌÕ“Ë”»’è—pAABB‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬B—Ìˆæ‚Íã‚ÌŠÖ”‚ÅŠm•Û‚µ‚Ä“n‚³‚ê‚é */
+/* é…åˆ—ã®è¡çªåˆ¤å®šç”¨AABBå¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆã€‚é ˜åŸŸã¯ä¸Šã®é–¢æ•°ã§ç¢ºä¿ã—ã¦æ¸¡ã•ã‚Œã‚‹ */
 int make_volume_ary( VALUE vary, struct DXRubyCollisionGroup *group )
 {
     int p, count = 0;
 
-    /* ”z—ñ‚Ì”‚¾‚¯ƒ{ƒŠƒ…[ƒ€ì¬‚·‚é */
+    /* é…åˆ—ã®æ•°ã ã‘ãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆã™ã‚‹ */
     for( p = 0; p < RARRAY_LEN(vary); p++ )
     {
         int tmp;
@@ -1103,18 +1103,18 @@ int make_volume_ary( VALUE vary, struct DXRubyCollisionGroup *group )
 }
 
 
-/* ’P‘Ì‚ÌÕ“Ë”»’è—pAABB‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬ */
+/* å˜ä½“ã®è¡çªåˆ¤å®šç”¨AABBå¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆ */
 int make_volume( VALUE vsprite, struct DXRubyCollisionGroup *group )
 {
     struct DXRubySprite *sprite;
 
-    /* Sprite‚¶‚á‚È‚¯‚ê‚Î–³‹ */
+    /* Spriteã˜ã‚ƒãªã‘ã‚Œã°ç„¡è¦– */
     if( !DXRUBY_CHECK( Sprite, vsprite ) )
     {
         return 0;
     }
 
-    /* Õ“Ë”»’è‚ª—LŒø‚Å‚È‚¢ê‡‚Í–³‹ */
+    /* è¡çªåˆ¤å®šãŒæœ‰åŠ¹ã§ãªã„å ´åˆã¯ç„¡è¦– */
     sprite = DXRUBY_GET_STRUCT( Sprite, vsprite );
 #ifdef DXRUBY15
     if( !RTEST(sprite->vvisible) || !RTEST(sprite->vcollision_enable) || sprite->vanish )
@@ -1125,10 +1125,10 @@ int make_volume( VALUE vsprite, struct DXRubyCollisionGroup *group )
         return 0;
     }
 
-    /* Õ“Ë”»’è”ÍˆÍ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î1ŒÂ‚¾‚¯–¾×î•ñ‚ğ¶¬‚·‚é */
+    /* è¡çªåˆ¤å®šç¯„å›²ãŒè¨­å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°1å€‹ã ã‘æ˜ç´°æƒ…å ±ã‚’ç”Ÿæˆã™ã‚‹ */
     if( sprite->vcollision == Qnil )
     {
-        /* collision‚àimage‚àİ’è‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î–³‹ */
+        /* collisionã‚‚imageã‚‚è¨­å®šã•ã‚Œã¦ã„ãªã‘ã‚Œã°ç„¡è¦– */
         if( sprite->vimage == Qnil )
         {
             return 0;
@@ -1146,14 +1146,14 @@ int make_volume( VALUE vsprite, struct DXRubyCollisionGroup *group )
         return 1;
     }
 
-    /* Õ“Ë”»’è”ÍˆÍ‚ª”z—ñ‚¶‚á‚È‚¯‚ê‚Î–³‹ */
+    /* è¡çªåˆ¤å®šç¯„å›²ãŒé…åˆ—ã˜ã‚ƒãªã‘ã‚Œã°ç„¡è¦– */
     Check_Type( sprite->vcollision, T_ARRAY );
     if( RARRAY_LEN(sprite->vcollision) == 0 )
     {
         return 0;
     }
 
-    /* Õ“Ë”»’è”ÍˆÍ”z—ñ‚Ì’†‚É”z—ñ‚ª“ü‚Á‚Ä‚¢‚½ê‡‚Í•¡”‚Ì”ÍˆÍ‚ğ—p‚¢‚é‚±‚Æ‚ª‚Å‚«‚é */
+    /* è¡çªåˆ¤å®šç¯„å›²é…åˆ—ã®ä¸­ã«é…åˆ—ãŒå…¥ã£ã¦ã„ãŸå ´åˆã¯è¤‡æ•°ã®ç¯„å›²ã‚’ç”¨ã„ã‚‹ã“ã¨ãŒã§ãã‚‹ */
     if( TYPE(RARRAY_AREF(sprite->vcollision, 0)) == T_ARRAY )
     {
         int p2;
@@ -1168,7 +1168,7 @@ int make_volume( VALUE vsprite, struct DXRubyCollisionGroup *group )
             make_volume_sub( vsprite, RARRAY_AREF(sprite->vcollision, p2), g_volume_pointer + group->index + p2 );
         }
 
-        /* ƒOƒ‹[ƒv‚ÌAABB‹«ŠE‚ğ‚·‚×‚ÄŠÜ‚ŞÅ¬‚ÌAABB‹«ŠE‚ğ¶¬‚·‚é */
+        /* ã‚°ãƒ«ãƒ¼ãƒ—ã®AABBå¢ƒç•Œã‚’ã™ã¹ã¦å«ã‚€æœ€å°ã®AABBå¢ƒç•Œã‚’ç”Ÿæˆã™ã‚‹ */
         group->x1 = (g_volume_pointer + group->index)->x1;
         group->y1 = (g_volume_pointer + group->index)->y1;
         group->x2 = (g_volume_pointer + group->index)->x2;
@@ -1192,10 +1192,9 @@ int make_volume( VALUE vsprite, struct DXRubyCollisionGroup *group )
                 group->y2 = (g_volume_pointer + group->index + p2)->y2;
             }
         }
-        
     }
     else
-    { /* ”z—ñ‚¶‚á‚È‚¢ê‡ */
+    { /* é…åˆ—ã˜ã‚ƒãªã„å ´åˆ */
         group->vsprite = vsprite;
         group->index = alloc_volume( 1 );
         group->count = 1;
@@ -1210,7 +1209,7 @@ int make_volume( VALUE vsprite, struct DXRubyCollisionGroup *group )
 }
 
 
-/* Õ“Ë”»’è—pAABB‹«ŠEƒ{ƒŠƒ…[ƒ€ì¬sub */
+/* è¡çªåˆ¤å®šç”¨AABBå¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ä½œæˆsub */
 void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collision )
 {
     struct DXRubySprite *sprite;
@@ -1239,7 +1238,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
     collision->scale_x = NUM2FLOAT(sprite->vscale_x);
     collision->scale_y = NUM2FLOAT(sprite->vscale_y);
     collision->vcollision = vcol;
-    if( RTEST(sprite->vcollision_sync) ) /* ‰ñ“]EƒXƒP[ƒŠƒ“ƒO‚Ìƒtƒ‰ƒO */
+    if( RTEST(sprite->vcollision_sync) ) /* å›è»¢ãƒ»ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã®ãƒ•ãƒ©ã‚° */
     {
         if( collision->angle != 0.0f )
         {
@@ -1270,7 +1269,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
 
         switch (RARRAY_LEN(vcol))
         {
-        case 2: /* “_ */
+        case 2: /* ç‚¹ */
             if( !collision->rotation_flg && !collision->scaling_flg )
             {
                 collision->bx1 = NUM2FLOAT(RARRAY_AREF(vcol, 0));
@@ -1282,7 +1281,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                 collision->x2 = (int)(collision->base_x + collision->bx2);
                 collision->y2 = (int)(collision->base_y + collision->by2);
             }
-            else /* ‰ñ“]‚µ‚½“_ */
+            else /* å›è»¢ã—ãŸç‚¹ */
             {
                 float tx,ty;
                 collision->bx1 = NUM2FLOAT(RARRAY_AREF(vcol, 0));
@@ -1299,7 +1298,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                 collision->y2 = (int)ty + 1;
             }
             break;
-        case 3: /* ‰~ */
+        case 3: /* å†† */
         {
             float tempx = NUM2FLOAT(RARRAY_AREF(vcol, 0));
             float tempy = NUM2FLOAT(RARRAY_AREF(vcol, 1));
@@ -1312,11 +1311,11 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                 collision->x2 = (int)(collision->base_x + tempx + tempr);
                 collision->y2 = (int)(collision->base_y + tempy + tempr);
             }
-            else /* ‰ñ“]‚µ‚½‰~ */
+            else /* å›è»¢ã—ãŸå†† */
             {
                 float tx,ty;
 
-                if( collision->scale_x != collision->scale_y ) /* ‘È‰~B“ï‚µ‚¢‚Ì‚Åb’è‚Æ‚µ‚Ä‹«ŠEƒ{ƒŠƒ…[ƒ€‚ğ‰ñ“]‚µ‚Ä‹«ŠEƒ{ƒŠƒ…[ƒ€‚ğì‚é */
+                if( collision->scale_x != collision->scale_y ) /* æ¥•å††ã€‚é›£ã—ã„ã®ã§æš«å®šã¨ã—ã¦å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å›è»¢ã—ã¦å¢ƒç•Œãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’ä½œã‚‹ */
                 {
                     float x[4], y[4];
                     collision->bx1 = tempx - tempr;
@@ -1331,7 +1330,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                     collision->x2++;
                     collision->y2++;
                 }
-                else /* ^‰~ */
+                else /* çœŸå†† */
                 {
                     set_center( sprite, collision );
                     rotation_point( collision, tx, ty, tempx, tempy );
@@ -1343,7 +1342,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
             }
             break;
         }
-        case 4: /* ‹éŒ` */
+        case 4: /* çŸ­å½¢ */
             if( !collision->rotation_flg && !collision->scaling_flg )
             {
                 collision->bx1 = NUM2FLOAT(RARRAY_AREF(vcol, 0));
@@ -1355,7 +1354,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                 collision->x2 = (int)(collision->base_x + collision->bx2);
                 collision->y2 = (int)(collision->base_y + collision->by2);
             }
-            else /* ‰ñ“]‚µ‚½‹éŒ` */
+            else /* å›è»¢ã—ãŸçŸ­å½¢ */
             {
                 float tx[4], ty[4];
 
@@ -1372,7 +1371,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                 collision->y2++;
             }
             break;
-        case 6: /* OŠpŒ` */
+        case 6: /* ä¸‰è§’å½¢ */
         {
             float tx[3], ty[3];
             int i;
@@ -1385,7 +1384,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
                 tx[2] = collision->base_x + NUM2INT(RARRAY_AREF(vcol, 4)) + 0.5f;
                 ty[2] = collision->base_y + NUM2INT(RARRAY_AREF(vcol, 5)) + 0.5f;
             }
-            else /* ‰ñ“]‚µ‚½OŠpŒ` */
+            else /* å›è»¢ã—ãŸä¸‰è§’å½¢ */
             {
                 float x[3], y[3];
 
@@ -1406,12 +1405,12 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
         }
             break;
         default:
-            rb_raise( eDXRubyError, "collision‚Ìİ’è‚ª•s³‚Å‚· - Sprite_make_volume" );
+            rb_raise( eDXRubyError, "collisionã®è¨­å®šãŒä¸æ­£ã§ã™ - Sprite_make_volume" );
             break;
         }
     }
-    else /* Õ“Ë”»’è”ÍˆÍÈ—ª‚Í‰æ‘œƒTƒCƒY‚Ì‹éŒ`‚Æ‚İ‚È‚· */
-    { /* ‰ñ“]‚µ‚Ä‚¢‚È‚¢‹éŒ` */
+    else /* è¡çªåˆ¤å®šç¯„å›²çœç•¥æ™‚ã¯ç”»åƒã‚µã‚¤ã‚ºã®çŸ©å½¢ã¨ã¿ãªã™ */
+    { /* å›è»¢ã—ã¦ã„ãªã„çŸ©å½¢ */
         struct DXRubyImage *image;
         DXRUBY_CHECK_IMAGE( sprite->vimage );
         image = DXRUBY_GET_STRUCT( Image, sprite->vimage );
@@ -1426,7 +1425,7 @@ void make_volume_sub( VALUE vsprite, VALUE vcol, struct DXRubyCollision *collisi
             collision->x2 = (int)(collision->base_x + image->width);
             collision->y2 = (int)(collision->base_y + image->height);
         }
-        else /* ‰ñ“]‚µ‚½‹éŒ` */
+        else /* å›è»¢ã—ãŸçŸ©å½¢ */
         {
             float tx[4], ty[4];
 

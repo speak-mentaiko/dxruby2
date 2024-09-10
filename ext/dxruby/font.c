@@ -1,4 +1,4 @@
-#define WINVER 0x0500                                  /* ƒo[ƒWƒ‡ƒ“’è‹` Windows2000ˆÈã */
+#define WINVER 0x0500                                  /* ãƒãƒ¼ã‚¸ãƒ§ãƒ³å®šç¾© Windows2000ä»¥ä¸Š */
 #define _WIN32_WINNT WINVER
 
 #include "ruby.h"
@@ -10,8 +10,8 @@
 #include "dxruby.h"
 #include "font.h"
 
-static VALUE cFont;         /* ƒtƒHƒ“ƒgƒNƒ‰ƒX       */
-static VALUE cFontInfo;     /* ƒtƒHƒ“ƒgî•ñƒNƒ‰ƒX   */
+static VALUE cFont;         /* ãƒ•ã‚©ãƒ³ãƒˆã‚¯ãƒ©ã‚¹ */
+static VALUE cFontInfo;     /* ãƒ•ã‚©ãƒ³ãƒˆæƒ…å ±ã‚¯ãƒ©ã‚¹ */
 static VALUE symbol_italic  = Qundef;
 static VALUE symbol_weight  = Qundef;
 static VALUE symbol_auto_fitting = Qundef;
@@ -20,13 +20,13 @@ VALUE hash_lookup(VALUE hash, VALUE key);
 static VALUE Font_enum( VALUE klass );
 
 /*********************************************************************
- * FontƒNƒ‰ƒX
+ * Fontã‚¯ãƒ©ã‚¹
  *
- * D3DXFontƒCƒ“ƒ^[ƒtƒF[ƒX‚ğg—p‚µ‚ÄƒtƒHƒ“ƒg‚ğ•`‰æ‚·‚éB
- * ƒXƒvƒ‰ƒCƒg•`‰æ‚É¬‚º‚Ş‚±‚Æ‚Å‚Æ‚è‚ ‚¦‚¸À‘•B
+ * D3DXFontã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’ä½¿ç”¨ã—ã¦ãƒ•ã‚©ãƒ³ãƒˆã‚’æç”»ã™ã‚‹
+ * ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»ã«æ··ãœè¾¼ã‚€ã“ã¨ã§ã¨ã‚Šã‚ãˆãšå®Ÿè£…
  *********************************************************************/
 /*--------------------------------------------------------------------
-   QÆ‚³‚ê‚È‚­‚È‚Á‚½‚Æ‚«‚ÉGC‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+   å‚ç…§ã•ã‚Œãªããªã£ãŸã¨ãã«GCã‹ã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
  ---------------------------------------------------------------------*/
 static void Font_free( struct DXRubyFont *font )
 {
@@ -35,7 +35,7 @@ static void Font_free( struct DXRubyFont *font )
 }
 void Font_release( struct DXRubyFont *font )
 {
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ÌŠJ•ú */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é–‹æ”¾ */
     if( font->pD3DXFont )
     {
         Font_free( font );
@@ -51,7 +51,7 @@ void Font_release( struct DXRubyFont *font )
 }
 
 /*--------------------------------------------------------------------
-   FontƒNƒ‰ƒX‚Ìmark
+   Fontã‚¯ãƒ©ã‚¹ã®mark
  ---------------------------------------------------------------------*/
 static void Font_mark( struct DXRubyFont *font )
 {
@@ -76,7 +76,7 @@ const rb_data_type_t Font_data_type = {
 #endif
 
 /*--------------------------------------------------------------------
-   FontƒNƒ‰ƒX‚ÌdisposeB
+   Fontã‚¯ãƒ©ã‚¹ã®dispose
  ---------------------------------------------------------------------*/
 static VALUE Font_dispose( VALUE self )
 {
@@ -87,7 +87,7 @@ static VALUE Font_dispose( VALUE self )
 }
 
 /*--------------------------------------------------------------------
-   FontƒNƒ‰ƒX‚Ìdisposed?B
+   Fontã‚¯ãƒ©ã‚¹ã®disposed?
  ---------------------------------------------------------------------*/
 static VALUE Font_check_disposed( VALUE self )
 {
@@ -100,14 +100,15 @@ static VALUE Font_check_disposed( VALUE self )
 }
 
 /*--------------------------------------------------------------------
-   FontƒNƒ‰ƒX‚ÌallocateBƒƒ‚ƒŠ‚ğŠm•Û‚·‚éˆ×‚Éinitialize‘O‚ÉŒÄ‚Î‚ê‚éB
+   Fontã‚¯ãƒ©ã‚¹ã®allocate
+   ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹ç‚ºã«initializeå‰ã«å‘¼ã°ã‚Œã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Font_allocate( VALUE klass )
 {
     VALUE obj;
     struct DXRubyFont *font;
 
-    /* DXRubyFont‚Ìƒƒ‚ƒŠæ“¾•FontƒIƒuƒWƒFƒNƒg¶¬ */
+    /* DXRubyFont????????????Font?I?u?W?F?N?g???? */
     font = malloc( sizeof(struct DXRubyFont) );
     if( font == NULL ) rb_raise( eDXRubyError, "out of memory - Font_allocate" );
 #ifdef DXRUBY_USE_TYPEDDATA
@@ -130,7 +131,7 @@ static VALUE Font_allocate( VALUE klass )
 
 
 /*--------------------------------------------------------------------
-   FontƒNƒ‰ƒX‚ÌInitialize
+   Fontã‚¯ãƒ©ã‚¹ã®Initialize
  ---------------------------------------------------------------------*/
 static VALUE Font_initialize( int argc, VALUE *argv, VALUE obj )
 {
@@ -210,8 +211,8 @@ static VALUE Font_initialize( int argc, VALUE *argv, VALUE obj )
 
     if( vfontname == Qnil )
     {
-        lstrcpy(desc.FaceName, "‚l‚r ‚oƒSƒVƒbƒN");
-        lstrcpy(logfont.lfFaceName, "‚l‚r ‚oƒSƒVƒbƒN");
+        lstrcpy(desc.FaceName, "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯");
+        lstrcpy(logfont.lfFaceName, "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯");
     }
     else
     {
@@ -231,7 +232,7 @@ static VALUE Font_initialize( int argc, VALUE *argv, VALUE obj )
         lstrcpy(logfont.lfFaceName, RSTRING_PTR( vsjisstr ));
     }
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     if( font->pD3DXFont )
     {
@@ -266,7 +267,7 @@ static VALUE Font_initialize( int argc, VALUE *argv, VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   FontƒNƒ‰ƒX‚Ìinstall
+    Fontã‚¯ãƒ©ã‚¹ã®install
  ---------------------------------------------------------------------*/
 static VALUE Font_install( VALUE klass, VALUE vstr )
 {
@@ -297,7 +298,7 @@ static VALUE Font_install( VALUE klass, VALUE vstr )
 
 
 /*--------------------------------------------------------------------
-   ƒtƒHƒ“ƒg‚Ì•‚ğæ“¾‚·‚é
+   ãƒ•ã‚©ãƒ³ãƒˆã®å¹…ã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 VALUE Font_getWidth( VALUE obj, VALUE vstr )
 {
@@ -307,7 +308,7 @@ VALUE Font_getWidth( VALUE obj, VALUE vstr )
 
     Check_Type( vstr, T_STRING );
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -336,13 +337,13 @@ VALUE Font_getWidth( VALUE obj, VALUE vstr )
 
 
 /*--------------------------------------------------------------------
-   ƒtƒHƒ“ƒg‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
+   ãƒ•ã‚©ãƒ³ãƒˆã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 VALUE Font_getSize( VALUE obj )
 {
     struct DXRubyFont *font;
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -351,13 +352,13 @@ VALUE Font_getSize( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ¶¬‚Éw’è‚µ‚½ƒtƒHƒ“ƒg–¼Ì‚ğæ“¾‚·‚é
+   ç”Ÿæˆæ™‚ã«æŒ‡å®šã—ãŸãƒ•ã‚©ãƒ³ãƒˆåç§°ã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Font_getFontname( VALUE obj )
 {
     struct DXRubyFont *font;
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -366,7 +367,7 @@ static VALUE Font_getFontname( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ÀÛ‚É¶¬‚³‚ê‚½ƒtƒHƒ“ƒg–¼Ì‚ğæ“¾‚·‚é
+   å®Ÿéš›ã«ç”Ÿæˆã•ã‚ŒãŸãƒ•ã‚©ãƒ³ãƒˆåç§°ã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Font_getName( VALUE obj )
 {
@@ -375,7 +376,7 @@ static VALUE Font_getName( VALUE obj )
     HDC hDC;
     char buf[1024];
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -399,13 +400,13 @@ static VALUE Font_getName( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒCƒ^ƒŠƒbƒNƒtƒ‰ƒO‚ğæ“¾‚·‚é
+   ã‚¤ã‚¿ãƒªãƒƒã‚¯ãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Font_getItalic( VALUE obj )
 {
     struct DXRubyFont *font;
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -414,13 +415,13 @@ static VALUE Font_getItalic( VALUE obj )
 
 
 /*--------------------------------------------------------------------
-   ƒtƒHƒ“ƒg‚Ì‘¾‚³‚ğæ“¾‚·‚é
+   ãƒ•ã‚©ãƒ³ãƒˆã®å¤ªã•ã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 static VALUE Font_getWeight( VALUE obj )
 {
     struct DXRubyFont *font;
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -428,13 +429,13 @@ static VALUE Font_getWeight( VALUE obj )
 }
 
 /*--------------------------------------------------------------------
-   auto_fittingƒtƒ‰ƒO‚ğæ“¾‚·‚é
+   auto_fitting?t???O?????????
  ---------------------------------------------------------------------*/
 static VALUE Font_getAutoFitting( VALUE obj )
 {
     struct DXRubyFont *font;
 
-    /* ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒgæ‚èo‚µ */
+    /* ãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå–ã‚Šå‡ºã— */
     font = DXRUBY_GET_STRUCT( Font, obj );
     DXRUBY_CHECK_DISPOSE( font, pD3DXFont );
 
@@ -442,7 +443,7 @@ static VALUE Font_getAutoFitting( VALUE obj )
 }
 
 /*--------------------------------------------------------------------
-   ƒOƒŠƒtî•ñ‚ğæ“¾‚·‚é
+   auto_fittingãƒ•ãƒ©ã‚°ã‚’å–å¾—ã™ã‚‹
  ---------------------------------------------------------------------*/
 char *Font_getGlyph( VALUE self, UINT widechr, HDC hDC, GLYPHMETRICS *gm, VALUE vaa_flag )
 {
@@ -467,7 +468,7 @@ char *Font_getGlyph( VALUE self, UINT widechr, HDC hDC, GLYPHMETRICS *gm, VALUE 
     }
 
     if( RTEST(vaa_flag) )
-    { /* AA‚ ‚è */
+    { /* AAã‚ã‚Š */
         int bufsize;
         char *buf;
         vstr = hash_lookup( temp_aa, INT2NUM( widechr ) );
@@ -478,7 +479,7 @@ char *Font_getGlyph( VALUE self, UINT widechr, HDC hDC, GLYPHMETRICS *gm, VALUE 
         if( vstr == Qnil )
         {
             buf = alloca( bufsize );
-            GetGlyphOutlineW( hDC, widechr, GGO_GRAY8_BITMAP, 
+            GetGlyphOutlineW( hDC, widechr, GGO_GRAY8_BITMAP,
                               gm, bufsize, (LPVOID)buf, &mat2 );
 
             vstr = rb_str_new( buf, bufsize );
@@ -486,7 +487,7 @@ char *Font_getGlyph( VALUE self, UINT widechr, HDC hDC, GLYPHMETRICS *gm, VALUE 
         }
     }
     else
-    { /* AA‚È‚µBƒ‚ƒmƒNƒƒf[ƒ^‚ğGRAY8Œ`®‚É•ÏŠ·‚µ‚ÄƒLƒƒƒbƒVƒ…‚·‚é */
+    { /* AAãªã— ãƒ¢ãƒã‚¯ãƒ­ãƒ‡ãƒ¼ã‚¿ã‚’GRAY8å½¢å¼ã«å¤‰æ›ã—ã¦ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹ */
         vstr = hash_lookup( temp_naa, INT2NUM( widechr ) );
 
         if( vstr == Qnil )
@@ -496,17 +497,17 @@ char *Font_getGlyph( VALUE self, UINT widechr, HDC hDC, GLYPHMETRICS *gm, VALUE 
             int x, y;
             int pitch_mono, pitch_gray8;
 
-            /* ƒ‚ƒmƒNƒƒf[ƒ^æ“¾ */
+            /* ãƒ¢ãƒã‚¯ãƒ­ãƒ‡ãƒ¼ã‚¿å–å¾— */
             bufsize_mono  = GetGlyphOutlineW( hDC, widechr, GGO_BITMAP,
                                               gm, 0, NULL, &mat2 );
             buf_mono = alloca( bufsize_mono );
-            GetGlyphOutlineW( hDC, widechr, GGO_BITMAP, 
+            GetGlyphOutlineW( hDC, widechr, GGO_BITMAP,
                               gm, bufsize_mono, (LPVOID)buf_mono, &mat2 );
 
             bufsize_gray8 = ((gm->gmBlackBoxX + 3) & 0xfffc) * gm->gmBlackBoxY;
             buf_gray8 = alloca( bufsize_gray8 );
 
-            /* •ÏŠ·ˆ— */
+            /* å¤‰æ›å‡¦ç† */
             pitch_mono = ((gm->gmBlackBoxX + 31) / 32) * 4;
             pitch_gray8 = ((gm->gmBlackBoxX + 3) & 0xfffc);
             for( y = 0; y < gm->gmBlackBoxY; y++ )
@@ -558,7 +559,7 @@ void Font_getInfo_internal( VALUE vstr, struct DXRubyFont *font, int *intBlackBo
         rb_raise( eDXRubyError, "String is empty - info" );
     }
 
-    /* •`‰æ•¶š‚ÌUTF16LE‰» */
+    /* æç”»æ–‡å­—ã®UTF16LEåŒ– */
     if( rb_enc_get_index( vstr ) != 0 )
     {
         vwidestr = rb_str_export_to_enc( vstr, g_enc_utf16 );
@@ -620,10 +621,10 @@ static VALUE Font_set_default( VALUE klass, VALUE vfont )
 
 
 int CALLBACK EnumFontsProc(
-  CONST LOGFONT *lplf,     // ˜_—ƒtƒHƒ“ƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^
-  CONST TEXTMETRIC *lptm,  // •¨—ƒtƒHƒ“ƒgƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^
-  DWORD dwType,            // ƒtƒHƒ“ƒgƒ^ƒCƒv
-  LPARAM lpData            // ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ìƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^
+  CONST LOGFONT *lplf,     // è«–ç†ãƒ•ã‚©ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+  CONST TEXTMETRIC *lptm,  // ç‰©ç†ãƒ•ã‚©ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+  DWORD dwType,            // ãƒ•ã‚©ãƒ³ãƒˆã‚¿ã‚¤ãƒ—
+  LPARAM lpData            // ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®šç¾©ã®ãƒ‡ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 )
 {
     VALUE vstr = rb_str_new2( lplf->lfFaceName );
@@ -646,15 +647,15 @@ void Init_dxruby_Font()
 {
     VALUE vdefaultfont, vsize;
 
-    /* FontƒNƒ‰ƒX“o˜^ */
+    /* Fontã‚¯ãƒ©ã‚¹ç™»éŒ² */
     cFont = rb_define_class_under( mDXRuby, "Font", rb_cObject );
 
-    /* FontƒNƒ‰ƒX‚ÉƒNƒ‰ƒXƒƒ\ƒbƒh“o˜^*/
+    /* Fontã‚¯ãƒ©ã‚¹ã«ã‚¯ãƒ©ã‚¹ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ² */
     rb_define_singleton_method( cFont, "install", Font_install, 1 );
     rb_define_singleton_method( cFont, "default", Font_get_default, 0 );
     rb_define_singleton_method( cFont, "default=", Font_set_default, 1 );
 
-    /* FontƒNƒ‰ƒX‚Éƒƒ\ƒbƒh“o˜^*/
+    /* Fontã‚¯ãƒ©ã‚¹ã«ãƒ¡ã‚½ãƒƒãƒ‰ç™»éŒ² */
     rb_define_private_method( cFont, "initialize", Font_initialize, -1 );
     rb_define_method( cFont, "dispose"   , Font_dispose   , 0 );
     rb_define_method( cFont, "disposed?" , Font_check_disposed, 0 );
@@ -668,7 +669,7 @@ void Init_dxruby_Font()
     rb_define_method( cFont, "size"      , Font_getSize  , 0 );
     rb_define_method( cFont, "info"      , Font_getInfo  , 1 );
 
-    /* FontƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚½‚Éinitialize‚Ì‘O‚ÉŒÄ‚Î‚ê‚éƒƒ‚ƒŠŠ„‚è“–‚ÄŠÖ”“o˜^ */
+    /* Fontã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ãŸæ™‚ã«initializeã®å‰ã«å‘¼ã°ã‚Œã‚‹ãƒ¡ãƒ¢ãƒªå‰²ã‚Šå½“ã¦é–¢æ•°ç™»éŒ² */
     rb_define_alloc_func( cFont, Font_allocate );
 
     symbol_italic         = ID2SYM(rb_intern("italic"));
@@ -683,4 +684,3 @@ void Init_dxruby_Font()
     Font_initialize( 1, &vsize, vdefaultfont );
     rb_ivar_set( cFont, rb_intern("default"), vdefaultfont );
 }
-
