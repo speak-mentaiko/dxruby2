@@ -1,2 +1,2 @@
 
-void Init_dxruby_Sound( void );
+void Init_dxruby_Sound(void);
